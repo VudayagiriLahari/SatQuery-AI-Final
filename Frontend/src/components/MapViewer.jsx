@@ -709,7 +709,7 @@ export default function MapViewer({
       </div>
 
       {/* Floating Map Toolbar Controls (Persistent across 2D & 3D) */}
-      <div className="map-action-toolbar" style={{ zIndex: 30 }}>
+      <div className="map-action-toolbar">
         {hasData && (
           <div className="map-view-mode-toggle">
             <button

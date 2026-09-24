@@ -990,10 +990,12 @@ body {
 .map-action-toolbar {
   position: absolute;
   top: 12px;
-  left: 54px;
+  right: 50px;
   display: flex;
+  align-items: center;
   gap: 6px;
   z-index: 1000;
+  pointer-events: auto;
 }
 
 .map-tool-btn {
