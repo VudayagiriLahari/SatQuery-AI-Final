@@ -76,16 +76,45 @@ class ExposureAnalysisService:
         if not flood_geojson:
             return result
 
-        # Build flood GeoDataFrame from GeoJSON
         try:
             flood_gdf = self._geojson_to_gdf(flood_geojson)
+            if flood_gdf is None or flood_gdf.empty:
+                return result
         except Exception as exc:
             logger.error("Failed to parse flood GeoJSON: %s", exc)
             return result
 
-        # --- Villages -------------------------------------------------------
-        villages_gdf = gis_repo.load_layer("villages")
-        visual_villages_gdf = gis_repo.load_layer("villages_visual")
+        # Determine region from explicit region_id or flood centroid
+        region = None
+        if region_id and region_id.lower() in ("nepal", "kerala"):
+            region = region_id.lower()
+        else:
+            try:
+                mean_lat = flood_gdf.geometry.centroid.y.mean()
+                mean_lon = flood_gdf.geometry.centroid.x.mean()
+                if mean_lat > 20.0 and mean_lon > 80.0:
+                    region = "nepal"
+                elif mean_lat < 15.0 and mean_lon < 80.0:
+                    region = "kerala"
+            except Exception:
+                region = None
+
+        def _safe_load(layer_name: str) -> Optional[Any]:
+            try:
+                return gis_repo.load_layer(layer_name, region=region)
+            except TypeError:
+                return gis_repo.load_layer(layer_name)
+
+        # Check DEM availability
+        if hasattr(gis_repo, "get_dem_path"):
+            try:
+                result["data_availability"]["dem"] = gis_repo.get_dem_path(region=region) is not None
+            except TypeError:
+                result["data_availability"]["dem"] = gis_repo.get_dem_path() is not None
+
+        # --- Villages / Municipalities -------------------------------------
+        villages_gdf = _safe_load("villages")
+        visual_villages_gdf = _safe_load("villages_visual")
         if villages_gdf is not None:
             result["data_availability"]["villages"] = True
             affected, villages_geojson = self._compute_affected_villages(
@@ -95,14 +124,14 @@ class ExposureAnalysisService:
             result["affected_villages_geojson"] = villages_geojson
 
         # --- Population -----------------------------------------------------
-        pop_gdf = gis_repo.load_layer("population")
+        pop_gdf = _safe_load("population")
         if pop_gdf is not None:
             result["data_availability"]["population"] = True
             pop_total = self._compute_affected_population(flood_gdf, pop_gdf)
             result["affected_population"] = pop_total
 
         # --- Buildings -------------------------------------------------------
-        buildings_gdf = gis_repo.load_layer("buildings")
+        buildings_gdf = _safe_load("buildings")
         if buildings_gdf is not None:
             result["data_availability"]["buildings"] = True
             building_count, buildings_geojson = self._compute_affected_buildings(flood_gdf, buildings_gdf)
@@ -110,7 +139,7 @@ class ExposureAnalysisService:
             result["affected_buildings_geojson"] = buildings_geojson
 
         # --- Roads -----------------------------------------------------------
-        roads_gdf = gis_repo.load_layer("roads")
+        roads_gdf = _safe_load("roads")
         if roads_gdf is not None:
             result["data_availability"]["roads"] = True
             road_km, roads_geojson = self._compute_affected_roads(roads_gdf, flood_gdf)

@@ -21,12 +21,22 @@ try:
     from shapely.geometry import Point, LineString, MultiLineString
     from shapely.ops import nearest_points
     from shapely.validation import make_valid
-    import networkx as nx
-    from scipy.spatial import cKDTree
     import numpy as np
     GEOPANDAS_AVAILABLE = True
 except ImportError:
     GEOPANDAS_AVAILABLE = False
+
+try:
+    from scipy.spatial import cKDTree
+    SCIPY_AVAILABLE = True
+except ImportError:
+    SCIPY_AVAILABLE = False
+
+try:
+    import networkx as nx
+    NETWORKX_AVAILABLE = True
+except ImportError:
+    NETWORKX_AVAILABLE = False
 
 # POI types considered as potential candidate sites
 _CANDIDATE_TYPES = {
@@ -80,24 +90,48 @@ class EvacuationService:
             empty_result["filtered_reason"] = "No flood polygon provided."
             return empty_result
 
-        # Load POIs
-        pois_gdf = gis_repo.load_layer("pois")
-        if pois_gdf is None or len(pois_gdf) == 0:
-            empty_result["filtered_reason"] = (
-                "No POI dataset found in data/pois/. "
-                "Add a GeoJSON file of points of interest to identify candidate sites."
-            )
-            return empty_result
-
+        # Build flood GeoDataFrame
         try:
-            # Build flood GeoDataFrame
             flood_gdf = gpd.GeoDataFrame.from_features(
                 flood_geojson.get("features", []), crs="EPSG:4326"
             )
             flood_gdf["geometry"] = flood_gdf.geometry.apply(
                 lambda g: make_valid(g) if not g.is_valid else g
             )
+        except Exception as exc:
+            empty_result["filtered_reason"] = f"Invalid flood GeoJSON: {exc}"
+            return empty_result
 
+        # Determine region
+        region = None
+        try:
+            mean_lat = flood_gdf.geometry.centroid.y.mean()
+            mean_lon = flood_gdf.geometry.centroid.x.mean()
+            if mean_lat > 20.0 and mean_lon > 80.0:
+                region = "nepal"
+            elif mean_lat < 15.0 and mean_lon < 80.0:
+                region = "kerala"
+        except Exception:
+            region = None
+
+        def _safe_load(layer_name: str) -> Optional[Any]:
+            if not hasattr(gis_repo, "load_layer"):
+                return None
+            try:
+                return gis_repo.load_layer(layer_name, region=region)
+            except TypeError:
+                return gis_repo.load_layer(layer_name)
+
+        # Load POIs
+        pois_gdf = _safe_load("pois")
+        if pois_gdf is None or len(pois_gdf) == 0:
+            empty_result["filtered_reason"] = (
+                f"No POI dataset found in data/pois/ for region '{region}'. "
+                "Add a GeoJSON file of points of interest to identify candidate sites."
+            )
+            return empty_result
+
+        try:
             # Create a buffered flood polygon in metric CRS
             try:
                 metric_crs = flood_gdf.estimate_utm_crs()
@@ -151,7 +185,10 @@ class EvacuationService:
                 # Sample elevation from DEM raster if available
                 elevation_m = None
                 if hasattr(gis_repo, "sample_elevation"):
-                    elevation_m = gis_repo.sample_elevation(lat, lon)
+                    try:
+                        elevation_m = gis_repo.sample_elevation(lat, lon, region=region)
+                    except TypeError:
+                        elevation_m = gis_repo.sample_elevation(lat, lon)
 
                 name = self._get_poi_name(row)
 
@@ -176,7 +213,7 @@ class EvacuationService:
             # Determine route origin relevant to flood analysis
             origin_name = "Flood Boundary"
             try:
-                villages_gdf = gis_repo.load_layer("villages") if hasattr(gis_repo, "load_layer") else None
+                villages_gdf = _safe_load("villages")
                 if villages_gdf is not None and len(villages_gdf) > 0:
                     v_reproj = villages_gdf.to_crs(flood_gdf.crs) if villages_gdf.crs != flood_gdf.crs else villages_gdf
                     inter = gpd.overlay(flood_gdf, v_reproj, how="intersection")
@@ -191,7 +228,7 @@ class EvacuationService:
 
             # Compute road routing along real road network for candidates
             try:
-                roads_gdf = gis_repo.load_layer("roads") if hasattr(gis_repo, "load_layer") else None
+                roads_gdf = _safe_load("roads")
                 road_graph, road_nodes, road_tree = self._get_or_build_road_graph(roads_gdf)
 
                 if road_graph is not None and road_nodes and road_tree is not None:
@@ -283,6 +320,9 @@ class EvacuationService:
                 EvacuationService._cached_road_nodes,
                 EvacuationService._cached_road_tree,
             )
+
+        if not NETWORKX_AVAILABLE or not SCIPY_AVAILABLE:
+            return None, None, None
 
         try:
             G_raw = nx.Graph()

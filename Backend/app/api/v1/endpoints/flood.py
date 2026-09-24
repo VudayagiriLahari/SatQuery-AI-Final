@@ -626,20 +626,74 @@ async def delete_session(session_id: str):
 
 
 # ---------------------------------------------------------------------------
-# 9. Sample Test Images
+# 9. Sample Test Images & Demo Datasets
 # ---------------------------------------------------------------------------
+
+@router.get(
+    "/demos",
+    summary="List available demo events",
+)
+async def get_demos():
+    """List available demo options: Kerala Flood and Nepal 2026 Flood."""
+    return [
+        {
+            "id": "kerala",
+            "name": "Kerala Flood",
+            "region": "Kerala, India",
+            "pre_file": "kerala_before_flood.tif",
+            "post_file": "kerala_after_flood.tif",
+            "description": "Real Sentinel satellite imagery for the August 2018 Kerala flood event.",
+        },
+        {
+            "id": "nepal",
+            "name": "Nepal 2026 Flood",
+            "region": "Rasuwa, Nepal",
+            "pre_file": "nepal_before_flood.tif",
+            "post_file": "nepal_after_flood.tif",
+            "description": "Real Sentinel-2 Harmonized optical imagery for the August 2026 Nepal flood event.",
+        },
+    ]
+
+
+@router.get(
+    "/demo-file/{filename}",
+    summary="Download real demo GeoTIFF raster file",
+)
+async def get_demo_file(filename: str):
+    """Serve pre-existing real demo GeoTIFF raster file for Kerala or Nepal demo."""
+    allowed = [
+        "kerala_before_flood.tif",
+        "kerala_after_flood.tif",
+        "nepal_before_flood.tif",
+        "nepal_after_flood.tif",
+    ]
+    if filename not in allowed:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Demo file '{filename}' not found. Available: {allowed}",
+        )
+    file_path = os.path.join(settings.DATA_DIR, "test_images", filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Demo file '{filename}' not found on server disk.",
+        )
+    return FileResponse(file_path, media_type="image/tiff", filename=filename)
+
 
 @router.get(
     "/sample/{sample_name}",
     summary="Download sample satellite GeoTIFF files",
 )
 async def get_sample_image(sample_name: str):
-    """Serve real Kerala pre/post flood sample images."""
+    """Serve real Kerala and Nepal pre/post flood sample images."""
     allowed = {
         "pre": "kerala_before_flood.tif",
         "post": "kerala_after_flood.tif",
         "kerala_before_flood.tif": "kerala_before_flood.tif",
         "kerala_after_flood.tif": "kerala_after_flood.tif",
+        "nepal_before_flood.tif": "nepal_before_flood.tif",
+        "nepal_after_flood.tif": "nepal_after_flood.tif",
     }
     if sample_name not in allowed:
         raise HTTPException(status_code=404, detail="Sample image not found")
@@ -648,3 +702,4 @@ async def get_sample_image(sample_name: str):
     if not os.path.isfile(path):
         raise HTTPException(status_code=404, detail=f"Sample file '{filename}' missing on disk")
     return FileResponse(path, media_type="image/tiff", filename=filename)
+

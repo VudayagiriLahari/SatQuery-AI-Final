@@ -125,7 +125,7 @@ def run_tests():
         return False
 
     # 6. Test AI Assistant Chat Orchestration
-    print("\n[6/6] Testing AI Assistant Orchestration & Grounding...")
+    print("\n[6/7] Testing AI Assistant Orchestration & Grounding...")
     try:
         from tests.test_chat import (
             test_flooded_area_query,
@@ -152,8 +152,24 @@ def run_tests():
         print(f"  [FAIL] AI Assistant tests failed: {exc}")
         return False
 
+    # 7. Test Real Nepal 2026 Flood Event Dataset & Full GIS Pipeline
+    print("\n[7/7] Testing Real Nepal 2026 Flood Event Dataset & Full GIS Pipeline...")
+    try:
+        from tests.test_nepal_flood import (
+            test_nepal_2026_flood_image_study,
+            test_nepal_full_gis_pipeline,
+            test_kerala_regression_gis_pipeline,
+        )
+        test_nepal_2026_flood_image_study()
+        test_nepal_full_gis_pipeline()
+        test_kerala_regression_gis_pipeline()
+        print("  [PASS] Real Nepal 2026 Flood & Kerala GIS Pipeline Integration: PASS")
+    except Exception as exc:
+        print(f"  [FAIL] Nepal/Kerala GIS pipeline test failed: {exc}")
+        return False
+
     print("\n" + "=" * 65)
-    print(" ALL TESTS PASSED SUCCESSFULLY! (24 test assertions verified)")
+    print(" ALL TESTS PASSED SUCCESSFULLY! (Real Nepal 2026 Verified)")
     print("=" * 65)
     return True
 
@@ -161,3 +177,4 @@ def run_tests():
 if __name__ == "__main__":
     success = run_tests()
     sys.exit(0 if success else 1)
+

@@ -88,6 +88,44 @@ export async function getSession(sessionId) {
 }
 
 /**
+ * Fetch a real demo GeoTIFF file from the backend and return as File object.
+ */
+export async function getDemoFile(filename) {
+  const res = await fetch(`${BASE_URL}/flood/demo-file/${filename}`);
+  if (!res.ok) {
+    // Fallback to /flood/sample/
+    const res2 = await fetch(`${BASE_URL}/flood/sample/${filename}`);
+    if (!res2.ok) {
+      throw new Error(`Failed to load demo file ${filename} (${res.status})`);
+    }
+    const blob = await res2.blob();
+    return new File([blob], filename, { type: 'image/tiff' });
+  }
+  const blob = await res.blob();
+  return new File([blob], filename, { type: 'image/tiff' });
+}
+
+/**
+ * Load a real demo pair (Kerala or Nepal) as File objects for pipeline analysis.
+ */
+export async function loadDemoPair(demoId) {
+  if (demoId === 'kerala') {
+    const [pre, post] = await Promise.all([
+      getDemoFile('kerala_before_flood.tif'),
+      getDemoFile('kerala_after_flood.tif'),
+    ]);
+    return { pre, post, name: 'Kerala Flood', id: 'kerala' };
+  } else if (demoId === 'nepal') {
+    const [pre, post] = await Promise.all([
+      getDemoFile('nepal_before_flood.tif'),
+      getDemoFile('nepal_after_flood.tif'),
+    ]);
+    return { pre, post, name: 'Nepal 2026 Flood', id: 'nepal' };
+  }
+  return null;
+}
+
+/**
  * Check backend health.
  */
 export async function checkHealth() {
@@ -95,3 +133,4 @@ export async function checkHealth() {
   if (!res.ok) throw new Error('Backend health check failed');
   return res.json();
 }
+
