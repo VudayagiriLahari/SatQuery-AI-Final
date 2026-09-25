@@ -65,22 +65,18 @@ frontend/build/
 Thumbs.db
 desktop.ini
 
-# Geospatial & Data Files (ignore large datasets, keep directory structure)
-data/**
-!data/**/.gitkeep
-!data/**/README.md
-*.tif
-*.tiff
-*.geotiff
+# Geospatial & Data Files (ignore temporary outputs, downloads, and caches)
+data/output/
+data/output/**
+data/copernicus_cache/
+data/copernicus_cache/**
+data/input/
+data/input/**
+scratch/*.geojson
+scratch/*.tif
 *.nc
 *.hdf
 *.h5
-*.shp
-*.shx
-*.dbf
-*.prj
-*.cpg
-*.geojson
 *.gpkg
 *.tar.gz
 *.zip

@@ -1,4 +1,5 @@
-const BASE_URL = '/api/v1';
+const API_ROOT = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const BASE_URL = `${API_ROOT}/api/v1`;
 
 /**
  * Validate a pair of GeoTIFF files.
@@ -129,7 +130,7 @@ export async function loadDemoPair(demoId) {
  * Check backend health.
  */
 export async function checkHealth() {
-  const res = await fetch('/health');
+  const res = await fetch(`${API_ROOT}/health`);
   if (!res.ok) throw new Error('Backend health check failed');
   return res.json();
 }

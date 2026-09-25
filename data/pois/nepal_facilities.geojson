@@ -1,0 +1,2665 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 632389943,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 28.84
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5659008,
+          28.2144358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 1343823343,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 8.47
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3719147,
+          28.1057752
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 1357442329,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.13
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3394856,
+          28.1656427
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2554094437,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3146851,
+          28.2088425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2554587254,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3087242,
+          28.2042857
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2852823435,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.66
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3610182,
+          28.1736074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2852823436,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3440916,
+          28.1687627
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Langtasa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2852823442,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 7.82
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3821313,
+          28.1631313
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2857828925,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 16.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.457135,
+          28.1995838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chorten",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2857861343,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 26.62
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5464178,
+          28.2099735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2857867894,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 27.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5561959,
+          28.210602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2857874753,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 21.61
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4979618,
+          28.2173371
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 2857881055,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 31.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5884332,
+          28.1985533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hospital Facility",
+        "type": "hospital",
+        "amenity": "hospital",
+        "capacity": 200,
+        "osm_id": 3494711409,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.01
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3364796,
+          28.1421939
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Armed Police Force, Sanjen Hydropower Security Base, Chilime Rasuwa",
+        "type": "police",
+        "amenity": "police",
+        "capacity": 150,
+        "osm_id": 4158781389,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 1.66
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3054808,
+          28.182031
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ganesh shrine",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 4494012692,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 12.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4000489,
+          28.0845832
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Temple",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 4494061192,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.87
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3198243,
+          28.0977721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Evangelical church",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 4514750698,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.57
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3600761,
+          28.140739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Evangelical church",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 4514777292,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2968454,
+          28.2196128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "school",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4514803389,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2964194,
+          28.2196176
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hospital Facility",
+        "type": "hospital",
+        "amenity": "hospital",
+        "capacity": 200,
+        "osm_id": 4811279924,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.169186,
+          28.016812
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Samten Chholing Gonpa Pra V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4934865439,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.77
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1166039,
+          28.1980731
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Grey Ni Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967575269,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 0.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2950862,
+          28.1435043
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Ghormu Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967597789,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 8.23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2530124,
+          28.0131952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Arukharka Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967602473,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 8.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.265146,
+          28.0216994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Narayan Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967622162,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 9.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2777028,
+          28.0264342
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Thangdor Pra.Vi.",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967631188,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 10.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2966345,
+          28.0306373
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Surya Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967635719,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 11.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3082183,
+          28.0360045
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Simbandi Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967643762,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 11.59
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3168403,
+          28.0410506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Larachyang Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967649846,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 10.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2858983,
+          28.0171164
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Bhumedebi Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967702006,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 12.64
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2993523,
+          28.0048726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Gyanodaya Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967705816,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 11.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2843205,
+          28.0054931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Gautam Buddha Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967715146,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 10.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2712903,
+          28.0057696
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Saraswoti Ni Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967745076,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 1.34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2980635,
+          28.1884056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gonggang Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967753526,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 1.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2971977,
+          28.1991543
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Tatopani Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967756874,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.08
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2938014,
+          28.2179763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Pajung Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967769238,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.83
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3273412,
+          28.1847914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Saraswoti Ni.Ma.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967793925,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.56
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2445333,
+          28.0771377
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Gaun Pharka Rastria Pra.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967796007,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 4.53
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2661445,
+          28.0840307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Bhimali Pra.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967801446,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 4.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2784599,
+          28.1001074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Gyan Jyoti Pra. V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967811121,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.51
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3221746,
+          28.0924206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Haku Besi Ni.Ma.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967821159,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2794174,
+          28.1146281
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Haku Ma.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967829177,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2635703,
+          28.1151302
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Gosaikunda Pra.Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967842659,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2698426,
+          28.1242898
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Pabarti kunda Pra.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967924593,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 1.49
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2819943,
+          28.1295624
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Sila Devi Pra.Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967930629,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 7.51
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2097209,
+          28.0007307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Bhubaneshwari Pra.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967973279,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1999603,
+          28.0089647
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree komin Pra.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4967982080,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3321695,
+          28.1616696
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Arunodaya Primary School",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968022376,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3518991,
+          28.2286148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Nepal Rastriya Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968032717,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.18
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3449613,
+          28.1969461
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Grang Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968049792,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2257659,
+          28.0571261
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Temrang Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968107787,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 4.65
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2207639,
+          28.0311899
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Palep pra vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968111253,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.93
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2190338,
+          28.0476612
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Prangse Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968132206,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2178674,
+          28.0087236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Lokil Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968135798,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 7.15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2349544,
+          28.0130146
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Betang Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968156490,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 8.09
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.238737,
+          28.0054253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree kavre Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4968177547,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.46
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2084512,
+          28.0109397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Saraswoti Ni Ma V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969555362,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.07
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1795711,
+          28.0276758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Danda Gaun Ucha Ma. V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969563549,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.69
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1851894,
+          28.0378925
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Dipendra Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969565986,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1894642,
+          28.0473961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Panchelinge Ni.Ma.V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969568423,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 0.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1956963,
+          28.0615115
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Bhume Devi Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969573194,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 0.52
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1749843,
+          28.0860238
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree karumaryang Ni Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969577858,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 0.12
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1911185,
+          28.0870815
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Chipleti Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969579345,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 1.54
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2081762,
+          28.0563867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Tiru Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969584086,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 0.68
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2095633,
+          28.0907167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree kalika Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969588205,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 1.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2220017,
+          28.0877364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Simle Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969595164,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.74
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1907891,
+          28.0297555
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tibetan Buddhist Temple",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 4969610441,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.53
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3601036,
+          28.1424714
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Semjong Pra V",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 4969648494,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 9.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2605286,
+          28.0060239
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Salakhu Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5010919685,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 7.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1048271,
+          28.0044961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shri Panchalinge Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5010944364,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.47
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1417624,
+          28.0021753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Tribhuwan Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5019534984,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.93
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1782975,
+          28.0181595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Gyanjyoti Ucha Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5045818995,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1657977,
+          28.0027662
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Phikuri Multiple Campus",
+        "type": "college",
+        "amenity": "college",
+        "capacity": 450,
+        "osm_id": 5045830885,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1658322,
+          28.0027242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shri Jyoti Ni Ma Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5045949500,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.58
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1288342,
+          28.0052598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Sapchet Bhumisthan Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5046075233,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1054064,
+          28.0146089
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shri Dikip Mahadev Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5046075234,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1140612,
+          28.0088297
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Surya Kunda Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5053129890,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 22.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4628034,
+          28.0193081
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Durgam Tara Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5063573700,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 0.57
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1454424,
+          28.0852379
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shri Nuchet Pra Vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5063598297,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 4.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1286477,
+          28.0179422
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lumbhu Choeling Gumba",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 5128818412,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 9.45
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3968718,
+          28.1627854
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 5227592943,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 13.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4115605,
+          28.0841502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Water spouts, statue, prayer flags",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 5227600024,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 13.94
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4165936,
+          28.0835882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Buddhist stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 5630391175,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.84
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3634656,
+          28.1456805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gosaikund Municipality, Ward No 6",
+        "type": "government",
+        "amenity": "government",
+        "capacity": 300,
+        "osm_id": 5651307958,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2956347,
+          28.1118914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CDO Office, Rasuwa",
+        "type": "government",
+        "amenity": "government",
+        "capacity": 300,
+        "osm_id": 5651307968,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.43
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2955274,
+          28.1115945
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rasuwa District Hospital",
+        "type": "hospital",
+        "amenity": "hospital",
+        "capacity": 200,
+        "osm_id": 5651307969,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.58
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2964836,
+          28.1104436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "District Police Office",
+        "type": "police",
+        "amenity": "police",
+        "capacity": 150,
+        "osm_id": 5651307976,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.298852,
+          28.1098036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Rasuwa Secondary School",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5651350813,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2952257,
+          28.1128378
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Highland HS School",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 5653611291,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.55
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2997237,
+          28.1114088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "District Emergency Operation Center",
+        "type": "government",
+        "amenity": "government",
+        "capacity": 300,
+        "osm_id": 5653611312,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.48
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2955992,
+          28.1112338
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Melamchi Ghyang",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 5710767478,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 27.86
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5232621,
+          28.0176599
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dhingha Rangjen Community Health Service Center",
+        "type": "clinic",
+        "amenity": "clinic",
+        "capacity": 200,
+        "osm_id": 5710767485,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 28.04
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.525661,
+          28.018491
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nakote ghyang",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 5710888141,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 29.88
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5375083,
+          28.0061278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Old gompa and Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 6402267585,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 31.52
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5528184,
+          28.002726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Police Facility",
+        "type": "police",
+        "amenity": "police",
+        "capacity": 150,
+        "osm_id": 6511401786,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2828441,
+          28.1133491
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 6577754686,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.52
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3596782,
+          28.1409844
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 6869638585,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3567783,
+          28.1486283
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 7525011767,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 2.52
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1867502,
+          28.0425358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 8240989258,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.13
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1850309,
+          28.009401
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 8240989340,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 4.17
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1817404,
+          28.0174348
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Survey Office Rasuwa",
+        "type": "government",
+        "amenity": "government",
+        "capacity": 300,
+        "osm_id": 8879847176,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.298663,
+          28.1133399
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Langtang health post 2022",
+        "type": "clinic",
+        "amenity": "clinic",
+        "capacity": 200,
+        "osm_id": 9721808417,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 23.81
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.519128,
+          28.2155311
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Military base",
+        "type": "government",
+        "amenity": "government",
+        "capacity": 300,
+        "osm_id": 9724799617,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.51
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3591761,
+          28.1392647
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shree Nepal Rashtriya Basic School",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 10046431951,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.52
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3599503,
+          28.1421203
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Buddhist Temple",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 10046807025,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3404975,
+          28.1106721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Guru Rinpoche Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 10199608117,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 30.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5759024,
+          28.0657079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 10202085517,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 3.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3135686,
+          28.2127395
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Buddhist Stupa/Shrine",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 10794758489,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3587543,
+          28.1477424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Teenapati",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 10794818105,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 18.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4521508,
+          28.060766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kashir jangchub chorten gumba",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 10904983763,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 22.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.462574,
+          28.019494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Indreni aa vi",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 10904983789,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 22.51
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.446455,
+          28.000759
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sano Madad Sigi Rasp Memorial School",
+        "type": "school",
+        "amenity": "school",
+        "capacity": 450,
+        "osm_id": 11180873670,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 23.09
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5122127,
+          28.2161679
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 11186147818,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 15.09
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4449656,
+          28.1877061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 11186154609,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 11.61
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4163549,
+          28.1581411
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942201,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 31.49
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5523932,
+          28.002572
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942340,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 29.97
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5383324,
+          28.0060336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942370,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 29.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5320587,
+          28.0074592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942383,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 29.06
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5313358,
+          28.0102393
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942384,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 28.78
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5292283,
+          28.0115826
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942386,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 28.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5265461,
+          28.0130957
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942387,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 28.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5250226,
+          28.013992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942389,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 28.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5237016,
+          28.015575
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 11285942391,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 27.73
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.5224396,
+          28.0185916
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 11285942408,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 26.23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4997428,
+          28.0094182
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Buddhist Stupa",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 12695584041,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 5.94
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.343908,
+          28.1094868
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 12695676229,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 9.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3745203,
+          28.0960805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 12695696449,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.77
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3513936,
+          28.1060305
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 12698166700,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 15.74
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4292169,
+          28.0733099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shelter Facility",
+        "type": "shelter",
+        "amenity": "shelter",
+        "capacity": 150,
+        "osm_id": 12700885452,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 20.72
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4678596,
+          28.0504603
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Drapu Choling",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 12956921090,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.42
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3825828,
+          28.3666548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Place Of Worship Facility",
+        "type": "place_of_worship",
+        "amenity": "place_of_worship",
+        "capacity": 150,
+        "osm_id": 14132675311,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 6.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.3505487,
+          28.2017913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "拉比村村民委员会",
+        "type": "townhall",
+        "amenity": "townhall",
+        "capacity": 300,
+        "osm_id": 14132806766,
+        "country": "Nepal",
+        "district": "Rasuwa",
+        "distance_km": 8.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.4024592,
+          28.3206216
+        ]
+      }
+    }
+  ]
+}

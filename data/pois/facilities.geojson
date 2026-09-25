@@ -1,0 +1,2003 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Taluk Headquarters Hospital, vaikom",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 1954307174,
+        "amenity": "hospital",
+        "distance_km": 4.69
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3899657,
+          9.7502732
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt Boys HSS",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 2988972155,
+        "amenity": "school",
+        "distance_km": 3.81
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3957683,
+          9.7442753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SN VHS School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 2988972156,
+        "amenity": "school",
+        "distance_km": 4.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3921956,
+          9.7445185
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Little Flower School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 2988972157,
+        "amenity": "school",
+        "distance_km": 4.04
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3922815,
+          9.7408704
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Devi Vilasam School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 4047071336,
+        "amenity": "school",
+        "distance_km": 4.84
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5280675,
+          9.6228065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St.Xavier's LP School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 4292109793,
+        "amenity": "school",
+        "distance_km": 5.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5060355,
+          9.7335458
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Holy Cross School, Aymanam",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 4292131491,
+        "amenity": "school",
+        "distance_km": 3.22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4937155,
+          9.6171755
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Divine Hospital",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 4292150695,
+        "amenity": "hospital",
+        "distance_km": 5.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5057396,
+          9.7332933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St.Xavier's Vocational Higher Secondary School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 4292150793,
+        "amenity": "school",
+        "distance_km": 5.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5041626,
+          9.7364582
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mahalma  Gandhi University school of Social Science",
+        "type": "college",
+        "capacity": 500,
+        "osm_id": 6284344863,
+        "amenity": "college",
+        "distance_km": 4.57
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5163679,
+          9.6146866
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Divannasios Hall",
+        "type": "music_school",
+        "capacity": 350,
+        "osm_id": 7310993707,
+        "amenity": "music_school",
+        "distance_km": 5.92
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5018053,
+          9.5928201
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. Joseph's Teachers Training College",
+        "type": "college",
+        "capacity": 500,
+        "osm_id": 7312021948,
+        "amenity": "college",
+        "distance_km": 2.72
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5199565,
+          9.6471651
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St.Joseph's UP School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 7312063101,
+        "amenity": "school",
+        "distance_km": 2.61
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5185393,
+          9.645649
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "K.E College Mannanam",
+        "type": "college",
+        "capacity": 500,
+        "osm_id": 7312063102,
+        "amenity": "college",
+        "distance_km": 2.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5189792,
+          9.6441285
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St.Ephrem's Higher Secondary School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 7312065398,
+        "amenity": "school",
+        "distance_km": 2.8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5203145,
+          9.6454768
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St.Ephrems School Ground",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 7312065399,
+        "amenity": "school",
+        "distance_km": 2.79
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5199073,
+          9.6444723
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "KE College Ground",
+        "type": "college",
+        "capacity": 500,
+        "osm_id": 7312087549,
+        "amenity": "college",
+        "distance_km": 2.79
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5193708,
+          9.6431343
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "anjaly automobiles & driving school",
+        "type": "driving_school",
+        "capacity": 350,
+        "osm_id": 7312140113,
+        "amenity": "driving_school",
+        "distance_km": 3.17
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5127098,
+          9.6287536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "BM Pharmacy Ayurveda Hospital",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7332043581,
+        "amenity": "hospital",
+        "distance_km": 3.51
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.487332,
+          9.6095583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chirayu Ayurvedic Speciality Clinic And Treatment Centre",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7334036499,
+        "amenity": "hospital",
+        "distance_km": 4.16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5073309,
+          9.6130151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Susrusha Hospital",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7476906025,
+        "amenity": "hospital",
+        "distance_km": 5.15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.514049,
+          9.6066287
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CHC Thanneermukkom",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7477933847,
+        "amenity": "hospital",
+        "distance_km": 4.08
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3932861,
+          9.676436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hopes Institute Of Career Guidance",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 7478198688,
+        "amenity": "school",
+        "distance_km": 4.66
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3926705,
+          9.753999
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St.Xaviers College ,Kothavara",
+        "type": "college",
+        "capacity": 500,
+        "osm_id": 7486674888,
+        "amenity": "college",
+        "distance_km": 3.13
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4049371,
+          9.7005449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kumarakom Government Homeo Dispensary",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7491705412,
+        "amenity": "hospital",
+        "distance_km": 4.02
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4351543,
+          9.5919548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Santhi General & Children's Hospital",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7494953066,
+        "amenity": "hospital",
+        "distance_km": 4.09
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4372243,
+          9.5913275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Primary Health Centre, Thiruvarppu",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7497361107,
+        "amenity": "hospital",
+        "distance_km": 5.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4777964,
+          9.5811036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Health Sub Centre",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7499012357,
+        "amenity": "hospital",
+        "distance_km": 3.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4374361,
+          9.5993681
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mayura Ayurvedic Centre",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7499118779,
+        "amenity": "hospital",
+        "distance_km": 2.65
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4355103,
+          9.6042446
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Anil Kumar. V. G Acupressure Therapist",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7503213862,
+        "amenity": "hospital",
+        "distance_km": 1.78
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4799195,
+          9.6962425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "High School Ayamkudy",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 7503819590,
+        "amenity": "school",
+        "distance_km": 2.91
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4754102,
+          9.7487273
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Indo American Hospital",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 7733212428,
+        "amenity": "hospital",
+        "distance_km": 3.83
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3925812,
+          9.7216807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Consolatha Lower Primary School Kumarakom",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 7835168584,
+        "amenity": "school",
+        "distance_km": 3.95
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4376512,
+          9.5925577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sree sankara vidayalayam school ground",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 8313925210,
+        "amenity": "school",
+        "distance_km": 3.87
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3986262,
+          9.7500613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. Josephs English Medium School Villoonni",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 8315701157,
+        "amenity": "school",
+        "distance_km": 1.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5079713,
+          9.6401038
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Aiyerkulangara govt u p school ground",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 8315929043,
+        "amenity": "school",
+        "distance_km": 2.76
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4059307,
+          9.7430606
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sree mahadeva college ground",
+        "type": "college",
+        "capacity": 500,
+        "osm_id": 8316110230,
+        "amenity": "college",
+        "distance_km": 2.46
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.408598,
+          9.7421976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Thonnamkuzhi Government Lower Primary School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 8325309899,
+        "amenity": "school",
+        "distance_km": 2.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5084569,
+          9.6350006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ma.C Study Center",
+        "type": "prep_school",
+        "capacity": 350,
+        "osm_id": 8727256430,
+        "amenity": "prep_school",
+        "distance_km": 4.67
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.484999,
+          9.5925952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Exam preperation",
+        "type": "prep_school",
+        "capacity": 350,
+        "osm_id": 8728719950,
+        "amenity": "prep_school",
+        "distance_km": 5.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4890691,
+          9.5880852
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Noble College",
+        "type": "prep_school",
+        "capacity": 350,
+        "osm_id": 8754881478,
+        "amenity": "prep_school",
+        "distance_km": 5.83
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4978169,
+          9.5902176
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Auttuppallil Study Center",
+        "type": "prep_school",
+        "capacity": 350,
+        "osm_id": 8754925772,
+        "amenity": "prep_school",
+        "distance_km": 5.82
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5022256,
+          9.5940882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Holy Ghost Mission Hospital Muttuchira",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 8757343404,
+        "amenity": "hospital",
+        "distance_km": 5.61
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4998083,
+          9.7572161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Primary Health Centre, Kaduthuruthy",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 8880257015,
+        "amenity": "hospital",
+        "distance_km": 3.01
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4801952,
+          9.7444249
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government High School, karipputhattu",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 8890623818,
+        "amenity": "school",
+        "distance_km": 1.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4957227,
+          9.6329918
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CMS LP School Olassa",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9106933017,
+        "amenity": "school",
+        "distance_km": 3.54
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4862272,
+          9.6087173
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pjm lp school",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9107004817,
+        "amenity": "school",
+        "distance_km": 3.92
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4973166,
+          9.6116243
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kudamaloor L.P School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9107533117,
+        "amenity": "school",
+        "distance_km": 3.62
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5075563,
+          9.6187448
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government HSS ,Kudamaloor",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9107557417,
+        "amenity": "school",
+        "distance_km": 3.66
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5082321,
+          9.6187653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kottamala Colony FHC",
+        "type": "clinic",
+        "capacity": 350,
+        "osm_id": 9117959923,
+        "amenity": "clinic",
+        "distance_km": 4.58
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4950352,
+          9.6027695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ST. XAVIER'S HOSPITAL, Kuruppanthara",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9309051886,
+        "amenity": "hospital",
+        "distance_km": 5.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5055341,
+          9.7335371
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Priya Clinic",
+        "type": "clinic",
+        "capacity": 350,
+        "osm_id": 9309074001,
+        "amenity": "clinic",
+        "distance_km": 5.76
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.524568,
+          9.7187358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Primary Health Center, Thalayazham",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9320060920,
+        "amenity": "hospital",
+        "distance_km": 1.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4179441,
+          9.7227364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government Homeo Dispensary",
+        "type": "clinic",
+        "capacity": 350,
+        "osm_id": 9326226416,
+        "amenity": "clinic",
+        "distance_km": 0.79
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4223854,
+          9.7163284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government Ayurveda Dispensary, Thalayazham",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9326297142,
+        "amenity": "hospital",
+        "distance_km": 0.81
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.422279,
+          9.7150636
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Omkareshwaram Auditorium",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9360119122,
+        "amenity": "community_centre",
+        "distance_km": 1.46
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4182454,
+          9.7076245
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sree Maha Deva Auditorium, Thrippakudam",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9360122490,
+        "amenity": "community_centre",
+        "distance_km": 1.48
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4216686,
+          9.6948153
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government Ayurveda Dispensary, TV Puram",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9360876767,
+        "amenity": "hospital",
+        "distance_km": 3.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4001252,
+          9.7078166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government High School, Vechoor",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9363963750,
+        "amenity": "school",
+        "distance_km": 1.73
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4196627,
+          9.6923813
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government Upper Primary School, Chemmanathukara",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9376868790,
+        "amenity": "school",
+        "distance_km": 2.81
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.401521,
+          9.729466
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NSS Auditorium, Moothedathukavu",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9377807022,
+        "amenity": "community_centre",
+        "distance_km": 3.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3990212,
+          9.7117435
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sathothara Rajatha Jubilee Smaraka Auditorium",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9378195146,
+        "amenity": "community_centre",
+        "distance_km": 3.91
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3916142,
+          9.7279941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NSS Auditorium, Kudavechoor",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9394592612,
+        "amenity": "community_centre",
+        "distance_km": 0.97
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4194963,
+          9.6615977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Church Auditorium, Achinakom",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9401711151,
+        "amenity": "community_centre",
+        "distance_km": 0.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4249738,
+          9.6568611
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Community Hall, Muchoorkkavu",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9401716212,
+        "amenity": "community_centre",
+        "distance_km": 0.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4294373,
+          9.6802823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NSS Karayogam Auditorium",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9401719255,
+        "amenity": "community_centre",
+        "distance_km": 1.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4142848,
+          9.671397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Modern Homeopathy Clinic, Bund road",
+        "type": "clinic",
+        "capacity": 350,
+        "osm_id": 9401721464,
+        "amenity": "clinic",
+        "distance_km": 1.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4209188,
+          9.6736553
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government Ayurveda Dispensary, Vechoor",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9401733850,
+        "amenity": "hospital",
+        "distance_km": 1.57
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4153831,
+          9.6691203
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. Michaels Higher Secondary School, Kudavechoor",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9401736166,
+        "amenity": "school",
+        "distance_km": 2.27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4090857,
+          9.6680266
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "SNDP Lower Primary School, Maniyaparambu",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9579989971,
+        "amenity": "school",
+        "distance_km": 0.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4792303,
+          9.6447874
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. Philomina's Lower Primary School, Arpookara",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9580276179,
+        "amenity": "school",
+        "distance_km": 1.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5064016,
+          9.6419452
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St Joseph Auditorium, Mudiyoorkara",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9668329421,
+        "amenity": "community_centre",
+        "distance_km": 4.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5276466,
+          9.6350812
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. Xavier's Church Auditorium, Villoonni",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9668481903,
+        "amenity": "community_centre",
+        "distance_km": 1.75
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5082281,
+          9.6424457
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Subramanya Swami Ksethram Auditorium",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9668504695,
+        "amenity": "community_centre",
+        "distance_km": 2.97
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.513364,
+          9.6319043
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. George Orthodox Church Auditorium, Arpookara",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9668518010,
+        "amenity": "community_centre",
+        "distance_km": 2.34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4932583,
+          9.6253239
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ayurveda Dispensary, Karipputhattu",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9668526137,
+        "amenity": "hospital",
+        "distance_km": 1.68
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4961764,
+          9.6323832
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "C M S Lower Primary School, Arpookara",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 9669497291,
+        "amenity": "school",
+        "distance_km": 1.61
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.502286,
+          9.6381335
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Muthi Ayurveda Hospital, Vechoor",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9763356869,
+        "amenity": "hospital",
+        "distance_km": 2.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4080659,
+          9.6672286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kallara Government Homoeo Dispensary",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 9958631854,
+        "amenity": "hospital",
+        "distance_km": 1.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4769156,
+          9.7083776
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Samskarika Nilayam Vaikom",
+        "type": "community_centre",
+        "capacity": 350,
+        "osm_id": 9969437658,
+        "amenity": "community_centre",
+        "distance_km": 2.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4142767,
+          9.7504824
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "THANNERMUKKON HOMEO DISPENSARY",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 10137223917,
+        "amenity": "hospital",
+        "distance_km": 5.17
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3831124,
+          9.6733961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ILLOM HOSPITAL",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 10138216775,
+        "amenity": "hospital",
+        "distance_km": 4.62
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3881311,
+          9.6743832
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ANGANAVADY",
+        "type": "language_school",
+        "capacity": 350,
+        "osm_id": 10138416710,
+        "amenity": "language_school",
+        "distance_km": 4.39
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3902413,
+          9.6741989
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ANGANAVADY",
+        "type": "language_school",
+        "capacity": 350,
+        "osm_id": 10138421148,
+        "amenity": "language_school",
+        "distance_km": 4.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.3890799,
+          9.6664355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Muhammed School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10142187994,
+        "amenity": "school",
+        "distance_km": 5.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5053307,
+          9.5971325
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government UP School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10146514350,
+        "amenity": "school",
+        "distance_km": 4.95
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5298913,
+          9.6234061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Government UP School Mudiyoorkkara",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10153730192,
+        "amenity": "school",
+        "distance_km": 3.96
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5272511,
+          9.6351282
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt L P School, Sreekandamangalam",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10718722544,
+        "amenity": "school",
+        "distance_km": 2.57
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5208928,
+          9.6687664
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. George Lower Primary School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10718735078,
+        "amenity": "school",
+        "distance_km": 2.83
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5231589,
+          9.6698762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. George English Medium School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10718735079,
+        "amenity": "school",
+        "distance_km": 2.94
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.524187,
+          9.669281
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt.North L P School",
+        "type": "school",
+        "capacity": 500,
+        "osm_id": 10718923990,
+        "amenity": "school",
+        "distance_km": 1.22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.4302845,
+          9.6175606
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NEW CASUALITY",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471904,
+        "amenity": "hospital",
+        "distance_km": 3.47
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5203315,
+          9.6327689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "DCH",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471905,
+        "amenity": "hospital",
+        "distance_km": 3.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5201465,
+          9.6342157
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GYNECOLOGY BLOCK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471907,
+        "amenity": "hospital",
+        "distance_km": 3.07
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5179615,
+          9.6355384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CANCER BLOCK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471909,
+        "amenity": "hospital",
+        "distance_km": 3.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5206575,
+          9.6354619
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CARDIOLOGY BLOCK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471910,
+        "amenity": "hospital",
+        "distance_km": 3.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5197859,
+          9.6346053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "COLLEGE OF NURSING",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471911,
+        "amenity": "hospital",
+        "distance_km": 3.27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5186057,
+          9.6334065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "PHYSICAL MEDICINE AND REHABILITATION",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471912,
+        "amenity": "hospital",
+        "distance_km": 3.55
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5213822,
+          9.632969
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "PODIPPARA LAB",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471913,
+        "amenity": "hospital",
+        "distance_km": 3.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5206644,
+          9.6345963
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "FORENSIC MEDICINE",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471914,
+        "amenity": "hospital",
+        "distance_km": 3.54
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5217332,
+          9.6334681
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "BLOOD BANK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471915,
+        "amenity": "hospital",
+        "distance_km": 3.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5214312,
+          9.6337705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NEW OP",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471917,
+        "amenity": "hospital",
+        "distance_km": 3.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5206764,
+          9.6336209
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "C2 BLOCK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471918,
+        "amenity": "hospital",
+        "distance_km": 3.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5219186,
+          9.6358739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CLINICAL BIOCHEMISTRY LAB",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471919,
+        "amenity": "hospital",
+        "distance_km": 3.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.522036,
+          9.635611
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "C BLOCK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471920,
+        "amenity": "hospital",
+        "distance_km": 3.49
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5223585,
+          9.6351621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "HISTOPATHOLOGY LAB",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471921,
+        "amenity": "hospital",
+        "distance_km": 3.53
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5225889,
+          9.6349109
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ADMINISTRATIVE BLOCK",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471922,
+        "amenity": "hospital",
+        "distance_km": 3.55
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5229792,
+          9.6351835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "COLLEGE OF PHARMACY",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471923,
+        "amenity": "hospital",
+        "distance_km": 3.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.522822,
+          9.6358435
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NEW LADIES HOSTEL",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471924,
+        "amenity": "hospital",
+        "distance_km": 3.53
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5234155,
+          9.6361561
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "KARUNYA",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471925,
+        "amenity": "hospital",
+        "distance_km": 3.64
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5228382,
+          9.6335097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "PHARMACY",
+        "type": "hospital",
+        "capacity": 250,
+        "osm_id": 11573471929,
+        "amenity": "hospital",
+        "distance_km": 3.45
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5209537,
+          9.6337507
+        ]
+      }
+    }
+  ]
+}
