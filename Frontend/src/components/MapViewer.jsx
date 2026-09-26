@@ -63,12 +63,20 @@ export default function MapViewer({
         map.invalidateSize();
         const isEvac = (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation');
         if (isEvac) {
-          const selN = selectedFeature?.name?.toLowerCase().trim();
-          const c = evacuationCandidates?.find((cand) => cand.name?.toLowerCase().trim() === selN) || selectedFeature?.data;
-          const lat = c?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
-          const lon = c?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
-          if (lat != null && lon != null && !isNaN(Number(lat)) && !isNaN(Number(lon))) {
-            map.flyTo([Number(lat), Number(lon)], 16, { duration: 1.2 });
+          const directLat = selectedFeature?.lat ?? selectedFeature?.data?.lat;
+          const directLon = selectedFeature?.lon ?? selectedFeature?.data?.lon;
+          let targetLat = directLat != null && !isNaN(Number(directLat)) ? Number(directLat) : null;
+          let targetLon = directLon != null && !isNaN(Number(directLon)) ? Number(directLon) : null;
+          if (targetLat == null || targetLon == null) {
+            const selN = selectedFeature?.name?.toLowerCase().trim();
+            const c = evacuationCandidates?.find((cand) => cand.name?.toLowerCase().trim() === selN) || selectedFeature?.data;
+            if (c?.lat != null && c?.lon != null) {
+              targetLat = Number(c.lat);
+              targetLon = Number(c.lon);
+            }
+          }
+          if (targetLat != null && targetLon != null && !isNaN(targetLat) && !isNaN(targetLon)) {
+            map.flyTo([targetLat, targetLon], 16, { duration: 1.2 });
           }
         }
       } catch (_) {}
@@ -80,15 +88,22 @@ export default function MapViewer({
     const isEvacSelected = (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation');
     if (!isEvacSelected) return;
 
-    const selName = selectedFeature?.name?.toLowerCase().trim();
-    const cand = evacuationCandidates?.find((c) => c.name?.toLowerCase().trim() === selName) || selectedFeature?.data;
-    const lat = cand?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
-    const lon = cand?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
+    const directLat = selectedFeature?.lat ?? selectedFeature?.data?.lat;
+    const directLon = selectedFeature?.lon ?? selectedFeature?.data?.lon;
 
-    if (lat != null && lon != null && !isNaN(Number(lat)) && !isNaN(Number(lon))) {
-      const targetLat = Number(lat);
-      const targetLon = Number(lon);
+    let targetLat = directLat != null && !isNaN(Number(directLat)) ? Number(directLat) : null;
+    let targetLon = directLon != null && !isNaN(Number(directLon)) ? Number(directLon) : null;
 
+    if (targetLat == null || targetLon == null) {
+      const selName = selectedFeature?.name?.toLowerCase().trim();
+      const cand = evacuationCandidates?.find((c) => c.name?.toLowerCase().trim() === selName) || selectedFeature?.data;
+      if (cand?.lat != null && cand?.lon != null) {
+        targetLat = Number(cand.lat);
+        targetLon = Number(cand.lon);
+      }
+    }
+
+    if (targetLat != null && targetLon != null && !isNaN(targetLat) && !isNaN(targetLon)) {
       const flyToCandidate = () => {
         const map = mapInstanceRef.current;
         if (!map) return;
@@ -537,9 +552,17 @@ export default function MapViewer({
       evacuationCandidates.forEach((c) => {
         if (c.lat == null || c.lon == null) return;
 
+        const directLat = selectedFeature?.lat ?? selectedFeature?.data?.lat;
+        const directLon = selectedFeature?.lon ?? selectedFeature?.data?.lon;
+
         const isSelected =
           (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation') &&
-          selectedFeature?.name?.toLowerCase().trim() === c.name?.toLowerCase().trim();
+          (
+            (directLat != null && directLon != null &&
+              Math.abs(Number(directLat) - Number(c.lat)) < 0.0001 &&
+              Math.abs(Number(directLon) - Number(c.lon)) < 0.0001) ||
+            (selectedFeature?.name && selectedFeature.name.toLowerCase().trim() === c.name?.toLowerCase().trim())
+          );
 
         const icon = L.divIcon({
           className: 'custom-evac-marker-wrapper',
@@ -560,12 +583,12 @@ export default function MapViewer({
             try {
               marker.openPopup();
             } catch (_) {}
-          }, 1300);
+          }, 600);
         }
 
         marker.on('click', () => {
           if (onSelectFeature) {
-            onSelectFeature({ type: 'evac', name: c.name, data: c });
+            onSelectFeature({ type: 'evac', name: c.name, lat: c.lat, lon: c.lon, data: c });
           }
         });
 
@@ -635,8 +658,20 @@ export default function MapViewer({
 
     const isEvacSelected = (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation');
     const selName = selectedFeature?.name?.toLowerCase().trim();
+    const directLat = selectedFeature?.lat ?? selectedFeature?.data?.lat;
+    const directLon = selectedFeature?.lon ?? selectedFeature?.data?.lon;
+
     const cand = isEvacSelected
-      ? (evacuationCandidates?.find((c) => c.name?.toLowerCase().trim() === selName) || selectedFeature?.data)
+      ? (
+          (directLat != null && directLon != null
+            ? evacuationCandidates?.find((c) =>
+                Math.abs(Number(c.lat) - Number(directLat)) < 0.0001 &&
+                Math.abs(Number(c.lon) - Number(directLon)) < 0.0001
+              )
+            : null) ||
+          evacuationCandidates?.find((c) => c.name?.toLowerCase().trim() === selName) ||
+          selectedFeature?.data
+        )
       : null;
 
     if (cand?.route_geojson) {
@@ -671,14 +706,16 @@ export default function MapViewer({
     // -------------------------------------------------------------------------
     // 5. FIT / FLY BOUNDS SMOOTHLY TO DETECTED EXTENT OR SELECTED EVAC SITE
     // -------------------------------------------------------------------------
-    const evacLat = cand?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
-    const evacLon = cand?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
+    const evacLat = directLat ?? cand?.lat;
+    const evacLon = directLon ?? cand?.lon;
 
     if (isEvacSelected && evacLat != null && evacLon != null && !isNaN(Number(evacLat)) && !isNaN(Number(evacLon))) {
+      const targetLat = Number(evacLat);
+      const targetLon = Number(evacLon);
       setTimeout(() => {
         try {
           map.invalidateSize();
-          map.flyTo([Number(evacLat), Number(evacLon)], 16, { duration: 1.5 });
+          map.flyTo([targetLat, targetLon], 16, { duration: 1.5 });
         } catch (_) {}
       }, 50);
     } else if (combinedBounds && combinedBounds.isValid()) {
