@@ -57,11 +57,63 @@ export default function MapViewer({
   const handleSwitchTo2D = useCallback(() => {
     setViewMode('2d');
     setTimeout(() => {
+      const map = mapInstanceRef.current;
+      if (!map) return;
       try {
-        mapInstanceRef.current?.invalidateSize();
+        map.invalidateSize();
+        const isEvac = (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation');
+        if (isEvac) {
+          const selN = selectedFeature?.name?.toLowerCase().trim();
+          const c = evacuationCandidates?.find((cand) => cand.name?.toLowerCase().trim() === selN) || selectedFeature?.data;
+          const lat = c?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
+          const lon = c?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
+          if (lat != null && lon != null && !isNaN(Number(lat)) && !isNaN(Number(lon))) {
+            map.flyTo([Number(lat), Number(lon)], 16, { duration: 1.2 });
+          }
+        }
       } catch (_) {}
-    }, 60);
-  }, []);
+    }, 80);
+  }, [selectedFeature, evacuationCandidates]);
+
+  // Dedicated camera centering effect for 2D Leaflet map when an evacuation candidate is selected
+  useEffect(() => {
+    const isEvacSelected = (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation');
+    if (!isEvacSelected) return;
+
+    const selName = selectedFeature?.name?.toLowerCase().trim();
+    const cand = evacuationCandidates?.find((c) => c.name?.toLowerCase().trim() === selName) || selectedFeature?.data;
+    const lat = cand?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
+    const lon = cand?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
+
+    if (lat != null && lon != null && !isNaN(Number(lat)) && !isNaN(Number(lon))) {
+      const targetLat = Number(lat);
+      const targetLon = Number(lon);
+
+      const flyToCandidate = () => {
+        const map = mapInstanceRef.current;
+        if (!map) return;
+        try {
+          map.invalidateSize();
+          map.flyTo([targetLat, targetLon], 16, {
+            duration: 1.5,
+            easeLinearity: 0.25,
+          });
+        } catch (_) {
+          try {
+            map.setView([targetLat, targetLon], 16);
+          } catch (e) {}
+        }
+      };
+
+      flyToCandidate();
+      const t1 = setTimeout(flyToCandidate, 80);
+      const t2 = setTimeout(flyToCandidate, 250);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [viewMode, selectedFeature, evacuationCandidates]);
 
   const handleSwitchTo3D = useCallback(() => {
     setViewMode('3d');
