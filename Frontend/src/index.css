@@ -4859,3 +4859,611 @@ body {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ============================================================
+   Responsive Mobile Styles (max-width: 768px & max-width: 480px)
+   Adapts existing interface for mobile phone viewports
+   while leaving desktop 100% unchanged.
+   ============================================================ */
+@media (max-width: 768px) {
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  .app {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Header adjustments for mobile */
+  .header {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-logo-icon {
+    font-size: 1.1rem;
+    width: 18px;
+    height: 18px;
+  }
+
+  .header-logo-text {
+    font-size: 0.92rem;
+  }
+
+  .header-subtitle,
+  .header-divider,
+  .header-breadcrumb {
+    display: none;
+  }
+
+  .header-right {
+    gap: 6px;
+  }
+
+  .header-cta-guide,
+  .header-cta-upload {
+    padding: 4px 8px;
+    font-size: 0.70rem;
+    border-radius: 5px;
+  }
+
+  .header-status-badge {
+    padding: 3px 7px;
+    font-size: 0.65rem;
+  }
+
+  /* App Workspace & Bottom Navigation */
+  .app-workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    height: calc(100% - 48px);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sidebar-nav {
+    width: 100%;
+    height: 52px;
+    min-height: 52px;
+    flex-direction: row;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    padding: 2px 4px;
+    gap: 0;
+    justify-content: space-around;
+    background: #090c12;
+    z-index: 200;
+    flex-shrink: 0;
+  }
+
+  .sidebar-top,
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    gap: 2px;
+    padding: 0;
+  }
+
+  .sidebar-item {
+    padding: 4px 2px;
+    flex: 1;
+    min-width: 0;
+    border-radius: 6px;
+  }
+
+  .sidebar-item .item-icon {
+    font-size: 1.15rem;
+    width: 18px;
+    height: 18px;
+  }
+
+  .sidebar-item .item-label {
+    font-size: 0.58rem;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .badge-dot {
+    top: 2px;
+    right: calc(50% - 14px);
+    width: 6px;
+    height: 6px;
+  }
+
+  .workspace-main {
+    flex: 1;
+    width: 100%;
+    height: calc(100% - 52px);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    height: 26px;
+    padding: 0 8px;
+    font-size: 0.66rem;
+    gap: 6px;
+  }
+
+  .status-steps {
+    display: none;
+  }
+
+  /* Tab 1: Map Explorer Hero */
+  .map-view-hero,
+  .map-wrapper,
+  .leaflet-map-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-floating-drawer {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-width: calc(100% - 16px);
+    max-height: 55vh;
+    z-index: 1000;
+  }
+
+  .map-action-toolbar {
+    top: auto;
+    bottom: 12px;
+    right: 10px;
+    z-index: 999;
+    gap: 4px;
+  }
+
+  .map-tool-btn {
+    padding: 4px 7px;
+    font-size: 0.68rem;
+  }
+
+  .map-selection-banner {
+    top: 48px;
+    max-width: 90%;
+    font-size: 0.70rem;
+    padding: 3px 10px;
+  }
+
+  /* Tab 2 & 3: Split Impact & Evacuation Views */
+  .split-impact-view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .impact-metrics-container {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-y: visible;
+    padding: 12px;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .impact-map-side {
+    width: 100%;
+    min-height: 280px;
+    height: 280px;
+    flex-shrink: 0;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .metric-item {
+    padding: 8px;
+  }
+
+  .metric-value {
+    font-size: 1.05rem;
+  }
+
+  .evac-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .priority-table {
+    min-width: 280px;
+  }
+
+  /* Tab 4: Upload & Methodology */
+  .upload-view-container {
+    padding: 12px;
+    gap: 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .upload-top-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .upload-ingestion-card,
+  .upload-methodology-card {
+    padding: 14px;
+  }
+
+  .ingestion-dropzones-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .dropzone-card-content {
+    gap: 8px;
+  }
+
+  .sat-thumb-container {
+    width: 68px;
+    height: 68px;
+  }
+
+  .file-upload-box-enhanced {
+    min-height: 68px;
+    padding: 8px;
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .upload-bottom-specs-card {
+    padding: 14px;
+  }
+
+  .ingestion-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .btn-quick-sample-load {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Tab 5: AI Assistant */
+  .ai-view-container {
+    padding: 8px;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .ai-chat-full-panel {
+    padding: 10px;
+    max-width: 100%;
+    height: 100%;
+  }
+
+  /* Landing Page */
+  .landing-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cinematic-header {
+    padding: 10px 14px;
+    height: auto;
+    min-height: 52px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand-title {
+    font-size: 1.10rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .header-action-group {
+    gap: 6px;
+  }
+
+  .btn-header-demo,
+  .btn-header-guide {
+    padding: 5px 9px;
+    font-size: 0.70rem;
+  }
+
+  .landing-satellite-hero-visual {
+    width: 100%;
+    height: 100%;
+    opacity: 0.35;
+  }
+
+  .cinematic-hero-overlay {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 64px 14px 24px 14px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-size: 2.1rem;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .hero-description {
+    font-size: 0.88rem;
+    margin-bottom: 22px;
+    max-width: 100%;
+  }
+
+  .hero-actions-primary-row {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn-hero-explore,
+  .btn-hero-demo {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+
+  .cinematic-telemetry-footer {
+    position: relative;
+    height: auto;
+    padding: 14px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .telemetry-divider {
+    display: none;
+  }
+
+  .telemetry-item {
+    width: calc(50% - 6px);
+    justify-content: flex-start;
+  }
+
+  .telemetry-text .lbl {
+    font-size: 0.54rem;
+  }
+
+  .telemetry-text .val {
+    font-size: 0.62rem;
+  }
+
+  /* User Guide Modal */
+  .user-guide-backdrop {
+    padding: 0;
+  }
+
+  .user-guide-modal-container {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+  }
+
+  .user-guide-header {
+    padding: 10px 14px;
+  }
+
+  .user-guide-title {
+    font-size: 0.92rem;
+  }
+
+  .user-guide-subtitle {
+    display: none;
+  }
+
+  .user-guide-body {
+    flex-direction: column;
+  }
+
+  .user-guide-nav {
+    width: 100%;
+    height: auto;
+    max-height: 48px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-right: none;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+    padding: 4px 6px;
+    gap: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .user-guide-nav-item {
+    white-space: nowrap;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    flex-shrink: 0;
+  }
+
+  .user-guide-nav-item.active {
+    border-left-color: transparent;
+    border-bottom-color: #38bdf8;
+  }
+
+  .user-guide-content-pane {
+    padding: 12px 14px;
+  }
+
+  .guide-card-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .guide-section-heading {
+    font-size: 1.1rem;
+  }
+
+  .user-guide-footer {
+    padding: 10px 14px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .guide-footer-telemetry {
+    display: none;
+  }
+
+  .guide-footer-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Cinematic Video Modal */
+  .cinematic-modal-overlay {
+    padding: 8px;
+  }
+
+  .cinematic-modal-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .video-modal-header {
+    padding: 10px 14px;
+  }
+
+  .video-modal-footer {
+    padding: 8px 12px;
+  }
+
+  /* Transition Overlay */
+  .sat-hud-topbar {
+    padding: 10px 14px;
+  }
+
+  .hud-title-main {
+    font-size: 0.82rem;
+  }
+
+  .hud-stage-step {
+    font-size: 0.68rem;
+  }
+
+  .sat-hud-bottombar {
+    padding: 10px 14px 16px 14px;
+  }
+
+  .hud-reticle-box {
+    width: 200px;
+    height: 200px;
+  }
+
+  .hud-raster-compare {
+    flex-direction: column;
+    width: 90%;
+    gap: 8px;
+  }
+
+  .compare-divider {
+    width: 100%;
+    height: 2px;
+  }
+
+  .raster-sim-box {
+    height: 120px;
+  }
+
+  .hud-pixel-scan-box {
+    width: 90%;
+    max-width: 290px;
+    height: 180px;
+  }
+
+  .hud-flooded-region-box,
+  .hud-vector-boundary-box {
+    width: 90%;
+    max-width: 290px;
+    height: 180px;
+  }
+
+  .emerging-flood-shape,
+  .final-vector-polygon {
+    width: 240px;
+    height: 140px;
+  }
+
+  .vector-metric-badge {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .telemetry-item {
+    width: 100%;
+  }
+
+  .brand-logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-title {
+    font-size: 1.0rem;
+  }
+}
