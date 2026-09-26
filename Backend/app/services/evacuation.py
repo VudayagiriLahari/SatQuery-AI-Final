@@ -210,6 +210,9 @@ class EvacuationService:
             # Sort by distance to flood (nearest accessible first)
             candidates.sort(key=lambda x: x["distance_to_flood_km"] or 9999.0)
 
+            # Limit to maximum 10 top candidate accessible sites
+            candidates = candidates[:10]
+
             # Determine route origin relevant to flood analysis
             origin_name = "Flood Boundary"
             try:
@@ -276,7 +279,7 @@ class EvacuationService:
             return {
                 "candidates": candidates,
                 "total_found": len(candidates),
-                "filtered_reason": f"Sites outside {buffer_m:.0f}m flood exclusion zone.",
+                "filtered_reason": f"Top accessible sites outside {buffer_m:.0f}m flood exclusion zone (max 10).",
                 "disclaimer": _DISCLAIMER,
             }
 

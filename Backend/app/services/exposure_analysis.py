@@ -318,19 +318,33 @@ class ExposureAnalysisService:
             if buildings_gdf.crs != flood_gdf.crs:
                 buildings_gdf = buildings_gdf.to_crs(flood_gdf.crs)
 
-            intersected = self._overlay.overlay_flood_with_layers(
-                flood_gdf, "buildings", buildings_gdf
+            # Fix geometries if needed
+            flood_gdf = flood_gdf.copy()
+            flood_gdf["geometry"] = flood_gdf.geometry.apply(
+                lambda g: make_valid(g) if not g.is_valid else g
             )
-            if intersected is None or len(intersected) == 0:
+            buildings_gdf = buildings_gdf.copy()
+            buildings_gdf["geometry"] = buildings_gdf.geometry.apply(
+                lambda g: make_valid(g) if not g.is_valid else g
+            )
+
+            # Spatial intersection: match buildings intersecting the flood polygon union
+            flood_union = flood_gdf.geometry.unary_union
+            intersecting_mask = buildings_gdf.geometry.intersects(flood_union)
+            affected_bld_gdf = buildings_gdf[intersecting_mask]
+
+            if affected_bld_gdf.empty:
                 return 0, None
 
+            count = int(len(affected_bld_gdf))
+
             try:
-                bld_wgs84 = intersected.to_crs("EPSG:4326")
+                bld_wgs84 = affected_bld_gdf.to_crs("EPSG:4326")
                 bld_geojson = json.loads(bld_wgs84.to_json())
             except Exception:
                 bld_geojson = None
 
-            return len(intersected), bld_geojson
+            return count, bld_geojson
 
         except Exception as exc:
             logger.error("Building count failed: %s", exc)
