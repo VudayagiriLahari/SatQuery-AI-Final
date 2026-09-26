@@ -5173,23 +5173,70 @@ body {
     height: 100%;
   }
 
-  /* Landing Page */
+  /* Landing Page Mobile Layout */
   .landing-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
     overflow-y: auto;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
     -webkit-overflow-scrolling: touch;
+    background: #030712;
+  }
+
+  .landing-satellite-hero-visual {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 1;
   }
 
   .cinematic-header {
-    padding: 10px 14px;
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
     height: auto;
-    min-height: 52px;
-    flex-wrap: wrap;
-    gap: 8px;
+    min-height: auto;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    z-index: 10;
+    background: rgba(3, 7, 18, 0.96);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+    box-sizing: border-box;
+  }
+
+  .header-brand-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .brand-logo-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
   }
 
   .brand-title {
-    font-size: 1.10rem;
+    font-size: 1.15rem;
+    line-height: 1.1;
   }
 
   .brand-subtitle {
@@ -5197,19 +5244,26 @@ body {
   }
 
   .header-action-group {
-    gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
   }
 
   .btn-header-demo,
   .btn-header-guide {
-    padding: 5px 9px;
-    font-size: 0.70rem;
-  }
-
-  .landing-satellite-hero-visual {
-    width: 100%;
-    height: 100%;
-    opacity: 0.35;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    border-radius: 6px;
+    white-space: nowrap;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 38px;
   }
 
   .cinematic-hero-overlay {
@@ -5217,49 +5271,89 @@ body {
     top: auto;
     bottom: auto;
     left: auto;
+    right: auto;
     width: 100%;
     max-width: 100%;
-    padding: 64px 14px 24px 14px;
+    flex: 1;
+    padding: 24px 18px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 10;
+    box-sizing: border-box;
+  }
+
+  .hero-content-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
   .hero-eyebrow {
-    font-size: 0.65rem;
-    margin-bottom: 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #38bdf8;
   }
 
   .hero-title {
-    font-size: 2.1rem;
+    font-size: 2.25rem;
     line-height: 1.15;
-    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    word-break: break-word;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
   }
 
   .hero-description {
-    font-size: 0.88rem;
-    margin-bottom: 22px;
+    font-size: 0.90rem;
+    line-height: 1.55;
+    color: #94a3b8;
+    margin-bottom: 24px;
     max-width: 100%;
   }
 
   .hero-actions-primary-row {
+    display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 10px;
+    gap: 12px;
+    align-items: stretch;
   }
 
   .btn-hero-explore,
   .btn-hero-demo {
     width: 100%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 12px 16px;
-    font-size: 0.88rem;
+    padding: 13px 18px;
+    font-size: 0.90rem;
+    font-weight: 700;
+    border-radius: 8px;
+    box-sizing: border-box;
+    min-height: 48px;
+    text-align: center;
   }
 
   .cinematic-telemetry-footer {
     position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
     height: auto;
-    padding: 14px 14px;
-    flex-wrap: wrap;
+    padding: 18px 16px 28px 16px;
+    background: rgba(3, 7, 18, 0.96);
+    border-top: 1px solid rgba(56, 189, 248, 0.15);
+    display: flex;
+    flex-direction: column;
     gap: 10px;
-    justify-content: space-between;
+    z-index: 10;
+    box-sizing: border-box;
   }
 
   .telemetry-divider {
@@ -5267,16 +5361,39 @@ body {
   }
 
   .telemetry-item {
-    width: calc(50% - 6px);
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .telemetry-icon {
+    flex-shrink: 0;
+  }
+
+  .telemetry-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .telemetry-text .lbl {
-    font-size: 0.54rem;
+    font-size: 0.58rem;
+    color: #64748b;
+    letter-spacing: 0.1em;
+    font-weight: 600;
   }
 
   .telemetry-text .val {
-    font-size: 0.62rem;
+    font-size: 0.72rem;
+    color: #38bdf8;
+    font-weight: 700;
+    word-break: break-word;
   }
 
   /* User Guide Modal */
@@ -5451,7 +5568,7 @@ body {
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 1.95rem;
   }
 
   .telemetry-item {
@@ -5459,11 +5576,11 @@ body {
   }
 
   .brand-logo-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
   }
 
   .brand-title {
-    font-size: 1.0rem;
+    font-size: 1.05rem;
   }
 }
