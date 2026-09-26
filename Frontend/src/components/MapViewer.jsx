@@ -489,14 +489,6 @@ export default function MapViewer({
           (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation') &&
           selectedFeature?.name?.toLowerCase().trim() === c.name?.toLowerCase().trim();
 
-        if (isSelected) {
-          setTimeout(() => {
-            try {
-              marker.openPopup();
-            } catch (_) {}
-          }, 1300);
-        }
-
         const icon = L.divIcon({
           className: 'custom-evac-marker-wrapper',
           html: (
@@ -510,6 +502,14 @@ export default function MapViewer({
         });
 
         const marker = L.marker([c.lat, c.lon], { icon });
+
+        if (isSelected) {
+          setTimeout(() => {
+            try {
+              marker.openPopup();
+            } catch (_) {}
+          }, 1300);
+        }
 
         marker.on('click', () => {
           if (onSelectFeature) {

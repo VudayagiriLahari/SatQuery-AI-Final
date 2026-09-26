@@ -84,11 +84,14 @@ class GISRepository:
                 f"{reg}_{layer_type}.geojson",
                 f"{reg}_{layer_type}_visual.geojson" if "visual" in layer_type else None,
                 f"{reg}_facilities.geojson" if layer_type == "pois" else None,
+                "facilities.geojson" if (layer_type == "pois" and reg == "kerala") else None,
                 f"{reg}_municipalities.geojson" if layer_type == "villages" else None,
                 f"{reg}_municipalities_visual.geojson" if layer_type == "villages_visual" else None,
                 f"{reg}_population.geojson" if layer_type == "population" else None,
                 f"{reg}_roads.geojson" if layer_type == "roads" else None,
                 f"{reg}_buildings.geojson" if layer_type == "buildings" else None,
+                f"{layer_type}.geojson" if reg == "kerala" else None,
+                f"{layer_type}_visual.geojson" if (reg == "kerala" and "visual" in layer_type) else None,
             ]
             for c in candidates:
                 if c:
