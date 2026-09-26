@@ -78,6 +78,8 @@ export default function MapViewer({
           if (targetLat != null && targetLon != null && !isNaN(targetLat) && !isNaN(targetLon)) {
             map.flyTo([targetLat, targetLon], 16, { duration: 1.2 });
           }
+        } else if (lastAnalysisBoundsRef.current && lastAnalysisBoundsRef.current.isValid()) {
+          map.fitBounds(lastAnalysisBoundsRef.current, { padding: [50, 50], maxZoom: 14, animate: false });
         }
       } catch (_) {}
     }, 80);
@@ -360,7 +362,7 @@ export default function MapViewer({
       try {
         const b = floodLayer.getBounds();
         if (b && b.isValid()) {
-          combinedBounds = combinedBounds ? combinedBounds.extend(b) : b;
+          combinedBounds = b;
         }
       } catch (_) {}
     }
@@ -459,12 +461,14 @@ export default function MapViewer({
       villagesLayerRef.current = villagesLayer;
       layerControlRef.current?.addOverlay(villagesLayer, 'Affected Villages');
 
-      try {
-        const b = villagesLayer.getBounds();
-        if (b && b.isValid()) {
-          combinedBounds = combinedBounds ? combinedBounds.extend(b) : b;
-        }
-      } catch (_) {}
+      if (!combinedBounds) {
+        try {
+          const b = villagesLayer.getBounds();
+          if (b && b.isValid()) {
+            combinedBounds = b;
+          }
+        } catch (_) {}
+      }
     }
 
     // -------------------------------------------------------------------------
@@ -527,12 +531,14 @@ export default function MapViewer({
       roadsLayerRef.current = roadsLayer;
       layerControlRef.current?.addOverlay(roadsLayer, 'Inundated Roads');
 
-      try {
-        const b = roadsLayer.getBounds();
-        if (b && b.isValid()) {
-          combinedBounds = combinedBounds ? combinedBounds.extend(b) : b;
-        }
-      } catch (_) {}
+      if (!combinedBounds) {
+        try {
+          const b = roadsLayer.getBounds();
+          if (b && b.isValid()) {
+            combinedBounds = b;
+          }
+        } catch (_) {}
+      }
     }
 
     // -------------------------------------------------------------------------
@@ -636,9 +642,6 @@ export default function MapViewer({
         );
 
         group.addLayer(marker);
-
-        const pointBounds = L.latLngBounds([L.latLng(c.lat, c.lon), L.latLng(c.lat, c.lon)]);
-        combinedBounds = combinedBounds ? combinedBounds.extend(pointBounds) : pointBounds;
       });
 
       group.addTo(map);
