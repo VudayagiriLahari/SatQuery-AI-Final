@@ -617,9 +617,19 @@ export default function MapViewer({
     window.__activeEvacRoute2D = cand?.route_geojson || null;
 
     // -------------------------------------------------------------------------
-    // 5. FIT / FLY BOUNDS SMOOTHLY TO DETECTED EXTENT
+    // 5. FIT / FLY BOUNDS SMOOTHLY TO DETECTED EXTENT OR SELECTED EVAC SITE
     // -------------------------------------------------------------------------
-    if (combinedBounds && combinedBounds.isValid()) {
+    const evacLat = cand?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
+    const evacLon = cand?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
+
+    if (isEvacSelected && evacLat != null && evacLon != null && !isNaN(Number(evacLat)) && !isNaN(Number(evacLon))) {
+      setTimeout(() => {
+        try {
+          map.invalidateSize();
+          map.flyTo([Number(evacLat), Number(evacLon)], 16, { duration: 1.5 });
+        } catch (_) {}
+      }, 50);
+    } else if (combinedBounds && combinedBounds.isValid()) {
       lastAnalysisBoundsRef.current = combinedBounds;
 
       setTimeout(() => {

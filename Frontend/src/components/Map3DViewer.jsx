@@ -1159,6 +1159,44 @@ export default function Map3DViewer({
     }
   }, [selectedFeature, evacuationCandidates, layerVisibility.evac]);
 
+  // Camera fly-to for Selected Evacuation Candidate Site (Locate)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const isEvacSelected = (selectedFeature?.type === 'evac' || selectedFeature?.type === 'evacuation');
+    if (!isEvacSelected) return;
+
+    const selName = selectedFeature?.name?.toLowerCase().trim();
+    const cand = evacuationCandidates?.find((c) => c.name?.toLowerCase().trim() === selName) || selectedFeature?.data;
+
+    const lat = cand?.lat ?? selectedFeature?.lat ?? selectedFeature?.data?.lat;
+    const lon = cand?.lon ?? selectedFeature?.lon ?? selectedFeature?.data?.lon;
+
+    if (lat != null && lon != null && !isNaN(Number(lat)) && !isNaN(Number(lon))) {
+      const flyToEvac = () => {
+        if (!isMapStyleReady(map)) return;
+        try {
+          map.flyTo({
+            center: [Number(lon), Number(lat)],
+            zoom: 16.5,
+            pitch: 52,
+            bearing: -15,
+            duration: 2000,
+            essential: true,
+          });
+        } catch (_) {}
+      };
+
+      if (isMapStyleReady(map)) {
+        flyToEvac();
+      } else {
+        map.once('style.load', flyToEvac);
+        map.once('load', flyToEvac);
+      }
+    }
+  }, [selectedFeature, evacuationCandidates]);
+
   // Cinematic initial camera fly-in
   useEffect(() => {
     const map = mapRef.current;
