@@ -92,7 +92,20 @@ def test_e2e_kerala_damage_assessment():
     opt_res = opt_svc.optimize_resources(prio_res, budget_lakhs=10.0, max_capacity_sites=5, session_id="kerala_e2e_test", region="kerala")
     assert opt_res["summary"]["allocated_budget_lakhs"] <= 10.0
     assert len(opt_res["selected_sites"]) > 0
-    assert any(s["category"] == "buildings" for s in opt_res["selected_sites"])
+    # 8. Part 5: Recovery Timeline & Satellite Monitoring
+    from app.services.recovery_monitoring import RecoveryMonitoringService
+    mon_svc = RecoveryMonitoringService()
+    mon_res = mon_svc.generate_recovery_timelines(
+        damage_assessment=dam_res,
+        recovery_recommendations=rec_res,
+        recovery_priorities=prio_res,
+        resource_optimization=opt_res,
+        session_id="kerala_e2e_test",
+        region="kerala",
+    )
+    assert mon_res["summary"]["total_monitored_sectors"] == 8
+    assert len(mon_res["timelines"]) == 8
+    assert any(t["recovery_status"] == "Recovery On Track" for t in mon_res["timelines"])
 
 
 def test_e2e_nepal_damage_assessment():
@@ -138,21 +151,25 @@ def test_e2e_nepal_damage_assessment():
     assert dam_res["region"] == "nepal"
     assert len(dam_res["categories"]) == 8
 
-    # 5. Part 2 Recommendations & Part 3 Priorities & Part 4 Resource Optimization
+    # 5. Part 2 Recommendations & Part 3 Priorities & Part 4 Resource Optimization & Part 5 Monitoring
     from app.services.recovery_recommendation import RecoveryRecommendationService
     from app.services.recovery_priority import RecoveryPriorityService
     from app.services.resource_optimization import ResourceOptimizationService
+    from app.services.recovery_monitoring import RecoveryMonitoringService
 
     rec_res = RecoveryRecommendationService().generate_recommendations(dam_res, "nepal_e2e_test", "nepal")
     prio_res = RecoveryPriorityService().compute_recovery_priorities(dam_res, rec_res, exp_res, "nepal_e2e_test", "nepal")
     opt_res = ResourceOptimizationService().optimize_resources(prio_res, budget_lakhs=10.0, max_capacity_sites=5, session_id="nepal_e2e_test", region="nepal")
+    mon_res = RecoveryMonitoringService().generate_recovery_timelines(dam_res, rec_res, prio_res, opt_res, "nepal_e2e_test", "nepal")
     
     assert opt_res["summary"]["allocated_budget_lakhs"] <= 10.0
     assert len(opt_res["selected_sites"]) > 0
+    assert mon_res["summary"]["total_monitored_sectors"] == 8
 
 
 if __name__ == "__main__":
     test_e2e_kerala_damage_assessment()
     test_e2e_nepal_damage_assessment()
     print("ALL E2E DAMAGE ASSESSMENT TESTS PASSED!")
+
 

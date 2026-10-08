@@ -157,6 +157,24 @@ export async function optimizeResources(
 }
 
 /**
+ * Fetch Multi-Temporal Recovery Timeline & Satellite Monitoring.
+ */
+export async function fetchRecoveryMonitoring(sessionId) {
+  const formData = new FormData();
+  formData.append('session_id', sessionId);
+
+  const res = await fetch(`${BASE_URL}/flood/monitoring`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Recovery monitoring failed (${res.status}): ${text}`);
+  }
+  return res.json();
+}
+
+/**
  * Check backend health.
  */
 export async function checkHealth() {
@@ -164,5 +182,6 @@ export async function checkHealth() {
   if (!res.ok) throw new Error('Backend health check failed');
   return res.json();
 }
+
 
 

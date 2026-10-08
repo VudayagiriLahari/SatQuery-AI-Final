@@ -104,8 +104,10 @@ export default function App() {
   const recoveryRecommendations = pipelineResult?.recovery_recommendations || null;
   const recoveryPriorities = pipelineResult?.recovery_priorities || null;
   const resourceOptimization = pipelineResult?.resource_optimization || null;
+  const recoveryMonitoring = pipelineResult?.recovery_monitoring || null;
 
   const hasData = Boolean(pipelineResult);
+
 
 
   if (showTransition && pipelineResult) {
@@ -408,7 +410,7 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 3.5: DAMAGE ASSESSMENT & RECOVERY RECOMMENDATIONS (Sustainability Extension Parts 1, 2, 3 & 4) */}
+          {/* TAB 3.5: DAMAGE ASSESSMENT & RECOVERY RECOMMENDATIONS (Sustainability Extension Parts 1, 2, 3, 4 & 5) */}
           {activeTab === 'damage' && (
             <div className="split-impact-view">
               <div className="impact-metrics-container">
@@ -417,6 +419,7 @@ export default function App() {
                   recoveryRecommendations={recoveryRecommendations}
                   recoveryPriorities={recoveryPriorities}
                   resourceOptimization={resourceOptimization}
+                  recoveryMonitoring={recoveryMonitoring}
                   sessionId={sessionId}
                   onSelectFeature={setSelectedFeature}
                   onNavigateToTab={(tab) => {
@@ -425,6 +428,7 @@ export default function App() {
                   }}
                 />
               </div>
+
 
 
               <div className="impact-map-side">

@@ -52,6 +52,13 @@ from app.schemas.resource_optimization import (
     AllocatedSectorSite,
     UnallocatedSectorSite,
 )
+from app.schemas.recovery_monitoring import (
+    RecoveryMonitoringResult,
+    RecoveryMonitoringSummary,
+    MonitoredSectorTimeline,
+    RecoveryObservation,
+)
+
 
 
 # In-memory session cache: session_id -> {mask_array, transform, crs, flood_geojson, pipeline_result, ...}
@@ -670,6 +677,37 @@ async def run_full_pipeline(
             except Exception as exc:
                 warnings.append(f"Resource optimization step failed: {exc}")
 
+        # Step 11: Recovery Timeline & Satellite-Based Monitoring (Part 5)
+        if pipeline.damage_assessment and damage_raw:
+            try:
+                from app.services.recovery_monitoring import RecoveryMonitoringService
+                mon_svc = RecoveryMonitoringService()
+                mon_raw = mon_svc.generate_recovery_timelines(
+                    damage_assessment=damage_raw,
+                    recovery_recommendations=rec_raw if 'rec_raw' in locals() and rec_raw else None,
+                    recovery_priorities=prio_raw if 'prio_raw' in locals() and prio_raw else None,
+                    resource_optimization=opt_raw if 'opt_raw' in locals() and opt_raw else None,
+                    session_id=session_id,
+                    region=damage_raw.get("region"),
+                )
+                timelines_list = []
+                for t in mon_raw.get("timelines", []):
+                    obs_list = [RecoveryObservation(**o) for o in t.get("observations", [])]
+                    timelines_list.append(MonitoredSectorTimeline(
+                        **{**t, "observations": obs_list}
+                    ))
+                pipeline.recovery_monitoring = RecoveryMonitoringResult(
+                    session_id=session_id,
+                    region=mon_raw.get("region"),
+                    summary=RecoveryMonitoringSummary(**mon_raw.get("summary", {})),
+                    timelines=timelines_list,
+                    methodology_notes=mon_raw.get("methodology_notes", []),
+                    disclaimer=mon_raw.get("disclaimer", ""),
+                )
+            except Exception as exc:
+                warnings.append(f"Recovery monitoring step failed: {exc}")
+
+
 
     # Step 6: VLM Visual Comparison (Gemini Multimodal visual change description)
     try:
@@ -999,6 +1037,108 @@ async def optimize_recovery_resources(
         disclaimer=opt_raw.get("disclaimer", ""),
     )
     _session_cache[session_id]["resource_optimization"] = result.model_dump()
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 6f. Recovery Timeline & Satellite-Based Monitoring On-Demand Endpoint (Part 5)
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/monitoring",
+    response_model=RecoveryMonitoringResult,
+    summary="Generate Multi-Temporal Recovery Timeline & Satellite Monitoring",
+)
+async def generate_recovery_monitoring(
+    session_id: str = Form(...),
+) -> RecoveryMonitoringResult:
+    """
+    Generate chronological satellite recovery tracking sequence across all evaluated sectors.
+    Classifies trajectories into 'Recovery On Track', 'Recovery Lagging', or 'Recovery Stalled'.
+    """
+    from app.services.recovery_monitoring import RecoveryMonitoringService
+    from app.services.resource_optimization import ResourceOptimizationService
+    from app.services.recovery_priority import RecoveryPriorityService
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    from app.services.damage_assessment import DamageAssessmentService
+    from app.services.gis_repository import GISRepository
+
+    session = _session_cache.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found.")
+
+    damage_dict = session.get("damage_assessment")
+    if not damage_dict:
+        flood_geojson = session.get("flood_geojson")
+        if not flood_geojson:
+            raise HTTPException(
+                status_code=422,
+                detail="Flood polygon GeoJSON not found in session. Run /pipeline first.",
+            )
+        gis_repo = GISRepository(settings.DATA_DIR)
+        damage_svc = DamageAssessmentService()
+        exposure = session.get("impact")
+        detection = session.get("detection_result")
+        damage_dict = damage_svc.assess_damage(
+            flood_geojson=flood_geojson,
+            session_id=session_id,
+            gis_repo=gis_repo,
+            detection_result=detection,
+            exposure_result=exposure,
+        )
+        session["damage_assessment"] = damage_dict
+
+    rec_dict = session.get("recovery_recommendations")
+    if not rec_dict:
+        rec_svc = RecoveryRecommendationService()
+        rec_dict = rec_svc.generate_recommendations(
+            damage_assessment=damage_dict,
+            session_id=session_id,
+            region=damage_dict.get("region"),
+        )
+        session["recovery_recommendations"] = rec_dict
+
+    prio_dict = session.get("recovery_priorities")
+    if not prio_dict:
+        prio_svc = RecoveryPriorityService()
+        exposure = session.get("impact")
+        prio_dict = prio_svc.compute_recovery_priorities(
+            damage_assessment=damage_dict,
+            recovery_recommendations=rec_dict,
+            exposure_data=exposure,
+            session_id=session_id,
+            region=damage_dict.get("region"),
+        )
+        session["recovery_priorities"] = prio_dict
+
+    opt_dict = session.get("resource_optimization")
+
+    mon_svc = RecoveryMonitoringService()
+    mon_raw = mon_svc.generate_recovery_timelines(
+        damage_assessment=damage_dict,
+        recovery_recommendations=rec_dict,
+        recovery_priorities=prio_dict,
+        resource_optimization=opt_dict,
+        session_id=session_id,
+        region=damage_dict.get("region"),
+    )
+
+    timelines_list = []
+    for t in mon_raw.get("timelines", []):
+        obs_list = [RecoveryObservation(**o) for o in t.get("observations", [])]
+        timelines_list.append(MonitoredSectorTimeline(
+            **{**t, "observations": obs_list}
+        ))
+
+    result = RecoveryMonitoringResult(
+        session_id=session_id,
+        region=mon_raw.get("region"),
+        summary=RecoveryMonitoringSummary(**mon_raw.get("summary", {})),
+        timelines=timelines_list,
+        methodology_notes=mon_raw.get("methodology_notes", []),
+        disclaimer=mon_raw.get("disclaimer", ""),
+    )
+    _session_cache[session_id]["recovery_monitoring"] = result.model_dump()
     return result
 
 
