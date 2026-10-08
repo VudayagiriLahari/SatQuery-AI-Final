@@ -271,39 +271,35 @@ export default function DamageAssessmentPanel({
     }
   }, [resourceOptimization]);
 
-  if (!damageAssessment || !damageAssessment.categories) {
-    return (
-      <div className="empty-state-card card">
-        <ClipboardCheck size={32} color="#38bdf8" className="empty-icon" />
-        <h3>No Damage & Priority Assessment Data</h3>
-        <p>Run full flood analysis to generate damage metrics, sustainable recovery actions, priority rankings, and multi-temporal recovery monitoring.</p>
-        <button
-          className="btn-primary"
-          style={{ width: 'auto', marginTop: 12 }}
-          onClick={() => onNavigateToTab && onNavigateToTab('upload')}
-        >
-          Go to Data Upload →
-        </button>
-      </div>
-    );
-  }
-
-  const { summary, categories, disclaimers, region } = damageAssessment;
+  const categories = damageAssessment?.categories || [];
+  const summary = damageAssessment?.summary || {};
+  const disclaimers = damageAssessment?.disclaimers || [];
+  const region = damageAssessment?.region || null;
 
   // Build lookup maps
-  const recommendationsMap = {};
-  if (recoveryRecommendations?.recommendations) {
-    recoveryRecommendations.recommendations.forEach((rec) => {
-      recommendationsMap[rec.category] = rec;
-    });
-  }
+  const recommendationsMap = useMemo(() => {
+    const map = {};
+    if (recoveryRecommendations?.recommendations && Array.isArray(recoveryRecommendations.recommendations)) {
+      recoveryRecommendations.recommendations.forEach((rec) => {
+        if (rec && rec.category) {
+          map[rec.category] = rec;
+        }
+      });
+    }
+    return map;
+  }, [recoveryRecommendations]);
 
-  const prioritiesMap = {};
-  if (recoveryPriorities?.priorities) {
-    recoveryPriorities.priorities.forEach((p) => {
-      prioritiesMap[p.category] = p;
-    });
-  }
+  const prioritiesMap = useMemo(() => {
+    const map = {};
+    if (recoveryPriorities?.priorities && Array.isArray(recoveryPriorities.priorities)) {
+      recoveryPriorities.priorities.forEach((p) => {
+        if (p && p.category) {
+          map[p.category] = p;
+        }
+      });
+    }
+    return map;
+  }, [recoveryPriorities]);
 
   const highPrioCount = recoveryPriorities?.high_priority_count ?? 0;
   const medPrioCount = recoveryPriorities?.medium_priority_count ?? 0;
@@ -312,21 +308,21 @@ export default function DamageAssessmentPanel({
   // Filtered lists for Priority View & Sector View
   const sortedPriorities = recoveryPriorities?.priorities || [];
   const filteredPriorities = sortedPriorities.filter((p) => {
-    if (filterType === 'high') return p.priority_level === 'HIGH';
-    if (filterType === 'medium') return p.priority_level === 'MEDIUM';
-    if (filterType === 'low') return p.priority_level === 'LOW';
-    if (filterType === 'environmental') return p.category_type === 'environmental';
-    if (filterType === 'infrastructure') return p.category_type === 'infrastructure';
+    if (filterType === 'high') return p?.priority_level === 'HIGH';
+    if (filterType === 'medium') return p?.priority_level === 'MEDIUM';
+    if (filterType === 'low') return p?.priority_level === 'LOW';
+    if (filterType === 'environmental') return p?.category_type === 'environmental';
+    if (filterType === 'infrastructure') return p?.category_type === 'infrastructure';
     return true;
   });
 
   const filteredCategories = categories.filter((cat) => {
-    const p = prioritiesMap[cat.category_id];
+    const p = prioritiesMap[cat?.category_id];
     if (filterType === 'high') return p?.priority_level === 'HIGH';
     if (filterType === 'medium') return p?.priority_level === 'MEDIUM';
     if (filterType === 'low') return p?.priority_level === 'LOW';
-    if (filterType === 'environmental') return cat.category_type === 'environmental';
-    if (filterType === 'infrastructure') return cat.category_type === 'infrastructure';
+    if (filterType === 'environmental') return cat?.category_type === 'environmental';
+    if (filterType === 'infrastructure') return cat?.category_type === 'infrastructure';
     return true;
   });
 
@@ -987,6 +983,23 @@ export default function DamageAssessmentPanel({
   const diagSummary = activeDiagnosis?.summary || {};
   const verSummary = activeVerification?.summary || {};
 
+  if (!damageAssessment || !damageAssessment.categories || damageAssessment.categories.length === 0) {
+    return (
+      <div className="empty-state-card card">
+        <ClipboardCheck size={32} color="#38bdf8" className="empty-icon" />
+        <h3>No Damage & Priority Assessment Data</h3>
+        <p>Run full flood analysis to generate damage metrics, sustainable recovery actions, priority rankings, and multi-temporal recovery monitoring.</p>
+        <button
+          className="btn-primary"
+          style={{ width: 'auto', marginTop: 12 }}
+          onClick={() => onNavigateToTab && onNavigateToTab('upload')}
+        >
+          Go to Data Upload →
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="damage-assessment-panel">
       {/* Header Banner */}
@@ -1196,8 +1209,16 @@ export default function DamageAssessmentPanel({
           <div className="verification-cards-list">
             {filteredVerifications.map((item) => {
               const IconComponent = CATEGORY_ICONS[item.category] || Shield;
-              const statusCfg = VERIFICATION_STATUS_CONFIG[item.verification_status] || VERIFICATION_STATUS_CONFIG['INSUFFICIENT DATA'];
-              const StatusIcon = statusCfg.icon;
+              const statusCfg = VERIFICATION_STATUS_CONFIG[item.verification_status] || VERIFICATION_STATUS_CONFIG['INSUFFICIENT DATA'] || {
+                badge: 'ver-insufficient',
+                color: '#8b5cf6',
+                icon: HelpCircle,
+                bg: 'rgba(139, 92, 246, 0.14)',
+                border: 'rgba(139, 92, 246, 0.4)',
+                label: 'INSUFFICIENT DATA',
+              };
+              const StatusIcon = statusCfg.icon || HelpCircle;
+              const matchedCat = categories.find((c) => c && c.category_id === item.category);
 
               return (
                 <div
@@ -1224,7 +1245,7 @@ export default function DamageAssessmentPanel({
                         <div className="ver-tag-row">
                           <h3 className="ver-card-title">{item.category_name}</h3>
                           <span className="sector-type-badge">
-                            {item.category_type?.toUpperCase()}
+                            {item.category_type ? item.category_type.toUpperCase() : 'SECTOR'}
                           </span>
                           {item.data_is_simulated ? (
                             <span className="ver-sim-pill is-simulated">
@@ -1283,13 +1304,13 @@ export default function DamageAssessmentPanel({
                     <div className="ver-context-card">
                       <div className="ver-context-lbl">1. WHAT WAS DAMAGED</div>
                       <div className="ver-context-val">
-                        {categories.find((c) => c.category_id === item.category)?.severity || 'Assessed'} Impact
+                        {matchedCat?.severity || 'Assessed'} Impact
                         <span className="ver-context-sub">
-                          {categories.find((c) => c.category_id === item.category)?.affected_count
-                            ? `${categories.find((c) => c.category_id === item.category).affected_count} submerged assets`
-                            : categories.find((c) => c.category_id === item.category)?.affected_length_km
-                            ? `${categories.find((c) => c.category_id === item.category).affected_length_km} km affected`
-                            : `${categories.find((c) => c.category_id === item.category)?.affected_area_km2 || 0} km² affected`}
+                          {matchedCat?.affected_count != null
+                            ? `${matchedCat.affected_count} submerged assets`
+                            : matchedCat?.affected_length_km != null
+                            ? `${matchedCat.affected_length_km} km affected`
+                            : `${matchedCat?.affected_area_km2 ?? 0} km² affected`}
                         </span>
                       </div>
                     </div>
@@ -1458,7 +1479,7 @@ export default function DamageAssessmentPanel({
                     <div className="diag-status-pill-group">
                       <span className={`diag-status-badge ${statusCfg.badge}`}>
                         <StatusIcon size={14} style={{ marginRight: 5 }} />
-                        {statusCfg.label} ({item.recovery_score.toFixed(1)}%)
+                        {statusCfg.label} ({(Number(item.recovery_score) || 0).toFixed(1)}%)
                       </span>
                     </div>
                   </div>
@@ -1480,7 +1501,7 @@ export default function DamageAssessmentPanel({
                     <div className="diag-metric-col">
                       <span className="lbl">Observed Progress:</span>
                       <span className={`val ${item.recovery_score >= 65 ? 'highlight-green' : item.recovery_score >= 25 ? 'highlight-amber' : 'highlight-rose'}`}>
-                        {item.recovery_score.toFixed(1)}% toward baseline
+                        {(Number(item.recovery_score) || 0).toFixed(1)}% toward baseline
                       </span>
                     </div>
                   </div>
@@ -1634,7 +1655,7 @@ export default function DamageAssessmentPanel({
                       <div>
                         <div className="cat-type-row">
                           <span className={`cat-sector-tag ${timeline.category_type}`}>
-                            {timeline.category_type?.toUpperCase()}
+                            {timeline.category_type ? timeline.category_type.toUpperCase() : 'SECTOR'}
                           </span>
                           <span className="domain-tag">
                             Confidence: <b>{timeline.confidence}</b>
@@ -1659,13 +1680,13 @@ export default function DamageAssessmentPanel({
                         <span className="timeline-score-lbl">RECOVERY SCORE</span>
                         <div className="timeline-score-val-row">
                           <span className="timeline-score-val" style={{ color: statusCfg.color }}>
-                            {timeline.recovery_score.toFixed(1)}%
+                            {(Number(timeline.recovery_score) || 0).toFixed(1)}%
                           </span>
                         </div>
                       </div>
                       <span className={`mon-status-badge ${statusCfg.badge}`}>
                         <StatusIcon size={12} style={{ marginRight: 4 }} />
-                        {timeline.recovery_status.toUpperCase()}
+                        {timeline.recovery_status ? timeline.recovery_status.toUpperCase() : 'ON TRACK'}
                       </span>
                     </div>
                   </div>
@@ -2138,7 +2159,7 @@ export default function DamageAssessmentPanel({
                     <div>
                       <div className="cat-type-row">
                         <span className={`cat-sector-tag ${item.category_type}`}>
-                          {item.category_type.toUpperCase()}
+                          {item.category_type ? item.category_type.toUpperCase() : 'SECTOR'}
                         </span>
                         <span className="domain-tag">
                           {item.target_resource_domain}
@@ -2153,7 +2174,7 @@ export default function DamageAssessmentPanel({
                       <span className="prio-score-label">PRIORITY SCORE</span>
                       <div className="prio-score-val-row">
                         <span className="prio-score-val" style={{ color: prioConfig.color }}>
-                          {item.priority_score.toFixed(1)}
+                          {(Number(item.priority_score) || 0).toFixed(1)}
                         </span>
                         <span className="prio-score-max">/10</span>
                       </div>
@@ -2295,14 +2316,14 @@ export default function DamageAssessmentPanel({
                     <div>
                       <div className="cat-type-row">
                         <span className={`cat-sector-tag ${cat.category_type}`}>
-                          {cat.category_type.toUpperCase()}
+                          {cat.category_type ? cat.category_type.toUpperCase() : 'SECTOR'}
                         </span>
                         <span className="cat-confidence-tag">
                           Confidence: <b>{cat.confidence_level}</b>
                         </span>
                         {prio && (
                           <span className={`prio-inline-badge ${prioConfig?.badge}`}>
-                            #{prio.priority_rank} {prio.priority_level} ({prio.priority_score.toFixed(1)}/10)
+                            #{prio.priority_rank} {prio.priority_level} ({(Number(prio.priority_score) || 0).toFixed(1)}/10)
                           </span>
                         )}
                       </div>
