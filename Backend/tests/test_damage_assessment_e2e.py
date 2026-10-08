@@ -122,6 +122,24 @@ def test_e2e_kerala_damage_assessment():
     assert len(diag_res["diagnoses"]) == 8
     assert diag_res["summary"]["on_track_count"] >= 1
 
+    # 10. Part 7: Recovery Verification
+    from app.services.recovery_verification import RecoveryVerificationService
+    ver_svc = RecoveryVerificationService()
+    ver_res = ver_svc.verify_recovery(
+        damage_assessment=dam_res,
+        recovery_recommendations=rec_res,
+        recovery_priorities=prio_res,
+        resource_optimization=opt_res,
+        recovery_monitoring=mon_res,
+        recovery_diagnosis=diag_res,
+        session_id="kerala_e2e_test",
+        region="kerala",
+    )
+    assert ver_res["summary"]["total_evaluated_sectors"] == 8
+    assert len(ver_res["verifications"]) == 8
+    # Modeled data must be marked INSUFFICIENT DATA
+    assert ver_res["summary"]["insufficient_data_count"] == 8
+
 
 def test_e2e_nepal_damage_assessment():
     """Verify complete Nepal flood pipeline and damage assessment."""
@@ -166,24 +184,27 @@ def test_e2e_nepal_damage_assessment():
     assert dam_res["region"] == "nepal"
     assert len(dam_res["categories"]) == 8
 
-    # 5. Part 2 Recommendations & Part 3 Priorities & Part 4 Resource Optimization & Part 5 Monitoring & Part 6 Diagnosis
+    # 5. Part 2 Recommendations & Part 3 Priorities & Part 4 Resource Optimization & Part 5 Monitoring & Part 6 Diagnosis & Part 7 Verification
     from app.services.recovery_recommendation import RecoveryRecommendationService
     from app.services.recovery_priority import RecoveryPriorityService
     from app.services.resource_optimization import ResourceOptimizationService
     from app.services.recovery_monitoring import RecoveryMonitoringService
     from app.services.recovery_diagnosis import RecoveryStallDiagnosisService
+    from app.services.recovery_verification import RecoveryVerificationService
 
     rec_res = RecoveryRecommendationService().generate_recommendations(dam_res, "nepal_e2e_test", "nepal")
     prio_res = RecoveryPriorityService().compute_recovery_priorities(dam_res, rec_res, exp_res, "nepal_e2e_test", "nepal")
     opt_res = ResourceOptimizationService().optimize_resources(prio_res, budget_lakhs=10.0, max_capacity_sites=5, session_id="nepal_e2e_test", region="nepal")
     mon_res = RecoveryMonitoringService().generate_recovery_timelines(dam_res, rec_res, prio_res, opt_res, "nepal_e2e_test", "nepal")
     diag_res = RecoveryStallDiagnosisService().diagnose_stalls(mon_res, dam_res, rec_res, prio_res, "nepal_e2e_test", "nepal")
+    ver_res = RecoveryVerificationService().verify_recovery(dam_res, rec_res, prio_res, opt_res, mon_res, diag_res, "nepal_e2e_test", "nepal")
     
     assert opt_res["summary"]["allocated_budget_lakhs"] <= 10.0
     assert len(opt_res["selected_sites"]) > 0
     assert mon_res["summary"]["total_monitored_sectors"] == 8
     assert diag_res["summary"]["total_diagnosed_sectors"] == 8
-    assert len(diag_res["diagnoses"]) == 8
+    assert ver_res["summary"]["total_evaluated_sectors"] == 8
+    assert ver_res["summary"]["insufficient_data_count"] == 8
 
 
 if __name__ == "__main__":

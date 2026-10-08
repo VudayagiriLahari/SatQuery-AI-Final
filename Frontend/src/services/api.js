@@ -193,6 +193,24 @@ export async function fetchRecoveryDiagnosis(sessionId) {
 }
 
 /**
+ * Fetch Recovery Verification (Part 7).
+ */
+export async function fetchRecoveryVerification(sessionId) {
+  const formData = new FormData();
+  formData.append('session_id', sessionId);
+
+  const res = await fetch(`${BASE_URL}/flood/verification`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Recovery verification failed (${res.status}): ${text}`);
+  }
+  return res.json();
+}
+
+/**
  * Check backend health.
  */
 export async function checkHealth() {

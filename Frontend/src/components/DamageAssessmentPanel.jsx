@@ -38,8 +38,11 @@ import {
   XCircle,
   Search,
   FileText,
+  BadgeCheck,
+  FileCheck2,
+  CheckSquare,
 } from 'lucide-react';
-import { optimizeResources, fetchRecoveryMonitoring, fetchRecoveryDiagnosis } from '../services/api';
+import { optimizeResources, fetchRecoveryMonitoring, fetchRecoveryDiagnosis, fetchRecoveryVerification } from '../services/api';
 
 const CATEGORY_ICONS = {
   vegetation: Sprout,
@@ -169,6 +172,41 @@ const MONITORING_STATUS_CONFIG = {
   },
 };
 
+const VERIFICATION_STATUS_CONFIG = {
+  'VERIFIED RECOVERY': {
+    badge: 'ver-verified',
+    color: '#10b981',
+    icon: BadgeCheck,
+    bg: 'rgba(16, 185, 129, 0.14)',
+    border: 'rgba(16, 185, 129, 0.4)',
+    label: 'VERIFIED RECOVERY',
+  },
+  'PARTIAL / IMPROVING': {
+    badge: 'ver-partial',
+    color: '#f59e0b',
+    icon: Clock,
+    bg: 'rgba(245, 158, 11, 0.14)',
+    border: 'rgba(245, 158, 11, 0.4)',
+    label: 'PARTIAL / IMPROVING',
+  },
+  'NOT VERIFIED': {
+    badge: 'ver-not-verified',
+    color: '#ef4444',
+    icon: Ban,
+    bg: 'rgba(239, 68, 68, 0.14)',
+    border: 'rgba(239, 68, 68, 0.4)',
+    label: 'NOT VERIFIED',
+  },
+  'INSUFFICIENT DATA': {
+    badge: 'ver-insufficient',
+    color: '#8b5cf6',
+    icon: HelpCircle,
+    bg: 'rgba(139, 92, 246, 0.14)',
+    border: 'rgba(139, 92, 246, 0.4)',
+    label: 'INSUFFICIENT DATA',
+  },
+};
+
 const BASE_UNIT_COSTS = {
   buildings: 3.5,
   roads: 3.0,
@@ -194,11 +232,12 @@ export default function DamageAssessmentPanel({
   resourceOptimization,
   recoveryMonitoring,
   recoveryDiagnosis,
+  recoveryVerification,
   sessionId,
   onSelectFeature,
   onNavigateToTab,
 }) {
-  const [activeView, setActiveView] = useState('diagnosis'); // 'diagnosis' | 'monitoring' | 'optimization' | 'priorities' | 'sectors'
+  const [activeView, setActiveView] = useState('verification'); // 'verification' | 'diagnosis' | 'monitoring' | 'optimization' | 'priorities' | 'sectors'
   const [filterType, setFilterType] = useState('all');
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
@@ -215,6 +254,9 @@ export default function DamageAssessmentPanel({
 
   // Diagnosis filter for Part 6
   const [diagnosisFilter, setDiagnosisFilter] = useState('all');
+
+  // Verification filter for Part 7
+  const [verificationFilter, setVerificationFilter] = useState('all');
 
   // Initialize or update optimization data
   useEffect(() => {
@@ -776,6 +818,146 @@ export default function DamageAssessmentPanel({
     });
   }, [activeDiagnosis, diagnosisFilter]);
 
+  // Client-side fallback / integration for Part 7 Recovery Verification
+  const computedVerification = useMemo(() => {
+    if (recoveryVerification && recoveryVerification.verifications && recoveryVerification.verifications.length > 0) {
+      return recoveryVerification;
+    }
+
+    if (!activeMonitoring?.timelines || activeMonitoring.timelines.length === 0) return null;
+
+    const DOMAIN_VERIFICATION_CONFIG = {
+      vegetation: { target: 0.74, direction: 'Increasing (Toward Pre-Flood Baseline)' },
+      agriculture: { target: 0.68, direction: 'Increasing (Toward Pre-Flood Baseline)' },
+      water_wetlands: { target: 0.32, direction: 'Decreasing (Receding Toward Normal)' },
+      soil_land: { target: 0.14, direction: 'Decreasing (Receding Toward Normal)' },
+      habitats: { target: 0.82, direction: 'Increasing (Toward Pre-Flood Baseline)' },
+      buildings: { target: -5.4, direction: 'Increasing (Toward Pre-Flood Baseline)' },
+      roads: { target: 0.92, direction: 'Increasing (Toward Pre-Flood Baseline)' },
+      drainage: { target: 0.88, direction: 'Increasing (Toward Pre-Flood Baseline)' },
+    };
+
+    const verifications = activeMonitoring.timelines.map((t) => {
+      const catId = t.category;
+      const cfg = DOMAIN_VERIFICATION_CONFIG[catId] || { target: 0.80, direction: 'Increasing (Toward Pre-Flood Baseline)' };
+      const isSimulated = t.data_is_simulated ?? true;
+      const rec = recommendationsMap[catId];
+      const isFunded = activeOptimization?.selected_sites?.some((s) => s.category === catId) || false;
+      const diag = activeDiagnosis?.diagnoses?.find((d) => d.category === catId);
+
+      const latestObs = t.observations && t.observations.length > 0 ? t.observations[t.observations.length - 1] : null;
+      const firstObs = t.observations && t.observations.length > 0 ? t.observations[0] : null;
+
+      const baselineVal = firstObs ? firstObs.value : (t.baseline_value ?? 0.0);
+      const latestVal = latestObs ? latestObs.value : baselineVal;
+      const progress = t.recovery_score ?? 0.0;
+      const measuredChange = parseFloat((latestVal - baselineVal).toFixed(2));
+
+      // Build resource allocation description
+      let resourceStatus = 'Not Allocated';
+      let allocatedAmount = null;
+      if (isFunded) {
+        const fundedSite = activeOptimization?.selected_sites?.find((s) => s.category === catId);
+        allocatedAmount = fundedSite?.allocated_budget_lakhs ?? 0.0;
+        resourceStatus = `Funded ₹${allocatedAmount.toFixed(2)}L (${fundedSite?.estimated_effort_level || 'Moderate'} effort)`;
+      } else {
+        const defSite = activeOptimization?.unselected_sites?.find((s) => s.category === catId);
+        resourceStatus = defSite?.reason_deferred || 'Deferred in Resource Optimization';
+      }
+
+      // Verification classification - Strict Epistemic Integrity
+      let status = 'INSUFFICIENT DATA';
+      let improved = false;
+      let notes = '';
+      let fieldRequired = t.field_verification_required;
+
+      if (isSimulated) {
+        status = 'INSUFFICIENT DATA';
+        improved = progress > 0.0;
+        notes = `Modeled projection indicates ${progress}% projected progress under simulated timeline. Epistemic Standard: Simulated/modeled trajectories cannot be certified as verified recovery without empirical post-flood satellite rasters or in-situ ground inspection.`;
+      } else {
+        if (progress >= 80.0) {
+          status = 'VERIFIED RECOVERY';
+          improved = true;
+          notes = `Empirical multi-temporal satellite observations confirm ${progress}% recovery toward pre-flood baseline. Primary indicator ${t.primary_indicator_name} shows robust physical restoration.`;
+        } else if (progress >= 25.0) {
+          status = 'PARTIAL / IMPROVING';
+          improved = true;
+          notes = `Empirical satellite data demonstrates positive recovery trajectory (${progress}% progress), but values remain below the 80% restoration threshold. Ongoing monitoring recommended.`;
+        } else {
+          status = 'NOT VERIFIED';
+          improved = false;
+          notes = `Empirical observations indicate recovery is stagnant or deteriorated (${progress}% progress). Bottlenecks detected in recovery pathway.`;
+        }
+      }
+
+      // Physical Evidence text
+      const evidence = `Baseline: ${baselineVal} → Latest Observed: ${latestVal} (Target: ${cfg.target}). Measured change: ${measuredChange > 0 ? '+' : ''}${measuredChange} in ${t.primary_indicator_name} (${cfg.direction}).`;
+
+      return {
+        category: catId,
+        category_name: t.category_name,
+        category_type: t.category_type,
+        location: t.location,
+        recommended_action: rec?.recommended_action || 'Monitoring & restoration',
+        resource_allocation_status: resourceStatus,
+        allocated_budget_lakhs: allocatedAmount,
+        primary_indicator_name: t.primary_indicator_name,
+        baseline_value: baselineVal,
+        latest_observed_value: latestVal,
+        target_baseline_value: cfg.target,
+        measured_change: measuredChange,
+        observable_recovery_percentage: progress,
+        expected_direction: cfg.direction,
+        indicators_improved_as_expected: improved,
+        verification_status: status,
+        physical_evidence: evidence,
+        verification_notes: notes,
+        field_verification_required: fieldRequired,
+        data_is_simulated: isSimulated,
+        recovery_diagnosis_status: diag?.recovery_status || t.recovery_status,
+      };
+    });
+
+    const verifiedCnt = verifications.filter((v) => v.verification_status === 'VERIFIED RECOVERY').length;
+    const partialCnt = verifications.filter((v) => v.verification_status === 'PARTIAL / IMPROVING').length;
+    const notVerCnt = verifications.filter((v) => v.verification_status === 'NOT VERIFIED').length;
+    const insuffCnt = verifications.filter((v) => v.verification_status === 'INSUFFICIENT DATA').length;
+    const fieldReqCnt = verifications.filter((v) => v.field_verification_required).length;
+
+    return {
+      session_id: sessionId,
+      region: region,
+      summary: {
+        total_verified_sectors: verifications.length,
+        verified_recovery_count: verifiedCnt,
+        partial_improving_count: partialCnt,
+        not_verified_count: notVerCnt,
+        insufficient_data_count: insuffCnt,
+        requires_field_verification_count: fieldReqCnt,
+        simulated_data_warning: verifications.some((v) => v.data_is_simulated),
+      },
+      verifications,
+      disclaimer: 'Recovery verification rigorously evaluates whether recommended and funded interventions produced measurable improvements. Epistemic Standard: When multi-temporal data relies on simulated/modeled projections, it is classified as INSUFFICIENT DATA and MUST NOT be presented as real-world recovery proof. Empirical multi-spectral/SAR rasters and in-situ field engineering inspections are required for full verification.',
+    };
+  }, [recoveryVerification, activeMonitoring, activeDiagnosis, activeOptimization, recommendationsMap, sessionId, region]);
+
+  const activeVerification = computedVerification;
+
+  // Filtered verifications for Part 7
+  const filteredVerifications = useMemo(() => {
+    if (!activeVerification?.verifications) return [];
+    return activeVerification.verifications.filter((v) => {
+      if (verificationFilter === 'verified_only') return v.verification_status === 'VERIFIED RECOVERY';
+      if (verificationFilter === 'partial_only') return v.verification_status === 'PARTIAL / IMPROVING';
+      if (verificationFilter === 'not_verified_only') return v.verification_status === 'NOT VERIFIED';
+      if (verificationFilter === 'insufficient_only') return v.verification_status === 'INSUFFICIENT DATA';
+      if (verificationFilter === 'environmental') return v.category_type === 'environmental';
+      if (verificationFilter === 'infrastructure') return v.category_type === 'infrastructure';
+      return true;
+    });
+  }, [activeVerification, verificationFilter]);
+
   // Handle server-side optimization trigger
   const handleRunBackendOptimization = async () => {
     if (!sessionId) return;
@@ -803,6 +985,7 @@ export default function DamageAssessmentPanel({
   const unselectedSites = activeOptimization?.unselected_sites || [];
   const monSummary = activeMonitoring?.summary || {};
   const diagSummary = activeDiagnosis?.summary || {};
+  const verSummary = activeVerification?.summary || {};
 
   return (
     <div className="damage-assessment-panel">
@@ -812,13 +995,13 @@ export default function DamageAssessmentPanel({
           <div className="damage-title-group">
             <div className="damage-badge-pill">
               <Shield size={13} color="#38bdf8" />
-              <span>Sustainability Extension • Parts 1, 2, 3, 4, 5 & 6</span>
+              <span>Sustainability Extension • Parts 1 to 7</span>
             </div>
             <h2 className="damage-main-title">
-              Post-Flood Recovery Priority, Satellite Monitoring & Stall Diagnosis Engine
+              Post-Flood Damage Assessment, Sustainable Recovery & Empirical Verification Engine
             </h2>
             <p className="damage-subtitle">
-              Multi-temporal satellite timeline tracking (NDVI, NDWI, SAR $\sigma^\circ$) measuring observable recovery trajectories, simulating optimal resource allocation, and diagnosing physical bottlenecks for lagging or stalled sectors.
+              Complete multi-stage pipeline connecting flood impact, nature-based recommendations, multi-criteria resource optimization, multi-temporal satellite monitoring, stall diagnosis, and rigorous empirical recovery verification.
             </p>
           </div>
         </div>
@@ -826,41 +1009,42 @@ export default function DamageAssessmentPanel({
         {/* Top KPI Metrics Grid */}
         <div className="damage-kpi-grid">
           <div className="damage-kpi-card">
-            <span className="kpi-label">Recovery On Track</span>
+            <span className="kpi-label">Verified Recovery</span>
             <div className="kpi-value-row">
-              <span className="kpi-val highlight-green">{diagSummary.on_track_count ?? monSummary.on_track_count ?? 0}</span>
+              <span className="kpi-val highlight-green">{verSummary.verified_recovery_count ?? 0}</span>
               <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
-            <span className="kpi-sub">≥65% progress toward baseline</span>
+            <span className="kpi-sub">≥80% empirical restoration</span>
           </div>
 
           <div className="damage-kpi-card">
-            <span className="kpi-label">Bottlenecks / Lagging</span>
+            <span className="kpi-label">Partial / Improving</span>
             <div className="kpi-value-row">
-              <span className="kpi-val highlight-amber">{diagSummary.stalled_or_lagging_count ?? monSummary.lagging_count ?? 0}</span>
+              <span className="kpi-val highlight-amber">{verSummary.partial_improving_count ?? 0}</span>
               <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
-            <span className="kpi-sub">Stalled or lagging trajectory</span>
+            <span className="kpi-sub">25%–79% measured progress</span>
           </div>
 
           <div className="damage-kpi-card">
-            <span className="kpi-label">Mean Recovery Score</span>
+            <span className="kpi-label">Not Verified / Stalled</span>
             <div className="kpi-value-row">
-              <span className="kpi-val highlight-blue">{monSummary.average_recovery_score ?? 0}%</span>
+              <span className="kpi-val highlight-rose">{verSummary.not_verified_count ?? 0}</span>
+              <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
-            <span className="kpi-sub">Multi-temporal indicator average</span>
+            <span className="kpi-sub">&lt;25% progress / stalled</span>
           </div>
 
           <div className="damage-kpi-card">
-            <span className="kpi-label">Field Verification Req.</span>
+            <span className="kpi-label">Insufficient / Modeled</span>
             <div className="kpi-value-row">
               <span className="kpi-val highlight-purple">
-                {diagSummary.requires_field_verification_count ?? 2}
+                {verSummary.insufficient_data_count ?? 0}
               </span>
               <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
             <span className="kpi-sub">
-              In-situ ground survey needed
+              {verSummary.simulated_data_warning ? 'Modeled / Needs Rasters' : 'Awaiting sensor pass'}
             </span>
           </div>
         </div>
@@ -897,9 +1081,14 @@ export default function DamageAssessmentPanel({
             <span className="flow-desc">Satellite Timeline</span>
           </div>
           <ChevronRight size={14} className="flow-arrow" />
-          <div className="flow-step active-flow-step">
+          <div className="flow-step">
             <span className="flow-badge">7. DIAGNOSIS</span>
             <span className="flow-desc">Failure & Stall Causes</span>
+          </div>
+          <ChevronRight size={14} className="flow-arrow" />
+          <div className="flow-step active-flow-step">
+            <span className="flow-badge">8. VERIFICATION</span>
+            <span className="flow-desc">Empirical Proof</span>
           </div>
         </div>
       </div>
@@ -907,6 +1096,13 @@ export default function DamageAssessmentPanel({
       {/* Primary Sub-Navigation Tabs */}
       <div className="damage-subnav-bar">
         <div className="subnav-toggle-group">
+          <button
+            className={`subnav-btn ${activeView === 'verification' ? 'active' : ''}`}
+            onClick={() => setActiveView('verification')}
+          >
+            <BadgeCheck size={14} style={{ marginRight: 6 }} color="#10b981" />
+            Recovery Verification (Part 7)
+          </button>
           <button
             className={`subnav-btn ${activeView === 'diagnosis' ? 'active' : ''}`}
             onClick={() => setActiveView('diagnosis')}
@@ -944,6 +1140,228 @@ export default function DamageAssessmentPanel({
           </button>
         </div>
       </div>
+
+      {/* VIEW 00: RECOVERY VERIFICATION (PART 7) */}
+      {activeView === 'verification' && (
+        <div className="recovery-verification-view">
+          {/* Filter Chips Bar */}
+          <div className="damage-filter-bar" style={{ marginTop: 0 }}>
+            <div className="filter-tab-buttons">
+              <button
+                className={`filter-btn ${verificationFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('all')}
+              >
+                All Sectors ({activeVerification?.verifications?.length || 0})
+              </button>
+              <button
+                className={`filter-btn ${verificationFilter === 'verified_only' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('verified_only')}
+              >
+                Verified Recovery ({verSummary.verified_recovery_count || 0})
+              </button>
+              <button
+                className={`filter-btn ${verificationFilter === 'partial_only' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('partial_only')}
+              >
+                Partial / Improving ({verSummary.partial_improving_count || 0})
+              </button>
+              <button
+                className={`filter-btn ${verificationFilter === 'not_verified_only' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('not_verified_only')}
+              >
+                Not Verified ({verSummary.not_verified_count || 0})
+              </button>
+              <button
+                className={`filter-btn ${verificationFilter === 'insufficient_only' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('insufficient_only')}
+              >
+                Insufficient / Modeled ({verSummary.insufficient_data_count || 0})
+              </button>
+              <button
+                className={`filter-btn ${verificationFilter === 'infrastructure' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('infrastructure')}
+              >
+                Infrastructure
+              </button>
+              <button
+                className={`filter-btn ${verificationFilter === 'environmental' ? 'active' : ''}`}
+                onClick={() => setVerificationFilter('environmental')}
+              >
+                Environmental
+              </button>
+            </div>
+          </div>
+
+          {/* Verification Cards List */}
+          <div className="verification-cards-list">
+            {filteredVerifications.map((item) => {
+              const IconComponent = CATEGORY_ICONS[item.category] || Shield;
+              const statusCfg = VERIFICATION_STATUS_CONFIG[item.verification_status] || VERIFICATION_STATUS_CONFIG['INSUFFICIENT DATA'];
+              const StatusIcon = statusCfg.icon;
+
+              return (
+                <div
+                  key={item.category}
+                  className={`verification-sector-card card ${item.verification_status === 'VERIFIED RECOVERY' ? 'is-verified' : item.verification_status === 'NOT VERIFIED' ? 'is-not-verified' : item.verification_status === 'PARTIAL / IMPROVING' ? 'is-partial' : 'is-insufficient'}`}
+                  onClick={() => {
+                    setSelectedCategoryId(item.category);
+                    if (onSelectFeature && item.location) {
+                      onSelectFeature({
+                        type: item.category === 'buildings' ? 'building' : (item.category === 'roads' ? 'road' : 'damage'),
+                        name: item.category_name,
+                        data: item,
+                      });
+                    }
+                  }}
+                >
+                  {/* Header: Title + Status Badge */}
+                  <div className="ver-card-header">
+                    <div className="ver-title-group">
+                      <div className="ver-icon-wrapper">
+                        <IconComponent size={22} color={statusCfg.color} />
+                      </div>
+                      <div>
+                        <div className="ver-tag-row">
+                          <h3 className="ver-card-title">{item.category_name}</h3>
+                          <span className="sector-type-badge">
+                            {item.category_type?.toUpperCase()}
+                          </span>
+                          {item.data_is_simulated ? (
+                            <span className="ver-sim-pill is-simulated">
+                              Modeled Timeline Projection
+                            </span>
+                          ) : (
+                            <span className="ver-sim-pill is-empirical">
+                              Empirical Satellite Observation
+                            </span>
+                          )}
+                        </div>
+                        <span className="card-location">📍 {item.location}</span>
+                      </div>
+                    </div>
+
+                    <div className="ver-status-pill-group">
+                      <span
+                        className="ver-status-badge"
+                        style={{
+                          backgroundColor: statusCfg.bg,
+                          color: statusCfg.color,
+                          border: `1px solid ${statusCfg.border}`,
+                        }}
+                      >
+                        <StatusIcon size={14} style={{ marginRight: 5 }} />
+                        {item.verification_status}
+                      </span>
+                      {item.field_verification_required && (
+                        <span className="field-req-tag">
+                          <FileSearch size={10} style={{ marginRight: 3 }} />
+                          Field Inspection Required
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Data Provenance Banner */}
+                  {item.data_is_simulated ? (
+                    <div className="ver-provenance-banner is-simulated-banner">
+                      <AlertTriangle size={15} color="#c4b5fd" style={{ flexShrink: 0, marginTop: 2 }} />
+                      <div>
+                        <b>Epistemic Integrity Standard:</b> This verification evaluation uses modeled multi-temporal projection data. Modeled trajectories cannot be certified as true recovery proof without empirical post-flood satellite rasters or in-situ ground inspection.
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="ver-provenance-banner is-empirical-banner">
+                      <CheckCircle2 size={15} color="#34d399" style={{ flexShrink: 0, marginTop: 2 }} />
+                      <div>
+                        <b>Empirical Verification Standard:</b> Evaluated against real satellite multi-temporal observations ({item.primary_indicator_name}).
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 4-Card Context Grid: Damage -> Recommendation -> Resource Funding -> Diagnosis */}
+                  <div className="ver-context-grid">
+                    <div className="ver-context-card">
+                      <div className="ver-context-lbl">1. WHAT WAS DAMAGED</div>
+                      <div className="ver-context-val">
+                        {categories.find((c) => c.category_id === item.category)?.severity || 'Assessed'} Impact
+                        <span className="ver-context-sub">
+                          {categories.find((c) => c.category_id === item.category)?.affected_count
+                            ? `${categories.find((c) => c.category_id === item.category).affected_count} submerged assets`
+                            : categories.find((c) => c.category_id === item.category)?.affected_length_km
+                            ? `${categories.find((c) => c.category_id === item.category).affected_length_km} km affected`
+                            : `${categories.find((c) => c.category_id === item.category)?.affected_area_km2 || 0} km² affected`}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="ver-context-card">
+                      <div className="ver-context-lbl">2. RECOMMENDED ACTION</div>
+                      <div className="ver-context-val">
+                        {item.recommended_action}
+                      </div>
+                    </div>
+
+                    <div className="ver-context-card">
+                      <div className="ver-context-lbl">3. RESOURCE ALLOCATION</div>
+                      <div className="ver-context-val">
+                        {item.resource_allocation_status}
+                      </div>
+                    </div>
+
+                    <div className="ver-context-card">
+                      <div className="ver-context-lbl">4. STALL DIAGNOSIS</div>
+                      <div className="ver-context-val">
+                        {item.recovery_diagnosis_status}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Quantitative Indicator Measurement Strip */}
+                  <div className="ver-metric-strip">
+                    <div className="ver-metric-box">
+                      <span className="lbl">Indicator</span>
+                      <span className="val highlight-blue">{item.primary_indicator_name}</span>
+                    </div>
+                    <div className="ver-metric-box">
+                      <span className="lbl">Pre-Flood Baseline</span>
+                      <span className="val">{item.target_baseline_value}</span>
+                    </div>
+                    <div className="ver-metric-box">
+                      <span className="lbl">Post-Flood Start</span>
+                      <span className="val">{item.baseline_value}</span>
+                    </div>
+                    <div className="ver-metric-box">
+                      <span className="lbl">Latest Observed</span>
+                      <span className="val highlight-green">{item.latest_observed_value}</span>
+                    </div>
+                    <div className="ver-metric-box">
+                      <span className="lbl">Progress Score</span>
+                      <span className="val highlight-amber">{item.observable_recovery_percentage}%</span>
+                    </div>
+                    <div className="ver-metric-box">
+                      <span className="lbl">Expected Direction</span>
+                      <span className="val">{item.expected_direction}</span>
+                    </div>
+                  </div>
+
+                  {/* Physical Evidence & Scientific Verification Notes */}
+                  <div className="ver-evidence-box">
+                    <div className="ver-evidence-header">
+                      <FileCheck2 size={13} color="#38bdf8" />
+                      <span>PHYSICAL EVIDENCE & VERIFICATION FINDING:</span>
+                    </div>
+                    <p className="ver-evidence-text">{item.physical_evidence}</p>
+                    <div className="ver-notes-block">
+                      <span className="ver-notes-lbl">EPISTEMIC VERIFICATION NOTES:</span>
+                      <p className="ver-notes-text">{item.verification_notes}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* VIEW 0: RECOVERY STALL & FAILURE DIAGNOSIS (PART 6) */}
       {activeView === 'diagnosis' && (
@@ -1975,8 +2393,8 @@ export default function DamageAssessmentPanel({
         <ul className="disclaimer-list">
           <li>Satellite-derived recovery indicators reflect observable spectral indices (NDVI, NDWI, NDTI) and radar backscatter (SAR $\sigma^\circ$) over time.</li>
           <li>They quantify visible land-surface and structural restoration trends but do not constitute comprehensive ground engineering or biological certifications without in-situ physical field verification.</li>
-          <li>Sectors with high natural recovery potential are monitored passively to avoid wasteful capital expenditure where natural processes suffice.</li>
-          <li>Part 5 timeline data directly prepares the system for Part 6 recovery failure/stall diagnosis and Part 7 verification.</li>
+          <li><b>Part 7 Recovery Verification Integrity Standard:</b> Simulated and modeled timelines are explicitly marked as INSUFFICIENT DATA and cannot certify real-world recovery. Verified Recovery status requires empirical satellite observations (≥80% restoration) or in-situ ground inspection.</li>
+          <li>Sectors with high natural recovery potential are monitored passively to avoid wasteful capital expenditure where natural ecological processes suffice.</li>
         </ul>
       </div>
     </div>

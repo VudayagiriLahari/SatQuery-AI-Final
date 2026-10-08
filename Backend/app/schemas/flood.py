@@ -295,6 +295,7 @@ from app.schemas.recovery_priority import RecoveryPrioritiesResult
 from app.schemas.resource_optimization import ResourceOptimizationResult
 from app.schemas.recovery_monitoring import RecoveryMonitoringResult
 from app.schemas.recovery_diagnosis import RecoveryStallDiagnosisResult
+from app.schemas.recovery_verification import RecoveryVerificationResult
 
 
 # ---------------------------------------------------------------------------
@@ -317,6 +318,7 @@ class PipelineResult(BaseModel):
     resource_optimization: Optional[ResourceOptimizationResult] = None
     recovery_monitoring: Optional[RecoveryMonitoringResult] = None
     recovery_diagnosis: Optional[RecoveryStallDiagnosisResult] = None
+    recovery_verification: Optional[RecoveryVerificationResult] = None
     error: Optional[str] = None
     warnings: List[str] = Field(default_factory=list)
 
