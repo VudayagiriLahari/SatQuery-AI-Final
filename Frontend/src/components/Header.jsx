@@ -12,6 +12,7 @@ const TAB_TITLES = {
   map: 'Map Explorer',
   impact: 'Impact & Vulnerability Analysis',
   evacuation: 'Evacuation Site Screening',
+  damage: 'Damage & Recovery Assessment',
   upload: 'Data Ingestion & Methodology',
   ai: 'AI Contextual Assistant',
 };

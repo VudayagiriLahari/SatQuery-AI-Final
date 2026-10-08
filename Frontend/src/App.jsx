@@ -9,6 +9,7 @@ import MetricsPanel from './components/MetricsPanel';
 import MapViewer from './components/MapViewer';
 import AiAssistant from './components/AiAssistant';
 import UserGuideModal from './components/UserGuideModal';
+import DamageAssessmentPanel from './components/DamageAssessmentPanel';
 import { runFullPipeline } from './services/api';
 import {
   BarChart2,
@@ -99,6 +100,9 @@ export default function App() {
   const affectedRoadsGeoJSON = pipelineResult?.impact?.affected_roads_geojson || null;
   const affectedBuildingsGeoJSON = pipelineResult?.impact?.affected_buildings_geojson || null;
   const priorityScores = pipelineResult?.priority_scores || [];
+  const damageAssessment = pipelineResult?.damage_assessment || null;
+  const recoveryRecommendations = pipelineResult?.recovery_recommendations || null;
+  const recoveryPriorities = pipelineResult?.recovery_priorities || null;
 
   const hasData = Boolean(pipelineResult);
 
@@ -397,6 +401,43 @@ export default function App() {
                   priorityScores={priorityScores}
                   selectedFeature={selectedFeature}
                   onSelectFeature={setSelectedFeature}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3.5: DAMAGE ASSESSMENT & RECOVERY RECOMMENDATIONS (Sustainability Extension Parts 1 & 2) */}
+          {activeTab === 'damage' && (
+            <div className="split-impact-view">
+              <div className="impact-metrics-container">
+                <DamageAssessmentPanel
+                  damageAssessment={damageAssessment}
+                  recoveryRecommendations={recoveryRecommendations}
+                  recoveryPriorities={recoveryPriorities}
+                  onSelectFeature={setSelectedFeature}
+                  onNavigateToTab={(tab) => {
+                    setShowLanding(false);
+                    setActiveTab(tab);
+                  }}
+                />
+              </div>
+
+              <div className="impact-map-side">
+                <MapViewer
+                  pipelineResult={pipelineResult}
+                  preFile={uploadedFiles.pre}
+                  postFile={uploadedFiles.post}
+                  floodGeoJSON={floodGeoJSON}
+                  floodMetrics={floodMetrics}
+                  evacuationCandidates={evacuationCandidates}
+                  affectedVillages={affectedVillages}
+                  affectedVillagesGeoJSON={affectedVillagesGeoJSON}
+                  affectedRoadsGeoJSON={affectedRoadsGeoJSON}
+                  affectedBuildingsGeoJSON={affectedBuildingsGeoJSON}
+                  priorityScores={priorityScores}
+                  selectedFeature={selectedFeature}
+                  onSelectFeature={setSelectedFeature}
+                  skipAnimation={true}
                 />
               </div>
             </div>

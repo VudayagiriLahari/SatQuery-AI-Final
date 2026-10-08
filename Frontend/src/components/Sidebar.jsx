@@ -1,11 +1,12 @@
 import React from 'react';
-import { Home, Map, BarChart2, ShieldAlert, Upload, Bot, Satellite } from 'lucide-react';
+import { Home, Map, BarChart2, ShieldAlert, ClipboardCheck, Upload, Bot, Satellite } from 'lucide-react';
 
 const NAV_ITEMS = [
   { id: 'home', icon: Home, label: 'Home' },
   { id: 'map', icon: Map, label: 'Map Explorer' },
   { id: 'impact', icon: BarChart2, label: 'Impact Analysis' },
   { id: 'evacuation', icon: ShieldAlert, label: 'Evacuation Sites' },
+  { id: 'damage', icon: ClipboardCheck, label: 'Damage Assessment' },
   { id: 'upload', icon: Upload, label: 'Data & Upload' },
   { id: 'ai', icon: Bot, label: 'AI Assistant' },
 ];
@@ -50,7 +51,7 @@ export default function Sidebar({ activeTab, onSelectTab, onGoHome, hasData }) {
             >
               <IconComponent size={20} className="item-icon" />
               <span className="item-label">{item.label}</span>
-              {hasData && (item.id === 'map' || item.id === 'impact' || item.id === 'evacuation') && (
+              {hasData && (item.id === 'map' || item.id === 'impact' || item.id === 'evacuation' || item.id === 'damage') && (
                 <span className="badge-dot" />
               )}
             </button>

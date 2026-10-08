@@ -33,6 +33,19 @@ from app.schemas.flood import (
     VLMAnalysisResult,
     PipelineResult,
 )
+from app.schemas.damage_assessment import (
+    DamageAssessmentResult,
+    DamageCategoryAssessment,
+    DamageAssessmentSummary,
+)
+from app.schemas.recovery_recommendation import (
+    RecoveryRecommendationsResult,
+    RecoveryRecommendation,
+)
+from app.schemas.recovery_priority import (
+    RecoveryPrioritiesResult,
+    SectorRecoveryPriority,
+)
 
 # In-memory session cache: session_id -> {mask_array, transform, crs, flood_geojson, pipeline_result, ...}
 _session_cache: Dict[str, Dict[str, Any]] = {}
@@ -548,6 +561,83 @@ async def run_full_pipeline(
         except Exception as exc:
             warnings.append(f"Evacuation analysis step failed: {exc}")
 
+        # Step 7: Post-Flood Environmental & Infrastructure Damage Assessment
+        damage_raw = None
+        try:
+            from app.services.damage_assessment import DamageAssessmentService
+            damage_svc = DamageAssessmentService()
+            damage_raw = damage_svc.assess_damage(
+                flood_geojson=flood_geojson,
+                session_id=session_id,
+                gis_repo=gis_repo,
+                pre_path=pre_path,
+                post_path=post_path,
+                detection_result=detection_result_raw,
+                exposure_result=exposure if 'exposure' in locals() else None,
+            )
+            categories = [DamageCategoryAssessment(**c) for c in damage_raw.get("categories", [])]
+            summary = DamageAssessmentSummary(**damage_raw.get("summary", {}))
+            pipeline.damage_assessment = DamageAssessmentResult(
+                session_id=session_id,
+                region=damage_raw.get("region"),
+                summary=summary,
+                categories=categories,
+                data_availability=damage_raw.get("data_availability", {}),
+                disclaimers=damage_raw.get("disclaimers", []),
+            )
+        except Exception as exc:
+            warnings.append(f"Damage assessment step failed: {exc}")
+
+        # Step 8: Sustainable Recovery Recommendations (Part 2)
+        if pipeline.damage_assessment and damage_raw:
+            try:
+                from app.services.recovery_recommendation import RecoveryRecommendationService
+                rec_svc = RecoveryRecommendationService()
+                rec_raw = rec_svc.generate_recommendations(
+                    damage_assessment=damage_raw,
+                    session_id=session_id,
+                    region=damage_raw.get("region"),
+                )
+                recommendations_list = [RecoveryRecommendation(**r) for r in rec_raw.get("recommendations", [])]
+                pipeline.recovery_recommendations = RecoveryRecommendationsResult(
+                    session_id=session_id,
+                    region=rec_raw.get("region"),
+                    total_recommendations=rec_raw.get("total_recommendations", len(recommendations_list)),
+                    natural_recovery_count=rec_raw.get("natural_recovery_count", 0),
+                    intervention_needed_count=rec_raw.get("intervention_needed_count", 0),
+                    field_verification_count=rec_raw.get("field_verification_count", 0),
+                    recommendations=recommendations_list,
+                    disclaimer=rec_raw.get("disclaimer", ""),
+                )
+            except Exception as exc:
+                warnings.append(f"Recovery recommendations step failed: {exc}")
+
+        # Step 9: Recovery Priority Engine (Part 3)
+        if pipeline.damage_assessment and pipeline.recovery_recommendations:
+            try:
+                from app.services.recovery_priority import RecoveryPriorityService
+                prio_svc = RecoveryPriorityService()
+                prio_raw = prio_svc.compute_recovery_priorities(
+                    damage_assessment=damage_raw,
+                    recovery_recommendations=rec_raw if 'rec_raw' in locals() and rec_raw else pipeline.recovery_recommendations.model_dump(),
+                    exposure_data=exposure if 'exposure' in locals() else None,
+                    session_id=session_id,
+                    region=damage_raw.get("region"),
+                )
+                priorities_list = [SectorRecoveryPriority(**p) for p in prio_raw.get("priorities", [])]
+                pipeline.recovery_priorities = RecoveryPrioritiesResult(
+                    session_id=session_id,
+                    region=prio_raw.get("region"),
+                    total_sectors_evaluated=prio_raw.get("total_sectors_evaluated", len(priorities_list)),
+                    high_priority_count=prio_raw.get("high_priority_count", 0),
+                    medium_priority_count=prio_raw.get("medium_priority_count", 0),
+                    low_priority_count=prio_raw.get("low_priority_count", 0),
+                    priorities=priorities_list,
+                    disclaimer=prio_raw.get("disclaimer", ""),
+                )
+            except Exception as exc:
+                warnings.append(f"Recovery priorities step failed: {exc}")
+
     # Step 6: VLM Visual Comparison (Gemini Multimodal visual change description)
     try:
         from app.services.orchestration import AgentOrchestrationService
@@ -573,6 +663,212 @@ async def run_full_pipeline(
 
     _cleanup_files(pre_path, post_path)
     return pipeline
+
+
+# ---------------------------------------------------------------------------
+# 6b. Post-Flood Damage Assessment On-Demand Endpoint
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/damage-assessment",
+    response_model=DamageAssessmentResult,
+    summary="Run Post-Flood Environmental & Infrastructure Damage Assessment",
+)
+async def calculate_damage_assessment(
+    session_id: str = Form(...),
+) -> DamageAssessmentResult:
+    """
+    Compute post-flood environmental & infrastructure damage metrics across 8 categories
+    with standardized 4-tier recovery classifications and epistemic modesty standards.
+    """
+    from app.services.damage_assessment import DamageAssessmentService
+    from app.services.gis_repository import GISRepository
+
+    session = _session_cache.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found.")
+
+    flood_geojson = session.get("flood_geojson")
+    if not flood_geojson:
+        raise HTTPException(
+            status_code=422,
+            detail="Flood polygon GeoJSON not found in session. Run /polygonize or /pipeline first.",
+        )
+
+    gis_repo = GISRepository(settings.DATA_DIR)
+    damage_svc = DamageAssessmentService()
+    exposure = session.get("impact")
+    detection = session.get("detection_result")
+
+    damage_raw = damage_svc.assess_damage(
+        flood_geojson=flood_geojson,
+        session_id=session_id,
+        gis_repo=gis_repo,
+        detection_result=detection,
+        exposure_result=exposure,
+    )
+
+    categories = [DamageCategoryAssessment(**c) for c in damage_raw.get("categories", [])]
+    summary = DamageAssessmentSummary(**damage_raw.get("summary", {}))
+    result = DamageAssessmentResult(
+        session_id=session_id,
+        region=damage_raw.get("region"),
+        summary=summary,
+        categories=categories,
+        data_availability=damage_raw.get("data_availability", {}),
+        disclaimers=damage_raw.get("disclaimers", []),
+    )
+    _session_cache[session_id]["damage_assessment"] = result.model_dump()
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 6c. Sustainable Recovery Recommendations On-Demand Endpoint (Part 2)
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/recommendations",
+    response_model=RecoveryRecommendationsResult,
+    summary="Generate Sustainable Recovery Recommendations",
+)
+async def generate_recovery_recommendations(
+    session_id: str = Form(...),
+) -> RecoveryRecommendationsResult:
+    """
+    Generate evidence-based sustainable recovery recommendations based on Damage Type + Severity + Recovery Condition.
+    Includes explicit justifications for why intervention is or is not recommended.
+    """
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    from app.services.damage_assessment import DamageAssessmentService
+    from app.services.gis_repository import GISRepository
+
+    session = _session_cache.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found.")
+
+    damage_dict = session.get("damage_assessment")
+    if not damage_dict:
+        # Compute damage assessment if not cached
+        flood_geojson = session.get("flood_geojson")
+        if not flood_geojson:
+            raise HTTPException(
+                status_code=422,
+                detail="Flood polygon GeoJSON not found in session. Run /pipeline first.",
+            )
+        gis_repo = GISRepository(settings.DATA_DIR)
+        damage_svc = DamageAssessmentService()
+        exposure = session.get("impact")
+        detection = session.get("detection_result")
+        damage_dict = damage_svc.assess_damage(
+            flood_geojson=flood_geojson,
+            session_id=session_id,
+            gis_repo=gis_repo,
+            detection_result=detection,
+            exposure_result=exposure,
+        )
+        session["damage_assessment"] = damage_dict
+
+    rec_svc = RecoveryRecommendationService()
+    rec_raw = rec_svc.generate_recommendations(
+        damage_assessment=damage_dict,
+        session_id=session_id,
+        region=damage_dict.get("region"),
+    )
+
+    recommendations_list = [RecoveryRecommendation(**r) for r in rec_raw.get("recommendations", [])]
+    result = RecoveryRecommendationsResult(
+        session_id=session_id,
+        region=rec_raw.get("region"),
+        total_recommendations=rec_raw.get("total_recommendations", len(recommendations_list)),
+        natural_recovery_count=rec_raw.get("natural_recovery_count", 0),
+        intervention_needed_count=rec_raw.get("intervention_needed_count", 0),
+        field_verification_count=rec_raw.get("field_verification_count", 0),
+        recommendations=recommendations_list,
+        disclaimer=rec_raw.get("disclaimer", ""),
+    )
+    _session_cache[session_id]["recovery_recommendations"] = result.model_dump()
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 6d. Recovery Priority Engine On-Demand Endpoint (Part 3)
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/priorities",
+    response_model=RecoveryPrioritiesResult,
+    summary="Compute Recovery Priorities Across Evaluated Sectors",
+)
+async def calculate_recovery_priorities(
+    session_id: str = Form(...),
+) -> RecoveryPrioritiesResult:
+    """
+    Compute evidence-based recovery priorities (HIGH / MEDIUM / LOW) and ranking scores
+    across all evaluated environmental and infrastructure sectors.
+    """
+    from app.services.recovery_priority import RecoveryPriorityService
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    from app.services.damage_assessment import DamageAssessmentService
+    from app.services.gis_repository import GISRepository
+
+    session = _session_cache.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found.")
+
+    damage_dict = session.get("damage_assessment")
+    if not damage_dict:
+        flood_geojson = session.get("flood_geojson")
+        if not flood_geojson:
+            raise HTTPException(
+                status_code=422,
+                detail="Flood polygon GeoJSON not found in session. Run /pipeline first.",
+            )
+        gis_repo = GISRepository(settings.DATA_DIR)
+        damage_svc = DamageAssessmentService()
+        exposure = session.get("impact")
+        detection = session.get("detection_result")
+        damage_dict = damage_svc.assess_damage(
+            flood_geojson=flood_geojson,
+            session_id=session_id,
+            gis_repo=gis_repo,
+            detection_result=detection,
+            exposure_result=exposure,
+        )
+        session["damage_assessment"] = damage_dict
+
+    rec_dict = session.get("recovery_recommendations")
+    if not rec_dict:
+        rec_svc = RecoveryRecommendationService()
+        rec_dict = rec_svc.generate_recommendations(
+            damage_assessment=damage_dict,
+            session_id=session_id,
+            region=damage_dict.get("region"),
+        )
+        session["recovery_recommendations"] = rec_dict
+
+    prio_svc = RecoveryPriorityService()
+    exposure = session.get("impact")
+    prio_raw = prio_svc.compute_recovery_priorities(
+        damage_assessment=damage_dict,
+        recovery_recommendations=rec_dict,
+        exposure_data=exposure,
+        session_id=session_id,
+        region=damage_dict.get("region"),
+    )
+
+    priorities_list = [SectorRecoveryPriority(**p) for p in prio_raw.get("priorities", [])]
+    result = RecoveryPrioritiesResult(
+        session_id=session_id,
+        region=prio_raw.get("region"),
+        total_sectors_evaluated=prio_raw.get("total_sectors_evaluated", len(priorities_list)),
+        high_priority_count=prio_raw.get("high_priority_count", 0),
+        medium_priority_count=prio_raw.get("medium_priority_count", 0),
+        low_priority_count=prio_raw.get("low_priority_count", 0),
+        priorities=priorities_list,
+        disclaimer=prio_raw.get("disclaimer", ""),
+    )
+    _session_cache[session_id]["recovery_priorities"] = result.model_dump()
+    return result
 
 
 # ---------------------------------------------------------------------------
