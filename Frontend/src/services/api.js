@@ -127,6 +127,36 @@ export async function loadDemoPair(demoId) {
 }
 
 /**
+ * Run Resource / Budget Optimization simulation.
+ */
+export async function optimizeResources(
+  sessionId,
+  budgetLakhs = 10.0,
+  maxCapacitySites = 5,
+  allowNaturalRecovery = false,
+  domainFilter = null
+) {
+  const formData = new FormData();
+  formData.append('session_id', sessionId);
+  formData.append('budget_lakhs', String(budgetLakhs));
+  formData.append('max_capacity_sites', String(maxCapacitySites));
+  formData.append('allow_natural_recovery', String(allowNaturalRecovery));
+  if (domainFilter) {
+    formData.append('domain_filter', domainFilter);
+  }
+
+  const res = await fetch(`${BASE_URL}/flood/optimize-resources`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Optimization simulation failed (${res.status}): ${text}`);
+  }
+  return res.json();
+}
+
+/**
  * Check backend health.
  */
 export async function checkHealth() {
@@ -134,4 +164,5 @@ export async function checkHealth() {
   if (!res.ok) throw new Error('Backend health check failed');
   return res.json();
 }
+
 

@@ -46,6 +46,13 @@ from app.schemas.recovery_priority import (
     RecoveryPrioritiesResult,
     SectorRecoveryPriority,
 )
+from app.schemas.resource_optimization import (
+    ResourceOptimizationResult,
+    ResourceOptimizationSummary,
+    AllocatedSectorSite,
+    UnallocatedSectorSite,
+)
+
 
 # In-memory session cache: session_id -> {mask_array, transform, crs, flood_geojson, pipeline_result, ...}
 _session_cache: Dict[str, Dict[str, Any]] = {}
@@ -638,6 +645,32 @@ async def run_full_pipeline(
             except Exception as exc:
                 warnings.append(f"Recovery priorities step failed: {exc}")
 
+        # Step 10: Resource / Budget Optimization (Part 4)
+        if pipeline.recovery_priorities and 'prio_raw' in locals() and prio_raw:
+            try:
+                from app.services.resource_optimization import ResourceOptimizationService
+                opt_svc = ResourceOptimizationService()
+                opt_raw = opt_svc.optimize_resources(
+                    recovery_priorities=prio_raw,
+                    budget_lakhs=10.0,
+                    max_capacity_sites=5,
+                    allow_natural_recovery_funding=False,
+                    session_id=session_id,
+                    region=damage_raw.get("region") if damage_raw else None,
+                )
+                pipeline.resource_optimization = ResourceOptimizationResult(
+                    session_id=session_id,
+                    region=opt_raw.get("region"),
+                    summary=ResourceOptimizationSummary(**opt_raw.get("summary", {})),
+                    selected_sites=[AllocatedSectorSite(**s) for s in opt_raw.get("selected_sites", [])],
+                    unselected_sites=[UnallocatedSectorSite(**u) for u in opt_raw.get("unselected_sites", [])],
+                    allocation_notes=opt_raw.get("allocation_notes", []),
+                    disclaimer=opt_raw.get("disclaimer", ""),
+                )
+            except Exception as exc:
+                warnings.append(f"Resource optimization step failed: {exc}")
+
+
     # Step 6: VLM Visual Comparison (Gemini Multimodal visual change description)
     try:
         from app.services.orchestration import AgentOrchestrationService
@@ -868,6 +901,104 @@ async def calculate_recovery_priorities(
         disclaimer=prio_raw.get("disclaimer", ""),
     )
     _session_cache[session_id]["recovery_priorities"] = result.model_dump()
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 6e. Resource / Budget Optimization On-Demand Endpoint (Part 4)
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/optimize-resources",
+    response_model=ResourceOptimizationResult,
+    summary="Simulate Resource and Budget Allocation Across Priorities",
+)
+async def optimize_recovery_resources(
+    session_id: str = Form(...),
+    budget_lakhs: float = Form(10.0),
+    max_capacity_sites: int = Form(5),
+    allow_natural_recovery: bool = Form(False),
+    domain_filter: Optional[str] = Form(None),
+) -> ResourceOptimizationResult:
+    """
+    Simulate optimal distribution of limited recovery resources (budget & workforce capacity)
+    among prioritized sectors.
+    """
+    from app.services.resource_optimization import ResourceOptimizationService
+    from app.services.recovery_priority import RecoveryPriorityService
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    from app.services.damage_assessment import DamageAssessmentService
+    from app.services.gis_repository import GISRepository
+
+    session = _session_cache.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found.")
+
+    prio_dict = session.get("recovery_priorities")
+    if not prio_dict:
+        damage_dict = session.get("damage_assessment")
+        if not damage_dict:
+            flood_geojson = session.get("flood_geojson")
+            if not flood_geojson:
+                raise HTTPException(
+                    status_code=422,
+                    detail="Flood polygon GeoJSON not found in session. Run /pipeline first.",
+                )
+            gis_repo = GISRepository(settings.DATA_DIR)
+            damage_svc = DamageAssessmentService()
+            exposure = session.get("impact")
+            detection = session.get("detection_result")
+            damage_dict = damage_svc.assess_damage(
+                flood_geojson=flood_geojson,
+                session_id=session_id,
+                gis_repo=gis_repo,
+                detection_result=detection,
+                exposure_result=exposure,
+            )
+            session["damage_assessment"] = damage_dict
+
+        rec_dict = session.get("recovery_recommendations")
+        if not rec_dict:
+            rec_svc = RecoveryRecommendationService()
+            rec_dict = rec_svc.generate_recommendations(
+                damage_assessment=damage_dict,
+                session_id=session_id,
+                region=damage_dict.get("region"),
+            )
+            session["recovery_recommendations"] = rec_dict
+
+        prio_svc = RecoveryPriorityService()
+        exposure = session.get("impact")
+        prio_dict = prio_svc.compute_recovery_priorities(
+            damage_assessment=damage_dict,
+            recovery_recommendations=rec_dict,
+            exposure_data=exposure,
+            session_id=session_id,
+            region=damage_dict.get("region"),
+        )
+        session["recovery_priorities"] = prio_dict
+
+    opt_svc = ResourceOptimizationService()
+    opt_raw = opt_svc.optimize_resources(
+        recovery_priorities=prio_dict,
+        budget_lakhs=budget_lakhs,
+        max_capacity_sites=max_capacity_sites,
+        allow_natural_recovery_funding=allow_natural_recovery,
+        domain_filter=domain_filter,
+        session_id=session_id,
+        region=prio_dict.get("region"),
+    )
+
+    result = ResourceOptimizationResult(
+        session_id=session_id,
+        region=opt_raw.get("region"),
+        summary=ResourceOptimizationSummary(**opt_raw.get("summary", {})),
+        selected_sites=[AllocatedSectorSite(**s) for s in opt_raw.get("selected_sites", [])],
+        unselected_sites=[UnallocatedSectorSite(**u) for u in opt_raw.get("unselected_sites", [])],
+        allocation_notes=opt_raw.get("allocation_notes", []),
+        disclaimer=opt_raw.get("disclaimer", ""),
+    )
+    _session_cache[session_id]["resource_optimization"] = result.model_dump()
     return result
 
 

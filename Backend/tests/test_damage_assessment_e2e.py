@@ -70,6 +70,31 @@ def test_e2e_kerala_damage_assessment():
         print(f"[{cat['category_type'].upper()}] {cat['category_name']}: {cat['recovery_classification']} (Severity: {cat['severity']})")
 
 
+    # 5. Part 2: Recommendations
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    rec_svc = RecoveryRecommendationService()
+    rec_res = rec_svc.generate_recommendations(dam_res, "kerala_e2e_test", "kerala")
+    assert rec_res["total_recommendations"] == 8
+
+    # 6. Part 3: Priorities
+    from app.services.recovery_priority import RecoveryPriorityService
+    prio_svc = RecoveryPriorityService()
+    prio_res = prio_svc.compute_recovery_priorities(dam_res, rec_res, exp_res, "kerala_e2e_test", "kerala")
+    assert prio_res["total_sectors_evaluated"] == 8
+    assert prio_res["high_priority_count"] >= 1
+    # Check that buildings is rank 1 or high
+    bld_prio = next(p for p in prio_res["priorities"] if p["category"] == "buildings")
+    assert bld_prio["priority_level"] == "HIGH"
+
+    # 7. Part 4: Resource & Budget Optimization
+    from app.services.resource_optimization import ResourceOptimizationService
+    opt_svc = ResourceOptimizationService()
+    opt_res = opt_svc.optimize_resources(prio_res, budget_lakhs=10.0, max_capacity_sites=5, session_id="kerala_e2e_test", region="kerala")
+    assert opt_res["summary"]["allocated_budget_lakhs"] <= 10.0
+    assert len(opt_res["selected_sites"]) > 0
+    assert any(s["category"] == "buildings" for s in opt_res["selected_sites"])
+
+
 def test_e2e_nepal_damage_assessment():
     """Verify complete Nepal flood pipeline and damage assessment."""
     gis_repo = GISRepository(settings.DATA_DIR)
@@ -112,10 +137,22 @@ def test_e2e_nepal_damage_assessment():
     
     assert dam_res["region"] == "nepal"
     assert len(dam_res["categories"]) == 8
-    print("Nepal damage assessment categories passed!")
+
+    # 5. Part 2 Recommendations & Part 3 Priorities & Part 4 Resource Optimization
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    from app.services.recovery_priority import RecoveryPriorityService
+    from app.services.resource_optimization import ResourceOptimizationService
+
+    rec_res = RecoveryRecommendationService().generate_recommendations(dam_res, "nepal_e2e_test", "nepal")
+    prio_res = RecoveryPriorityService().compute_recovery_priorities(dam_res, rec_res, exp_res, "nepal_e2e_test", "nepal")
+    opt_res = ResourceOptimizationService().optimize_resources(prio_res, budget_lakhs=10.0, max_capacity_sites=5, session_id="nepal_e2e_test", region="nepal")
+    
+    assert opt_res["summary"]["allocated_budget_lakhs"] <= 10.0
+    assert len(opt_res["selected_sites"]) > 0
 
 
 if __name__ == "__main__":
     test_e2e_kerala_damage_assessment()
     test_e2e_nepal_damage_assessment()
     print("ALL E2E DAMAGE ASSESSMENT TESTS PASSED!")
+

@@ -292,6 +292,7 @@ class VLMAnalysisResult(BaseModel):
 from app.schemas.damage_assessment import DamageAssessmentResult
 from app.schemas.recovery_recommendation import RecoveryRecommendationsResult
 from app.schemas.recovery_priority import RecoveryPrioritiesResult
+from app.schemas.resource_optimization import ResourceOptimizationResult
 
 
 # ---------------------------------------------------------------------------
@@ -311,7 +312,9 @@ class PipelineResult(BaseModel):
     damage_assessment: Optional[DamageAssessmentResult] = None
     recovery_recommendations: Optional[RecoveryRecommendationsResult] = None
     recovery_priorities: Optional[RecoveryPrioritiesResult] = None
+    resource_optimization: Optional[ResourceOptimizationResult] = None
     error: Optional[str] = None
     warnings: List[str] = Field(default_factory=list)
+
 
 
