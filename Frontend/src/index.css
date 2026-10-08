@@ -7096,6 +7096,325 @@ body {
   color: var(--text-muted);
 }
 
+/* ============================================================
+   Part 6: Recovery Failure & Stall Diagnosis Styles
+   ============================================================ */
+
+.recovery-diagnosis-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diagnosis-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diagnosis-sector-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.diagnosis-sector-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.diagnosis-sector-card.has-bottleneck {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+}
+
+.diagnosis-sector-card.is-on-track {
+  border-color: rgba(16, 185, 129, 0.25);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.7) 0%, rgba(10, 15, 30, 0.9) 100%);
+}
+
+.diag-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.diag-title-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.diag-icon-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.diag-tag-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.diag-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.diag-sim-pill {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+}
+
+.diag-sim-pill.is-simulated {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  color: #c4b5fd;
+}
+
+.diag-sim-pill.is-empirical {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
+
+.diag-status-pill-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.diag-status-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+}
+
+.diag-metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+@media (max-width: 768px) {
+  .diag-metric-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.diag-metric-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.diag-metric-col .lbl {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.diag-metric-col .val {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.diag-alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border-left: 3px solid #ef4444;
+  border-radius: 0 6px 6px 0;
+  padding: 9px 12px;
+  font-size: 0.75rem;
+  color: #fecaca;
+  line-height: 1.45;
+}
+
+.diag-alert-banner b {
+  color: #f87171;
+}
+
+.diag-ontrack-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid #10b981;
+  border-radius: 0 6px 6px 0;
+  padding: 9px 12px;
+  font-size: 0.75rem;
+  color: #a7f3d0;
+  line-height: 1.45;
+}
+
+.diag-ontrack-banner b {
+  color: #34d399;
+}
+
+.diag-causes-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.diag-causes-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #f59e0b;
+  letter-spacing: 0.04em;
+}
+
+.diag-causes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.diag-cause-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.cause-top-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.cause-bullet {
+  color: #f59e0b;
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 0.8;
+}
+
+.cause-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fde68a;
+}
+
+.cause-confidence-tag {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-left: auto;
+}
+
+.cause-evidence-text {
+  font-size: 0.73rem;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.diag-evidence-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.diag-evidence-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.04em;
+}
+
+.diag-evidence-list {
+  list-style: disc inside;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 4px;
+  margin: 0;
+}
+
+.diag-evidence-list li {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.diag-action-block {
+  background: rgba(56, 189, 248, 0.06);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.diag-action-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.diag-action-lbl {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.04em;
+}
+
+.diag-action-text {
+  font-size: 0.78rem;
+  color: #f1f5f9;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.45;
+}
+
 
 
 

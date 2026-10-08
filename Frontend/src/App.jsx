@@ -105,6 +105,7 @@ export default function App() {
   const recoveryPriorities = pipelineResult?.recovery_priorities || null;
   const resourceOptimization = pipelineResult?.resource_optimization || null;
   const recoveryMonitoring = pipelineResult?.recovery_monitoring || null;
+  const recoveryDiagnosis = pipelineResult?.recovery_diagnosis || null;
 
   const hasData = Boolean(pipelineResult);
 
@@ -410,7 +411,7 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 3.5: DAMAGE ASSESSMENT & RECOVERY RECOMMENDATIONS (Sustainability Extension Parts 1, 2, 3, 4 & 5) */}
+          {/* TAB 3.5: DAMAGE ASSESSMENT & RECOVERY RECOMMENDATIONS (Sustainability Extension Parts 1, 2, 3, 4, 5 & 6) */}
           {activeTab === 'damage' && (
             <div className="split-impact-view">
               <div className="impact-metrics-container">
@@ -420,6 +421,7 @@ export default function App() {
                   recoveryPriorities={recoveryPriorities}
                   resourceOptimization={resourceOptimization}
                   recoveryMonitoring={recoveryMonitoring}
+                  recoveryDiagnosis={recoveryDiagnosis}
                   sessionId={sessionId}
                   onSelectFeature={setSelectedFeature}
                   onNavigateToTab={(tab) => {

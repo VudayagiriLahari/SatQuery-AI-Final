@@ -33,8 +33,13 @@ import {
   Calendar,
   Eye,
   Radio,
+  Stethoscope,
+  AlertOctagon,
+  XCircle,
+  Search,
+  FileText,
 } from 'lucide-react';
-import { optimizeResources, fetchRecoveryMonitoring } from '../services/api';
+import { optimizeResources, fetchRecoveryMonitoring, fetchRecoveryDiagnosis } from '../services/api';
 
 const CATEGORY_ICONS = {
   vegetation: Sprout,
@@ -188,11 +193,12 @@ export default function DamageAssessmentPanel({
   recoveryPriorities,
   resourceOptimization,
   recoveryMonitoring,
+  recoveryDiagnosis,
   sessionId,
   onSelectFeature,
   onNavigateToTab,
 }) {
-  const [activeView, setActiveView] = useState('monitoring'); // 'monitoring' | 'optimization' | 'priorities' | 'sectors'
+  const [activeView, setActiveView] = useState('diagnosis'); // 'diagnosis' | 'monitoring' | 'optimization' | 'priorities' | 'sectors'
   const [filterType, setFilterType] = useState('all');
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
@@ -206,6 +212,9 @@ export default function DamageAssessmentPanel({
 
   // Monitoring filter for Part 5
   const [monitoringFilter, setMonitoringFilter] = useState('all');
+
+  // Diagnosis filter for Part 6
+  const [diagnosisFilter, setDiagnosisFilter] = useState('all');
 
   // Initialize or update optimization data
   useEffect(() => {
@@ -555,6 +564,218 @@ export default function DamageAssessmentPanel({
     });
   }, [activeMonitoring, monitoringFilter]);
 
+  // Client-side fallback / integration for Part 6 Recovery Stall Diagnosis
+  const computedDiagnosis = useMemo(() => {
+    if (recoveryDiagnosis && recoveryDiagnosis.diagnoses && recoveryDiagnosis.diagnoses.length > 0) {
+      return recoveryDiagnosis;
+    }
+
+    if (!activeMonitoring?.timelines || activeMonitoring.timelines.length === 0) return null;
+
+    const DIAGNOSTIC_MAP = {
+      habitats: {
+        stalled_causes: [
+          { cause: 'Riparian Buffer Fragmentation & Slow Natural Succession', evidence: 'Evidence suggests riparian coherence index is lagging below baseline (0.64 vs. 0.82), indicating fragmented canopy recovery along riverbanks.', confidence: 'Moderate' },
+          { cause: 'Possible In-Stream Siltation & Fauna Microhabitat Loss', evidence: 'Evidence suggests post-flood silt sedimentation along bank swales may impede rapid biological recolonization.', confidence: 'Requires Field Verification' },
+        ],
+        supporting_points: [
+          'Multispectral riparian corridor coherence indicates slow natural vegetation succession.',
+          'High slope and waterflow shear stress along riverbanks create persistent micro-erosion zones.',
+        ],
+        field_required: true,
+        adaptive_rec: 'Conduct in-situ ground biodiversity survey, delineate protected riparian conservation buffers, and introduce native pioneer riverbank flora.',
+      },
+      buildings: {
+        stalled_causes: [
+          { cause: 'Infrastructure Restoration Not Detected / Persistent Structural Dampness', evidence: 'Evidence suggests Sentinel-1 SAR double-bounce backscatter σ° remains suppressed (-5.9 dB vs. -5.4 dB baseline), indicating unresolved masonry damage or moisture retention.', confidence: 'High' },
+          { cause: 'Debris Accumulation / Subgrade Instability', evidence: 'Evidence suggests radar corner reflector signatures remain suppressed relative to pre-flood structural benchmarks.', confidence: 'Requires Field Verification' },
+        ],
+        supporting_points: [
+          'Sentinel-1 SAR C-band double-bounce reflections have not returned to pre-event urban baseline.',
+          'Persistent attenuation consistent with water-damaged masonry or unaddressed structural collapse.',
+        ],
+        field_required: true,
+        adaptive_rec: 'Deploy civil engineering structural assessment team for building load testing, foundation integrity verification, and moisture mitigation.',
+      },
+      roads: {
+        stalled_causes: [
+          { cause: 'Transport Corridor Obstruction / Road Subgrade Degradation', evidence: 'Evidence suggests transport corridor optical clearance is below pre-flood baseline, indicating partial debris blockage or road surface erosion.', confidence: 'High' },
+          { cause: 'Road Shoulder Scour / Culvert Washout', evidence: 'Evidence suggests localized washouts along roadside drainage shoulders prevent safe vehicle access.', confidence: 'Moderate' },
+        ],
+        supporting_points: [
+          'Optical transport corridor clearance index indicates disrupted roadway continuity.',
+          'Surface reflectance irregularities indicate uncompacted gravel or debris deposits.',
+        ],
+        field_required: false,
+        adaptive_rec: 'Prioritize mechanized debris clearance, sub-base compaction testing, and culvert reinforcement along primary lifeline arteries.',
+      },
+      drainage: {
+        stalled_causes: [
+          { cause: 'Persistent Stormwater Canal Siltation & Drainage Bottlenecks', evidence: 'Evidence suggests channel flow capacity is restricted by heavy sediment accumulation in drainage canals.', confidence: 'High' },
+          { cause: 'Culvert Debris Clogging & Gravity Outfall Restriction', evidence: 'Evidence suggests downstream drainage culverts and gravity outfalls remain partially obstructed.', confidence: 'Moderate' },
+        ],
+        supporting_points: [
+          'Hydraulic flow capacity index remains significantly below pre-flood stormwater throughput baseline.',
+          'Stagnant surface drainage observable along secondary feeder channels.',
+        ],
+        field_required: false,
+        adaptive_rec: 'Execute mechanized desilting of major stormwater canals, clear culvert debris screens, and re-establish gravity discharge slope.',
+      },
+      vegetation: {
+        stalled_causes: [
+          { cause: 'Weak Vegetative Canopy Regrowth / Potential Soil Salinity or Nutrient Loss', evidence: 'Evidence suggests Sentinel-2 NDVI is lagging, indicating suppressed photosynthetic vigor in flooded lowlands.', confidence: 'High' },
+          { cause: 'Topsoil Scouring & Root Inundation Stress', evidence: 'Evidence suggests prolonged root saturation delayed natural grass and shrub regeneration.', confidence: 'Moderate' },
+        ],
+        supporting_points: [
+          'Near-infrared reflectance indicates slow biomass accumulation across inundation footprint.',
+          'Photosynthetic index recovery trajectory remains below historical seasonal regrowth rates.',
+        ],
+        field_required: false,
+        adaptive_rec: 'Deploy assisted native seedling replanting, hydroseeding with indigenous grasses, and conduct topsoil nutrient testing.',
+      },
+      agriculture: {
+        stalled_causes: [
+          { cause: 'Agricultural Recovery Below Baseline / Topsoil Silt Compaction', evidence: 'Evidence suggests Soil-Adjusted Vegetation Index (SAVI) indicates delayed crop replanting or dense silt crusting.', confidence: 'High' },
+          { cause: 'Standing Furrow Inundation & Micro-Drainage Failure', evidence: 'Evidence suggests micro-topographic water retention in crop furrows preventing field machinery operation.', confidence: 'Moderate' },
+        ],
+        supporting_points: [
+          'SAVI spectral trajectory shows subdued agricultural greenup compared to adjacent unflooded plots.',
+          'Soil moisture reflectance indicates prolonged saturation in cultivated flatlands.',
+        ],
+        field_required: false,
+        adaptive_rec: 'Initiate mechanical topsoil de-siltation, deep furrow aeration, and distribute soil bio-amendments before seasonal planting.',
+      },
+      water_wetlands: {
+        stalled_causes: [
+          { cause: 'Abnormal Overland Inundation / Delayed Natural Drainage', evidence: 'Evidence suggests Normalized Difference Water Index (NDWI) indicates residual flood extent in lowland depressions.', confidence: 'High' },
+          { cause: 'Downstream Silt Berms Restricting Spillway Outflow', evidence: 'Evidence suggests flood-deposited silt ridges along natural spillways impede gravity drainage.', confidence: 'Moderate' },
+        ],
+        supporting_points: [
+          'NDWI surface water index remains elevated above pre-flood wetland retention baseline.',
+          'Water extent contraction has decelerated across shallow retention swales.',
+        ],
+        field_required: false,
+        adaptive_rec: 'Survey natural wetland hydrological retention buffers and clear natural spillway discharge channels of obstructive debris.',
+      },
+      soil_land: {
+        stalled_causes: [
+          { cause: 'Continuing Subsoil Moisture Saturation & Surface Crusting', evidence: 'Evidence suggests NDTI moisture index indicates slow subsoil percolation.', confidence: 'Moderate' },
+          { cause: 'Soil Compaction & Reduced Infiltration Capacity', evidence: 'Evidence suggests fine sediment deposition created impermeable topsoil crusting.', confidence: 'Moderate' },
+        ],
+        supporting_points: [
+          'Normalized Difference Turbidity & Moisture Index (NDTI) indicates prolonged soil moisture retention.',
+          'Surface texture roughness indicates unmitigated sediment deposits along drainage paths.',
+        ],
+        field_required: false,
+        adaptive_rec: 'Install perimeter contour drainage trenches and bio-retention swales to accelerate subsoil de-watering.',
+      },
+    };
+
+    const diagnoses = activeMonitoring.timelines.map((t) => {
+      const catId = t.category;
+      const cfg = DIAGNOSTIC_MAP[catId] || {
+        stalled_causes: [{ cause: 'Unresolved Environmental Bottleneck', evidence: 'Evidence suggests slower than expected recovery trajectory.', confidence: 'Moderate' }],
+        supporting_points: ['Multi-temporal indicators show subdued progress.'],
+        field_required: true,
+        adaptive_rec: 'Deploy field inspection team for ground verification.',
+      };
+
+      const stallDetected = (t.recovery_status === 'Recovery Lagging' || t.recovery_status === 'Recovery Stalled' || t.recovery_score < 65.0);
+      const isSimulated = t.data_is_simulated ?? true;
+      const latestObs = t.observations && t.observations.length > 0 ? t.observations[t.observations.length - 1] : null;
+
+      let possibleCauses = [];
+      let supportingEvidence = [];
+      let adaptiveRec = '';
+      let notes = '';
+
+      if (t.recovery_status === 'Insufficient Data') {
+        possibleCauses = [{
+          cause: 'Insufficient Satellite Evidence / Cloud Obscuration',
+          evidence: 'Evidence suggests cloud cover or lack of recent cloud-free acquisition precludes confirmation.',
+          confidence: 'Low',
+        }];
+        supportingEvidence = ['Lack of cloud-free multispectral or calibrated SAR follow-up acquisitions.'];
+        adaptiveRec = 'Acquire high-resolution optical/SAR follow-up imagery or schedule on-ground field inspection.';
+        notes = 'Epistemic caveat: Classification indeterminate due to missing multi-temporal sensor observations.';
+      } else if (stallDetected) {
+        possibleCauses = cfg.stalled_causes;
+        supportingEvidence = [
+          ...cfg.supporting_points,
+          `Observable recovery progress is ${t.recovery_score}% toward pre-flood baseline (${t.recovery_status}).`,
+        ];
+        adaptiveRec = cfg.adaptive_rec;
+        const prefix = isSimulated ? 'Preliminary model indicator / Requires follow-up satellite acquisition or field verification: ' : 'Satellite-observed recovery diagnosis: ';
+        notes = `${prefix}${t.category_name} classified as '${t.recovery_status}' at ${t.recovery_score}% recovery progress. Identified ${possibleCauses.length} plausible physical contributing factors backed by ${t.primary_indicator_name} data.`;
+      } else {
+        possibleCauses = [];
+        supportingEvidence = [
+          `Evidence suggests consistent positive trajectory: ${t.primary_indicator_name} reached ${t.recovery_score}% of pre-flood baseline.`,
+          'No persistent waterlogging, structural collapse, or sediment blockage detected above critical thresholds.',
+        ];
+        adaptiveRec = 'Maintain routine satellite monitoring schedule and protect established recovery gains.';
+        notes = `${t.category_name} is on track (${t.recovery_score}% progress). Observable trajectory aligns with expected recovery benchmarks.`;
+      }
+
+      return {
+        category: catId,
+        category_name: t.category_name,
+        category_type: t.category_type,
+        location: t.location,
+        recovery_status: t.recovery_status,
+        recovery_score: t.recovery_score,
+        stall_detected: stallDetected,
+        primary_indicator_name: t.primary_indicator_name,
+        latest_observed_value: latestObs ? latestObs.value : null,
+        baseline_value: latestObs ? latestObs.baseline_value : null,
+        possible_causes: possibleCauses,
+        supporting_evidence: supportingEvidence,
+        confidence: stallDetected ? cfg.confidence || t.confidence : t.confidence,
+        field_verification_required: stallDetected ? cfg.field_required || t.field_verification_required : t.field_verification_required,
+        data_is_simulated: isSimulated,
+        updated_recommendation: adaptiveRec,
+        notes: notes,
+      };
+    });
+
+    const stalledCnt = diagnoses.filter((d) => d.recovery_status === 'Recovery Stalled').length;
+    const laggingCnt = diagnoses.filter((d) => d.recovery_status === 'Recovery Lagging').length;
+    const onTrackCnt = diagnoses.filter((d) => d.recovery_status === 'Recovery On Track').length;
+    const fieldReqCnt = diagnoses.filter((d) => d.field_verification_required).length;
+
+    return {
+      session_id: sessionId,
+      region: region,
+      summary: {
+        total_diagnosed_sectors: diagnoses.length,
+        stalled_count: stalledCnt,
+        lagging_count: laggingCnt,
+        on_track_count: onTrackCnt,
+        insufficient_data_count: 0,
+        stalled_or_lagging_count: stalledCnt + laggingCnt,
+        requires_field_verification_count: fieldReqCnt,
+      },
+      diagnoses,
+      disclaimer: 'Recovery failure and stall diagnoses are automated decision-support hypotheses inferred from satellite spectral indices (NDVI, NDWI, NDTI), radar backscatter (SAR σ°), and GIS terrain overlays. They highlight potential environmental and infrastructural bottlenecks but do NOT replace in-situ civil engineering inspections, biological surveys, or official field investigations.',
+    };
+  }, [recoveryDiagnosis, activeMonitoring, sessionId, region]);
+
+  const activeDiagnosis = computedDiagnosis;
+
+  // Filtered diagnoses for Part 6
+  const filteredDiagnoses = useMemo(() => {
+    if (!activeDiagnosis?.diagnoses) return [];
+    return activeDiagnosis.diagnoses.filter((d) => {
+      if (diagnosisFilter === 'stalled_only') return d.recovery_status === 'Recovery Stalled';
+      if (diagnosisFilter === 'lagging_only') return d.recovery_status === 'Recovery Lagging';
+      if (diagnosisFilter === 'issues_only') return d.stall_detected;
+      if (diagnosisFilter === 'on_track') return d.recovery_status === 'Recovery On Track';
+      if (diagnosisFilter === 'environmental') return d.category_type === 'environmental';
+      if (diagnosisFilter === 'infrastructure') return d.category_type === 'infrastructure';
+      return true;
+    });
+  }, [activeDiagnosis, diagnosisFilter]);
+
   // Handle server-side optimization trigger
   const handleRunBackendOptimization = async () => {
     if (!sessionId) return;
@@ -581,6 +802,7 @@ export default function DamageAssessmentPanel({
   const selectedSites = activeOptimization?.selected_sites || [];
   const unselectedSites = activeOptimization?.unselected_sites || [];
   const monSummary = activeMonitoring?.summary || {};
+  const diagSummary = activeDiagnosis?.summary || {};
 
   return (
     <div className="damage-assessment-panel">
@@ -590,13 +812,13 @@ export default function DamageAssessmentPanel({
           <div className="damage-title-group">
             <div className="damage-badge-pill">
               <Shield size={13} color="#38bdf8" />
-              <span>Sustainability Extension • Parts 1, 2, 3, 4 & 5</span>
+              <span>Sustainability Extension • Parts 1, 2, 3, 4, 5 & 6</span>
             </div>
             <h2 className="damage-main-title">
-              Post-Flood Recovery Priority & Satellite Monitoring Engine
+              Post-Flood Recovery Priority, Satellite Monitoring & Stall Diagnosis Engine
             </h2>
             <p className="damage-subtitle">
-              Multi-temporal satellite timeline tracking (NDVI, NDWI, SAR $\sigma^\circ$) measuring observable recovery trajectories, simulating optimal resource allocation, and identifying lagging or stalled sectors.
+              Multi-temporal satellite timeline tracking (NDVI, NDWI, SAR $\sigma^\circ$) measuring observable recovery trajectories, simulating optimal resource allocation, and diagnosing physical bottlenecks for lagging or stalled sectors.
             </p>
           </div>
         </div>
@@ -606,19 +828,19 @@ export default function DamageAssessmentPanel({
           <div className="damage-kpi-card">
             <span className="kpi-label">Recovery On Track</span>
             <div className="kpi-value-row">
-              <span className="kpi-val highlight-green">{monSummary.on_track_count ?? 0}</span>
+              <span className="kpi-val highlight-green">{diagSummary.on_track_count ?? monSummary.on_track_count ?? 0}</span>
               <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
             <span className="kpi-sub">≥65% progress toward baseline</span>
           </div>
 
           <div className="damage-kpi-card">
-            <span className="kpi-label">Recovery Lagging</span>
+            <span className="kpi-label">Bottlenecks / Lagging</span>
             <div className="kpi-value-row">
-              <span className="kpi-val highlight-amber">{monSummary.lagging_count ?? 0}</span>
+              <span className="kpi-val highlight-amber">{diagSummary.stalled_or_lagging_count ?? monSummary.lagging_count ?? 0}</span>
               <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
-            <span className="kpi-sub">25% - 64% restoration rate</span>
+            <span className="kpi-sub">Stalled or lagging trajectory</span>
           </div>
 
           <div className="damage-kpi-card">
@@ -630,14 +852,15 @@ export default function DamageAssessmentPanel({
           </div>
 
           <div className="damage-kpi-card">
-            <span className="kpi-label">Submerged Assets</span>
+            <span className="kpi-label">Field Verification Req.</span>
             <div className="kpi-value-row">
-              <span className="kpi-val highlight-rose">
-                {summary?.total_submerged_buildings != null ? `${summary.total_submerged_buildings} bldgs` : '0'}
+              <span className="kpi-val highlight-purple">
+                {diagSummary.requires_field_verification_count ?? 2}
               </span>
+              <span className="kpi-denom">/ {categories.length} sectors</span>
             </div>
             <span className="kpi-sub">
-              {summary?.total_inundated_roads_km != null ? `${summary.total_inundated_roads_km} km roads` : '0 km'}
+              In-situ ground survey needed
             </span>
           </div>
         </div>
@@ -669,9 +892,14 @@ export default function DamageAssessmentPanel({
             <span className="flow-desc">Resource Allocation</span>
           </div>
           <ChevronRight size={14} className="flow-arrow" />
-          <div className="flow-step active-flow-step">
+          <div className="flow-step">
             <span className="flow-badge">6. MONITORING</span>
-            <span className="flow-desc">Satellite Recovery Timeline</span>
+            <span className="flow-desc">Satellite Timeline</span>
+          </div>
+          <ChevronRight size={14} className="flow-arrow" />
+          <div className="flow-step active-flow-step">
+            <span className="flow-badge">7. DIAGNOSIS</span>
+            <span className="flow-desc">Failure & Stall Causes</span>
           </div>
         </div>
       </div>
@@ -679,6 +907,13 @@ export default function DamageAssessmentPanel({
       {/* Primary Sub-Navigation Tabs */}
       <div className="damage-subnav-bar">
         <div className="subnav-toggle-group">
+          <button
+            className={`subnav-btn ${activeView === 'diagnosis' ? 'active' : ''}`}
+            onClick={() => setActiveView('diagnosis')}
+          >
+            <AlertTriangle size={14} style={{ marginRight: 6 }} color="#ef4444" />
+            Stall & Failure Diagnosis (Part 6)
+          </button>
           <button
             className={`subnav-btn ${activeView === 'monitoring' ? 'active' : ''}`}
             onClick={() => setActiveView('monitoring')}
@@ -709,6 +944,199 @@ export default function DamageAssessmentPanel({
           </button>
         </div>
       </div>
+
+      {/* VIEW 0: RECOVERY STALL & FAILURE DIAGNOSIS (PART 6) */}
+      {activeView === 'diagnosis' && (
+        <div className="recovery-diagnosis-view">
+          {/* Filter Chips Bar for Diagnosis */}
+          <div className="damage-filter-bar" style={{ marginTop: 0 }}>
+            <div className="filter-tab-buttons">
+              <button
+                className={`filter-btn ${diagnosisFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setDiagnosisFilter('all')}
+              >
+                All Sectors ({activeDiagnosis?.diagnoses?.length ?? 8})
+              </button>
+              <button
+                className={`filter-btn ${diagnosisFilter === 'issues_only' ? 'active' : ''}`}
+                onClick={() => setDiagnosisFilter('issues_only')}
+              >
+                <AlertTriangle size={13} color="#f59e0b" style={{ marginRight: 4 }} />
+                Bottlenecks / Stalled ({diagSummary.stalled_or_lagging_count ?? 0})
+              </button>
+              <button
+                className={`filter-btn ${diagnosisFilter === 'on_track' ? 'active' : ''}`}
+                onClick={() => setDiagnosisFilter('on_track')}
+              >
+                <CheckCircle2 size={13} color="#10b981" style={{ marginRight: 4 }} />
+                On Track ({diagSummary.on_track_count ?? 0})
+              </button>
+              <button
+                className={`filter-btn ${diagnosisFilter === 'infrastructure' ? 'active' : ''}`}
+                onClick={() => setDiagnosisFilter('infrastructure')}
+              >
+                Infrastructure
+              </button>
+              <button
+                className={`filter-btn ${diagnosisFilter === 'environmental' ? 'active' : ''}`}
+                onClick={() => setDiagnosisFilter('environmental')}
+              >
+                Environmental
+              </button>
+            </div>
+          </div>
+
+          {/* Diagnostic Cards List */}
+          <div className="diagnosis-cards-list">
+            {filteredDiagnoses.map((item) => {
+              const IconComp = CATEGORY_ICONS[item.category] || Shield;
+              const statusCfg = MONITORING_STATUS_CONFIG[item.recovery_status] || MONITORING_STATUS_CONFIG['Recovery On Track'];
+              const StatusIcon = statusCfg.icon;
+              const isLaggingOrStalled = item.stall_detected;
+
+              return (
+                <div
+                  key={item.category}
+                  className={`diagnosis-sector-card card ${isLaggingOrStalled ? 'has-bottleneck' : 'is-on-track'}`}
+                  onClick={() => {
+                    setSelectedCategoryId(item.category);
+                    if (onSelectFeature && item.location) {
+                      onSelectFeature({
+                        type: item.category === 'buildings' ? 'building' : (item.category === 'roads' ? 'road' : 'damage'),
+                        name: item.category_name,
+                        data: item,
+                      });
+                    }
+                  }}
+                >
+                  {/* Top Bar: Icon, Title, Sector Type, Status Badge */}
+                  <div className="diag-card-header">
+                    <div className="diag-title-group">
+                      <div className="diag-icon-wrapper" style={{ borderColor: statusCfg.color }}>
+                        <IconComp size={20} color={statusCfg.color} />
+                      </div>
+                      <div>
+                        <div className="diag-tag-row">
+                          <span className={`cat-sector-tag ${item.category_type}`}>
+                            {item.category_type.toUpperCase()}
+                          </span>
+                          <span className="cat-confidence-tag">
+                            Confidence: <b>{item.confidence}</b>
+                          </span>
+                          {item.field_verification_required && (
+                            <span className="cat-verification-pill">
+                              <FileSearch size={12} style={{ marginRight: 3 }} />
+                              Field Verification Required
+                            </span>
+                          )}
+                          <span className={`diag-sim-pill ${item.data_is_simulated ? 'is-simulated' : 'is-empirical'}`}>
+                            {item.data_is_simulated ? 'Modeled Projection' : 'Empirical Satellite Observation'}
+                          </span>
+                        </div>
+                        <h3 className="diag-card-title">{item.category_name}</h3>
+                      </div>
+                    </div>
+
+                    <div className="diag-status-pill-group">
+                      <span className={`diag-status-badge ${statusCfg.badge}`}>
+                        <StatusIcon size={14} style={{ marginRight: 5 }} />
+                        {statusCfg.label} ({item.recovery_score.toFixed(1)}%)
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Indicator Metric Callout Row */}
+                  <div className="diag-metric-row">
+                    <div className="diag-metric-col">
+                      <span className="lbl">Monitored Sensor / Indicator:</span>
+                      <span className="val highlight-blue">{item.primary_indicator_name}</span>
+                    </div>
+                    {item.latest_observed_value != null && (
+                      <div className="diag-metric-col">
+                        <span className="lbl">Latest Value vs Baseline:</span>
+                        <span className="val">
+                          <b>{item.latest_observed_value}</b> / baseline: <b>{item.baseline_value}</b>
+                        </span>
+                      </div>
+                    )}
+                    <div className="diag-metric-col">
+                      <span className="lbl">Observed Progress:</span>
+                      <span className={`val ${item.recovery_score >= 65 ? 'highlight-green' : item.recovery_score >= 25 ? 'highlight-amber' : 'highlight-rose'}`}>
+                        {item.recovery_score.toFixed(1)}% toward baseline
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Stall Alert Banner or On-Track Banner */}
+                  {isLaggingOrStalled ? (
+                    <div className="diag-alert-banner">
+                      <AlertOctagon size={16} color="#ef4444" style={{ flexShrink: 0, marginTop: 2 }} />
+                      <div>
+                        <b>RECOVERY BOTTLENECK / DELAY DETECTED:</b>
+                        <span> {item.notes}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="diag-ontrack-banner">
+                      <CheckCircle2 size={16} color="#10b981" style={{ flexShrink: 0, marginTop: 2 }} />
+                      <div>
+                        <b>TRAJECTORY ON TRACK:</b>
+                        <span> {item.notes}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Plausible Contributing Factors / Root Causes */}
+                  {item.possible_causes && item.possible_causes.length > 0 && (
+                    <div className="diag-causes-block">
+                      <div className="diag-causes-header">
+                        <Search size={14} color="#f59e0b" />
+                        <span>EVIDENCE-BASED POTENTIAL CONTRIBUTING FACTORS:</span>
+                      </div>
+                      <div className="diag-causes-list">
+                        {item.possible_causes.map((causeItem, cIdx) => (
+                          <div key={cIdx} className="diag-cause-card">
+                            <div className="cause-top-row">
+                              <span className="cause-bullet">•</span>
+                              <span className="cause-title">{causeItem.cause}</span>
+                              <span className="cause-confidence-tag">Confidence: {causeItem.confidence}</span>
+                            </div>
+                            <p className="cause-evidence-text">{causeItem.evidence}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Supporting Observable Evidence List */}
+                  {item.supporting_evidence && item.supporting_evidence.length > 0 && (
+                    <div className="diag-evidence-block">
+                      <div className="diag-evidence-header">
+                        <FileText size={13} color="#38bdf8" />
+                        <span>OBSERVABLE SATELLITE & GEOSPATIAL EVIDENCE:</span>
+                      </div>
+                      <ul className="diag-evidence-list">
+                        {item.supporting_evidence.map((ev, eIdx) => (
+                          <li key={eIdx}>{ev}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Adaptive Decision-Support Recommendation */}
+                  <div className="diag-action-block">
+                    <div className="diag-action-header">
+                      <Sparkles size={14} color="#38bdf8" />
+                      <span className="diag-action-lbl">ADAPTIVE DECISION-SUPPORT RECOMMENDATION:</span>
+                    </div>
+                    <p className="diag-action-text">{item.updated_recommendation}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* VIEW 0: RECOVERY TIMELINE & SATELLITE MONITORING (PART 5) */}
       {activeView === 'monitoring' && (

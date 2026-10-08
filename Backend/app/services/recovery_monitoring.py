@@ -386,6 +386,7 @@ class RecoveryMonitoringService:
             "confidence": confidence,
             "data_available": True,
             "field_verification_required": field_required,
+            "data_is_simulated": True,
             "funded_in_part4": is_funded,
             "observations": observations,
             "notes": notes,

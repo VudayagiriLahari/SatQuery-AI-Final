@@ -58,6 +58,12 @@ from app.schemas.recovery_monitoring import (
     MonitoredSectorTimeline,
     RecoveryObservation,
 )
+from app.schemas.recovery_diagnosis import (
+    RecoveryStallDiagnosisResult,
+    RecoveryStallDiagnosisSummary,
+    StallDiagnosisItem,
+    PossibleCause,
+)
 
 
 
@@ -707,6 +713,36 @@ async def run_full_pipeline(
             except Exception as exc:
                 warnings.append(f"Recovery monitoring step failed: {exc}")
 
+        # Step 12: Recovery Failure / Stall Diagnosis (Part 6)
+        if pipeline.recovery_monitoring and 'mon_raw' in locals() and mon_raw:
+            try:
+                from app.services.recovery_diagnosis import RecoveryStallDiagnosisService
+                diag_svc = RecoveryStallDiagnosisService()
+                diag_raw = diag_svc.diagnose_stalls(
+                    recovery_monitoring=mon_raw,
+                    damage_assessment=damage_raw if 'damage_raw' in locals() else None,
+                    recovery_recommendations=rec_raw if 'rec_raw' in locals() else None,
+                    recovery_priorities=prio_raw if 'prio_raw' in locals() else None,
+                    session_id=session_id,
+                    region=damage_raw.get("region") if damage_raw else None,
+                )
+                diag_items = []
+                for d in diag_raw.get("diagnoses", []):
+                    causes_list = [PossibleCause(**c) for c in d.get("possible_causes", [])]
+                    diag_items.append(StallDiagnosisItem(
+                        **{**d, "possible_causes": causes_list}
+                    ))
+                pipeline.recovery_diagnosis = RecoveryStallDiagnosisResult(
+                    session_id=session_id,
+                    region=diag_raw.get("region"),
+                    summary=RecoveryStallDiagnosisSummary(**diag_raw.get("summary", {})),
+                    diagnoses=diag_items,
+                    methodology_notes=diag_raw.get("methodology_notes", []),
+                    disclaimer=diag_raw.get("disclaimer", ""),
+                )
+            except Exception as exc:
+                warnings.append(f"Recovery stall diagnosis step failed: {exc}")
+
 
 
     # Step 6: VLM Visual Comparison (Gemini Multimodal visual change description)
@@ -1139,6 +1175,121 @@ async def generate_recovery_monitoring(
         disclaimer=mon_raw.get("disclaimer", ""),
     )
     _session_cache[session_id]["recovery_monitoring"] = result.model_dump()
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 6g. Recovery Failure / Stall Diagnosis On-Demand Endpoint (Part 6)
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/diagnosis",
+    response_model=RecoveryStallDiagnosisResult,
+    summary="Diagnose Recovery Bottlenecks, Stalls, and Failures Across Sectors (Part 6)",
+)
+async def diagnose_recovery_stalls(
+    session_id: str = Form(...),
+) -> RecoveryStallDiagnosisResult:
+    """
+    Diagnose potential causes and environmental bottlenecks for lagging or stalled recovery trajectories.
+    Identifies evidence-based physical mechanisms and delivers adaptive decision-support recommendations.
+    """
+    from app.services.recovery_diagnosis import RecoveryStallDiagnosisService
+    from app.services.recovery_monitoring import RecoveryMonitoringService
+    from app.services.resource_optimization import ResourceOptimizationService
+    from app.services.recovery_priority import RecoveryPriorityService
+    from app.services.recovery_recommendation import RecoveryRecommendationService
+    from app.services.damage_assessment import DamageAssessmentService
+    from app.services.gis_repository import GISRepository
+
+    session = _session_cache.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found.")
+
+    mon_dict = session.get("recovery_monitoring")
+    damage_dict = session.get("damage_assessment")
+
+    if not mon_dict or not damage_dict:
+        flood_geojson = session.get("flood_geojson")
+        if not flood_geojson:
+            raise HTTPException(
+                status_code=422,
+                detail="Flood polygon GeoJSON not found in session. Run /pipeline first.",
+            )
+        gis_repo = GISRepository(settings.DATA_DIR)
+        damage_svc = DamageAssessmentService()
+        exposure = session.get("impact")
+        detection = session.get("detection_result")
+        damage_dict = damage_svc.assess_damage(
+            flood_geojson=flood_geojson,
+            session_id=session_id,
+            gis_repo=gis_repo,
+            detection_result=detection,
+            exposure_result=exposure,
+        )
+        session["damage_assessment"] = damage_dict
+
+        rec_dict = session.get("recovery_recommendations")
+        if not rec_dict:
+            rec_svc = RecoveryRecommendationService()
+            rec_dict = rec_svc.generate_recommendations(
+                damage_assessment=damage_dict,
+                session_id=session_id,
+                region=damage_dict.get("region"),
+            )
+            session["recovery_recommendations"] = rec_dict
+
+        prio_dict = session.get("recovery_priorities")
+        if not prio_dict:
+            prio_svc = RecoveryPriorityService()
+            prio_dict = prio_svc.compute_recovery_priorities(
+                damage_assessment=damage_dict,
+                recovery_recommendations=rec_dict,
+                exposure_data=exposure,
+                session_id=session_id,
+                region=damage_dict.get("region"),
+            )
+            session["recovery_priorities"] = prio_dict
+
+        opt_dict = session.get("resource_optimization")
+
+        mon_svc = RecoveryMonitoringService()
+        mon_dict = mon_svc.generate_recovery_timelines(
+            damage_assessment=damage_dict,
+            recovery_recommendations=rec_dict,
+            recovery_priorities=prio_dict,
+            resource_optimization=opt_dict,
+            session_id=session_id,
+            region=damage_dict.get("region"),
+        )
+        session["recovery_monitoring"] = mon_dict
+
+    diag_svc = RecoveryStallDiagnosisService()
+    diag_raw = diag_svc.diagnose_stalls(
+        recovery_monitoring=mon_dict,
+        damage_assessment=damage_dict,
+        recovery_recommendations=session.get("recovery_recommendations"),
+        recovery_priorities=session.get("recovery_priorities"),
+        session_id=session_id,
+        region=damage_dict.get("region") if damage_dict else None,
+    )
+
+    diag_items = []
+    for d in diag_raw.get("diagnoses", []):
+        causes_list = [PossibleCause(**c) for c in d.get("possible_causes", [])]
+        diag_items.append(StallDiagnosisItem(
+            **{**d, "possible_causes": causes_list}
+        ))
+
+    result = RecoveryStallDiagnosisResult(
+        session_id=session_id,
+        region=diag_raw.get("region"),
+        summary=RecoveryStallDiagnosisSummary(**diag_raw.get("summary", {})),
+        diagnoses=diag_items,
+        methodology_notes=diag_raw.get("methodology_notes", []),
+        disclaimer=diag_raw.get("disclaimer", ""),
+    )
+    _session_cache[session_id]["recovery_diagnosis"] = result.model_dump()
     return result
 
 

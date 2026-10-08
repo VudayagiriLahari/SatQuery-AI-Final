@@ -41,6 +41,7 @@ class MonitoredSectorTimeline(BaseModel):
     confidence: str = Field(..., description="'High', 'Moderate', 'Low', or 'Requires Field Verification'")
     data_available: bool = Field(..., description="Whether satellite observation data is available")
     field_verification_required: bool = Field(..., description="Whether in-situ ground inspection is necessary")
+    data_is_simulated: bool = Field(default=False, description="Whether timeline was generated via empirical follow-up satellite acquisitions or modeled projection")
     funded_in_part4: bool = Field(default=False, description="Whether sector was funded in Part 4 budget allocation")
     observations: List[RecoveryObservation] = Field(default_factory=list, description="Chronological satellite observation sequence")
     notes: str = Field(..., description="Detailed timeline justification and progression notes")

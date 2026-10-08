@@ -175,6 +175,24 @@ export async function fetchRecoveryMonitoring(sessionId) {
 }
 
 /**
+ * Fetch Recovery Failure / Stall Diagnosis (Part 6).
+ */
+export async function fetchRecoveryDiagnosis(sessionId) {
+  const formData = new FormData();
+  formData.append('session_id', sessionId);
+
+  const res = await fetch(`${BASE_URL}/flood/diagnosis`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Recovery diagnosis failed (${res.status}): ${text}`);
+  }
+  return res.json();
+}
+
+/**
  * Check backend health.
  */
 export async function checkHealth() {
