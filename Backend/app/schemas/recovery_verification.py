@@ -46,6 +46,16 @@ class SectorRecoveryVerificationItem(BaseModel):
         description="True if evaluation relies on modeled projection rather than empirical follow-up rasters",
     )
     verification_notes: str = Field(..., description="Detailed verification remarks, caveats, and next steps")
+    # Interoperability alias fields for frontend UI integration
+    recommended_action: Optional[str] = Field(default=None, description="Alias for recommended_intervention")
+    primary_indicator_name: Optional[str] = Field(default=None, description="Alias for indicator")
+    latest_observed_value: Optional[float] = Field(default=None, description="Alias for latest_value")
+    observable_recovery_percentage: Optional[float] = Field(default=None, description="Percentage restoration toward baseline")
+    expected_direction: Optional[str] = Field(default=None, description="Alias for expected_recovery_direction")
+    physical_evidence: Optional[str] = Field(default=None, description="Alias for evidence")
+    resource_allocation_status: Optional[str] = Field(default=None, description="Contextual resource funding description from Part 4")
+    recovery_diagnosis_status: Optional[str] = Field(default=None, description="Diagnosis status from Part 6")
+    allocated_budget_lakhs: Optional[float] = Field(default=None, description="Allocated budget in Lakhs if funded")
 
 
 class RecoveryVerificationSummary(BaseModel):

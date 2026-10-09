@@ -110,7 +110,9 @@ class RecoveryVerificationService:
         recs_map: Dict[str, Any] = {}
         if recovery_recommendations:
             for r in recovery_recommendations.get("recommendations", []):
-                recs_map[r.get("category_id", "")] = r
+                cat_key = r.get("category") or r.get("category_id", "")
+                if cat_key:
+                    recs_map[cat_key] = r
 
         # Map funded status from Part 4
         funded_categories = set()
@@ -158,6 +160,7 @@ class RecoveryVerificationService:
                 is_funded=is_funded,
                 timeline_obj=timeline_obj,
                 diag_obj=diag_obj,
+                resource_optimization=resource_optimization,
                 empirical_obs=empirical_observations,
             )
             verifications.append(ver_item)
@@ -214,7 +217,8 @@ class RecoveryVerificationService:
         is_funded: bool,
         timeline_obj: Dict[str, Any],
         diag_obj: Dict[str, Any],
-        empirical_obs: Optional[List[Dict[str, Any]]],
+        resource_optimization: Optional[Dict[str, Any]] = None,
+        empirical_obs: Optional[List[Dict[str, Any]]] = None,
     ) -> Dict[str, Any]:
         """Evaluate a single sector's recovery outcome against data integrity standards."""
         cfg = self.DOMAIN_CONFIGS.get(cat_id, {
@@ -257,6 +261,37 @@ class RecoveryVerificationService:
             latest_val = None
             measured_delta = None
 
+        # Calculate progress percentage toward baseline
+        denom = abs(base_val - target_val) if (base_val is not None and target_val is not None) else 0.0
+        if denom == 0.0:
+            progress_pct = 100.0
+        elif inverted:
+            # Lower value = better (e.g. NDWI dropping back to 0.32 from 0.82)
+            progress_pct = ((base_val - latest_val) / denom) * 100.0
+        else:
+            # Higher value = better (e.g. NDVI rising to 0.74 from 0.28)
+            progress_pct = ((latest_val - base_val) / denom) * 100.0
+        progress_pct = round(max(0.0, min(100.0, progress_pct)), 1)
+
+        # Contextual resource funding description
+        allocated_amount = None
+        if resource_optimization:
+            if is_funded:
+                funded_site = next((s for s in resource_optimization.get("selected_sites", []) if s.get("category") == cat_id), None)
+                if funded_site:
+                    allocated_amount = funded_site.get("allocated_budget_lakhs")
+                    effort = funded_site.get("estimated_effort_level", "Moderate")
+                    resource_status = f"Funded ₹{allocated_amount:.2f}L ({effort} effort)"
+                else:
+                    resource_status = "Funded in Resource Optimization"
+            else:
+                def_site = next((s for s in resource_optimization.get("unselected_sites", []) if s.get("category") == cat_id), None)
+                resource_status = def_site.get("reason_deferred", "Deferred in Resource Optimization") if def_site else "Deferred in Resource Optimization"
+        else:
+            resource_status = "Funded in Resource Optimization" if is_funded else "Deferred in Resource Optimization"
+
+        diag_status = diag_obj.get("recovery_status") or timeline_obj.get("recovery_status") or "Recovery Evaluated"
+
         # STRICT DATA INTEGRITY CHECK:
         # If observations are simulated / modeled projection, it CANNOT be marked as VERIFIED RECOVERY
         if data_is_simulated or not observations:
@@ -273,17 +308,6 @@ class RecoveryVerificationService:
                 f"{'Funded in Part 4.' if is_funded else 'Unfunded / passive pathway.'}"
             )
         else:
-            # Empirical follow-up observations available: evaluate actual mathematical progress
-            denom = abs(base_val - target_val) if (base_val is not None and target_val is not None) else 0.0
-            if denom == 0.0:
-                progress_pct = 100.0
-            elif inverted:
-                # Lower value = better (e.g. NDWI dropping back to 0.32 from 0.82)
-                progress_pct = ((base_val - latest_val) / denom) * 100.0
-            else:
-                # Higher value = better (e.g. NDVI rising to 0.74 from 0.28)
-                progress_pct = ((latest_val - base_val) / denom) * 100.0
-
             # Evaluate direction correctness
             if inverted:
                 moved_correctly = (latest_val <= base_val)
@@ -326,17 +350,26 @@ class RecoveryVerificationService:
             "original_damage": damage_desc,
             "damage_severity": severity,
             "recommended_intervention": recommended_action,
+            "recommended_action": recommended_action,
             "funded_or_selected": is_funded,
+            "resource_allocation_status": resource_status,
+            "allocated_budget_lakhs": allocated_amount,
+            "recovery_diagnosis_status": diag_status,
             "baseline_observation": base_desc,
             "latest_observation": latest_desc,
             "indicator": indicator_name,
+            "primary_indicator_name": indicator_name,
             "baseline_value": base_val,
             "target_baseline_value": target_val,
             "latest_value": latest_val,
+            "latest_observed_value": latest_val,
             "measured_change": measured_delta,
+            "observable_recovery_percentage": progress_pct,
             "expected_recovery_direction": expected_direction,
+            "expected_direction": expected_direction,
             "verification_status": verification_status,
             "evidence": evidence,
+            "physical_evidence": evidence,
             "confidence": confidence,
             "field_verification_required": field_required,
             "data_is_simulated": data_is_simulated,
