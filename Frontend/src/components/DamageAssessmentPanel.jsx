@@ -225,6 +225,20 @@ const SEVERITY_MULTIPLIERS = {
   Low: 0.75,
 };
 
+function formatLocation(loc) {
+  if (!loc) return null;
+  if (typeof loc === 'object') {
+    if (loc.latitude != null && loc.longitude != null) {
+      return `Lat ${Number(loc.latitude).toFixed(4)}°, Lon ${Number(loc.longitude).toFixed(4)}°`;
+    }
+    if (loc.lat != null && loc.lon != null) {
+      return `Lat ${Number(loc.lat).toFixed(4)}°, Lon ${Number(loc.lon).toFixed(4)}°`;
+    }
+    return null;
+  }
+  return String(loc);
+}
+
 export default function DamageAssessmentPanel({
   damageAssessment,
   recoveryRecommendations,
@@ -1257,7 +1271,9 @@ export default function DamageAssessmentPanel({
                             </span>
                           )}
                         </div>
-                        <span className="card-location">📍 {item.location}</span>
+                        {item.location && formatLocation(item.location) && (
+                          <span className="card-location">📍 {formatLocation(item.location)}</span>
+                        )}
                       </div>
                     </div>
 
